@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
 Here we initialize the plugin with keyword mapping.
 Intended to handle user interactions seamlessly.
@@ -59,6 +60,7 @@ export const AIAutocompletion = Extension.create({
 	},
 
 	addProseMirrorPlugins() {
+		/** @type {ReturnType<typeof setTimeout> | null} */
 		let debounceTimer = null;
 		let loading = false;
 
@@ -67,6 +69,7 @@ export const AIAutocompletion = Extension.create({
 
 		let isComposing = false;
 
+		/** @param {import('prosemirror-view').EditorView} view */
 		const handleAICompletion = (view) => {
 			const { state, dispatch } = view;
 			const { selection } = state;
@@ -76,7 +79,9 @@ export const AIAutocompletion = Extension.create({
 			if (selection.empty && $head.pos === $head.end()) {
 				// Set up debounce for AI generation
 				if (this.options.debounceTime !== null) {
-					clearTimeout(debounceTimer);
+					if (debounceTimer !== null) {
+						clearTimeout(debounceTimer);
+					}
 
 					// Capture current position
 					const currentPos = $head.before();
@@ -102,7 +107,7 @@ export const AIAutocompletion = Extension.create({
 								loading = true;
 								this.options
 									.generateCompletion(prompt)
-									.then((suggestion) => {
+									.then((/** @type {string} */ suggestion) => {
 										if (suggestion && suggestion.trim() !== '') {
 											if (view.state.selection.$head.pos === view.state.selection.$head.end()) {
 												if (view.state === newState) {

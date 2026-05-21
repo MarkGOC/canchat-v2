@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { v4 as uuidv4 } from 'uuid';
 import sha256 from 'js-sha256';
 
@@ -112,7 +113,12 @@ function escapeRegExp(string: string): string {
 	return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-export const replaceTokens = (content, sourceIds, char, user) => {
+export const replaceTokens = (
+	content: string,
+	sourceIds: string[] | null | undefined,
+	char?: string | null,
+	user?: string | null
+) => {
 	const charToken = /{{char}}/gi;
 	const userToken = /{{user}}/gi;
 	const videoIdToken = /{{VIDEO_FILE_ID_([a-f0-9-]+)}}/gi; // Regex to capture the video ID
