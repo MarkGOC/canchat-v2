@@ -717,7 +717,7 @@
 						'/static/favicon.png'
 							? `background-image: url('${model?.info?.meta?.profile_image_url}');`
 							: ''}
-					/>
+					></div>
 				{/if}
 				<!-- navbar -->
 			</button>
@@ -799,7 +799,7 @@
 							'/static/favicon.png'
 								? `background-image: url('${model?.info?.meta?.profile_image_url}');`
 								: ''}
-						/>
+						></div>
 					{/if}
 				</button>
 			{:else}
@@ -809,9 +809,9 @@
 						autoplay
 						class="rounded-2xl h-full min-w-full object-cover object-center"
 						playsinline
-					/>
+					></video>
 
-					<canvas id="camera-canvas" style="display:none;" />
+					<canvas id="camera-canvas" style="display:none;"></canvas>
 
 					<div class=" absolute top-4 md:top-8 left-4">
 						<button

@@ -52,7 +52,7 @@
 	on:paste={handlePaste}
 	on:keydown={onKeydown}
 	data-placeholder={placeholder}
-/>
+></div>
 
 <style>
 	.placeholder::before {

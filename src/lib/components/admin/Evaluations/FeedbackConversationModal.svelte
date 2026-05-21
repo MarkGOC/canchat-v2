@@ -321,7 +321,7 @@
 										{$i18n.t('Updated at')}
 										<span class="invisible">▲</span>
 									</th>
-									<th scope="col" class="px-3 py-2 text-right" />
+									<th scope="col" class="px-3 py-2 text-right"></th>
 								</tr>
 							</thead>
 							<tbody>

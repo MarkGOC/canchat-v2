@@ -62,6 +62,14 @@
 		// Use FileSaver.js's saveAs function to save the generated CSV file.
 		saveAs(blob, `table-${id}-${tokenIdx}.csv`);
 	};
+
+	const resizeIframeOnLoad = (event: Event) => {
+		const iframe = event.currentTarget as HTMLIFrameElement | null;
+		const body = iframe?.contentWindow?.document?.body;
+		if (iframe && body) {
+			iframe.style.height = `${body.scrollHeight + 20}px`;
+		}
+	};
 </script>
 
 <!-- {JSON.stringify(tokens)} -->
@@ -150,7 +158,7 @@
 				<Tooltip content={$i18n.t('Export to CSV')}>
 					<button
 						class="p-1 rounded-lg bg-transparent transition"
-						on:click={(e) => {
+						onclick={(e) => {
 							e.stopPropagation();
 							exportTableToCSVHandler(token, tokenIdx);
 						}}
@@ -211,7 +219,7 @@
 			title={token.fileId}
 			width="100%"
 			frameborder="0"
-			onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"
+			onload={resizeIframeOnLoad}
 		></iframe>
 	{:else if token.type === 'paragraph'}
 		<p>
@@ -248,7 +256,7 @@
 			<KatexRenderer content={token.text} displayMode={token?.displayMode ?? false} />
 		{/if}
 	{:else if token.type === 'space'}
-		<div class="my-2" />
+		<div class="my-2"></div>
 	{:else}
 		{console.log('Unknown token', token)}
 	{/if}

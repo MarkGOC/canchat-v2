@@ -399,8 +399,8 @@
 											<span class="relative flex size-2">
 												<span
 													class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"
-												/>
-												<span class="relative inline-flex rounded-full size-2 bg-yellow-500" />
+												></span>
+												<span class="relative inline-flex rounded-full size-2 bg-yellow-500"></span>
 											</span>
 										</div>
 										<div class="  text-ellipsis line-clamp-1 flex">
@@ -431,8 +431,8 @@
 											<span class="relative flex size-2">
 												<span
 													class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
-												/>
-												<span class="relative inline-flex rounded-full size-2 bg-green-500" />
+												></span>
+												<span class="relative inline-flex rounded-full size-2 bg-green-500"></span>
 											</span>
 										</div>
 										<div class=" ">{$i18n.t('Image generation')}</div>
@@ -447,8 +447,8 @@
 											<span class="relative flex size-2">
 												<span
 													class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
-												/>
-												<span class="relative inline-flex rounded-full size-2 bg-green-500" />
+												></span>
+												<span class="relative inline-flex rounded-full size-2 bg-green-500"></span>
 											</span>
 										</div>
 										<div class=" ">{$i18n.t('Search the web')}</div>
@@ -463,8 +463,8 @@
 											<span class="relative flex size-2">
 												<span
 													class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"
-												/>
-												<span class="relative inline-flex rounded-full size-2 bg-blue-500" />
+												></span>
+												<span class="relative inline-flex rounded-full size-2 bg-blue-500"></span>
 											</span>
 										</div>
 										<Tooltip
@@ -1144,7 +1144,7 @@
 													}
 												}
 											}}
-										/>
+										></textarea>
 									{/if}
 
 									<div class="self-end mb-1.5 flex space-x-1 mr-1">

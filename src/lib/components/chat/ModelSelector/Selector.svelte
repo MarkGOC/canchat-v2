@@ -606,14 +606,14 @@
 								class={`block h-4 w-4 rounded-full bg-white transition-transform ${
 									$temporaryChatEnabled ? 'translate-x-3.5' : 'translate-x-0'
 								}`}
-							/>
+							></span>
 						</span>
 					</button>
 				</div>
 			{/if}
 
-			<div class="hidden w-[42rem]" />
-			<div class="hidden w-[32rem]" />
+			<div class="hidden w-[42rem]"></div>
+			<div class="hidden w-[32rem]"></div>
 		</slot>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>

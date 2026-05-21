@@ -501,7 +501,7 @@
 								rows="10"
 								bind:value={config.comfyui.COMFYUI_WORKFLOW}
 								required
-							/>
+							></textarea>
 						{/if}
 
 						<div class="flex w-full">

@@ -242,7 +242,7 @@
 	<div class="flex md:self-center text-lg font-medium px-0.5">
 		{$i18n.t('Feedback History')}
 
-		<div class="flex self-center w-[1px] h-6 mx-2.5 bg-gray-50 dark:bg-gray-850" />
+		<div class="flex self-center w-[1px] h-6 mx-2.5 bg-gray-50 dark:bg-gray-850"></div>
 
 		<span class="text-lg font-medium text-[#767676] dark:text-gray-300">{totalFeedbackCount}</span>
 	</div>

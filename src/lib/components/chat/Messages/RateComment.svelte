@@ -258,7 +258,7 @@
 			class="w-full text-sm px-1 py-2 bg-transparent outline-none resize-none rounded-xl border border-gray-100 dark:border-gray-800"
 			placeholder={$i18n.t('Feel free to add specific details')}
 			rows="3"
-		/>
+		></textarea>
 	</div>
 
 	<div class="mt-2 gap-1.5 flex justify-between">

@@ -104,6 +104,7 @@
 		"dompurify": "3.4.0",
 		"eventsource-parser": "^1.1.2",
 		"file-saver": "^2.0.5",
+		"focus-trap": "^7.6.4",
 		"fuse.js": "^7.0.0",
 		"highlight.js": "^11.9.0",
 		"i18next": "^23.10.0",

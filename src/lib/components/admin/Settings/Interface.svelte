@@ -443,7 +443,7 @@
 										placeholder={$i18n.t('Prompt (e.g. Tell me a fun fact about the Roman Empire)')}
 										rows="3"
 										bind:value={prompt.content}
-									/>
+									></textarea>
 								</div>
 
 								<button

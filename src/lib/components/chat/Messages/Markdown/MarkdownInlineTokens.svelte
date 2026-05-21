@@ -13,6 +13,14 @@
 
 	const sanitizeUrl = (url: string) => url.split('?')[0];
 
+	const resizeIframeOnLoad = (event: Event) => {
+		const iframe = event.currentTarget as HTMLIFrameElement | null;
+		const body = iframe?.contentWindow?.document?.body;
+		if (iframe && body) {
+			iframe.style.height = `${body.scrollHeight + 20}px`;
+		}
+	};
+
 	import Image from '$lib/components/common/Image.svelte';
 	import KatexRenderer from './KatexRenderer.svelte';
 	import Source from './Source.svelte';
@@ -61,7 +69,7 @@
 		<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 		<code
 			class="codespan cursor-pointer"
-			on:click={() => {
+			onclick={() => {
 				copyToClipboard(unescapeHtml(token.text));
 				toast.success($i18n.t('Copied to clipboard'));
 			}}>{unescapeHtml(token.text)}</code
@@ -86,7 +94,7 @@
 			title={token.fileId}
 			width="100%"
 			frameborder="0"
-			onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"
+			onload={resizeIframeOnLoad}
 		></iframe>
 	{:else if token.type === 'text'}
 		{token.raw}

@@ -87,9 +87,9 @@
 				showEditChannelModal = true;
 			}}
 		>
-			<button class="p-0.5 dark:hover:bg-gray-850 rounded-lg touch-auto" on:click={(e) => {}}>
+			<span class="p-0.5 dark:hover:bg-gray-850 rounded-lg touch-auto">
 				<Cog6 className="size-3.5" />
-			</button>
+			</span>
 		</button>
 	{/if}
 </div>

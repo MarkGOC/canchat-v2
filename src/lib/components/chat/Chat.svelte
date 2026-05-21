@@ -11,7 +11,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
-	import { type Unsubscriber, type Writable } from 'svelte/store';
+	import { get, type Unsubscriber, type Writable } from 'svelte/store';
 	import type { i18n as i18nType } from 'i18next';
 	import { WEBUI_BASE_URL, WEBUI_API_BASE_URL } from '$lib/constants';
 
@@ -836,7 +836,12 @@
 		}
 	};
 
-	const chatCompletedHandler = async (chatId, modelId, responseMessageId, messages) => {
+	const chatCompletedHandler = async (chatIdParam, modelId, responseMessageId, messages) => {
+		const currentSocket = get(socket);
+		const currentChatId = get(chatId);
+		const isTemporaryChatEnabled = get(temporaryChatEnabled);
+		const currentPage = get(currentChatPage);
+
 		const res = await chatCompleted(localStorage.token, {
 			model: modelId,
 			messages: messages.map((m) => ({
@@ -847,8 +852,8 @@
 				timestamp: m.timestamp,
 				...(m.sources ? { sources: m.sources } : {})
 			})),
-			chat_id: chatId,
-			session_id: $socket?.id,
+			chat_id: chatIdParam,
+			session_id: currentSocket?.id,
 			id: responseMessageId
 		}).catch((error) => {
 			toast.error(`${error}`);
@@ -875,9 +880,9 @@
 
 		await tick();
 
-		if ($chatId == chatId) {
-			if (!$temporaryChatEnabled) {
-				chat = await updateChatById(localStorage.token, chatId, {
+		if (currentChatId == chatIdParam) {
+			if (!isTemporaryChatEnabled) {
+				chat = await updateChatById(localStorage.token, chatIdParam, {
 					models: selectedModels,
 					messages: messages,
 					history: history,
@@ -886,12 +891,17 @@
 				});
 
 				currentChatPage.set(1);
-				await chats.set(await getChatList(localStorage.token, $currentChatPage));
+				await chats.set(await getChatList(localStorage.token, currentPage));
 			}
 		}
 	};
 
-	const chatActionHandler = async (chatId, actionId, modelId, responseMessageId, event = null) => {
+	const chatActionHandler = async (chatIdParam, actionId, modelId, responseMessageId, event = null) => {
+		const currentSocket = get(socket);
+		const currentChatId = get(chatId);
+		const isTemporaryChatEnabled = get(temporaryChatEnabled);
+		const currentPage = get(currentChatPage);
+
 		const messages = createMessagesList(responseMessageId);
 
 		const res = await chatAction(localStorage.token, actionId, {
@@ -905,8 +915,8 @@
 				...(m.sources ? { sources: m.sources } : {})
 			})),
 			...(event ? { event: event } : {}),
-			chat_id: chatId,
-			session_id: $socket?.id,
+			chat_id: chatIdParam,
+			session_id: currentSocket?.id,
 			id: responseMessageId
 		}).catch((error) => {
 			toast.error(`${error}`);
@@ -927,9 +937,9 @@
 			}
 		}
 
-		if ($chatId == chatId) {
-			if (!$temporaryChatEnabled) {
-				chat = await updateChatById(localStorage.token, chatId, {
+		if (currentChatId == chatIdParam) {
+			if (!isTemporaryChatEnabled) {
+				chat = await updateChatById(localStorage.token, chatIdParam, {
 					models: selectedModels,
 					messages: messages,
 					history: history,
@@ -938,7 +948,7 @@
 				});
 
 				currentChatPage.set(1);
-				await chats.set(await getChatList(localStorage.token, $currentChatPage));
+				await chats.set(await getChatList(localStorage.token, currentPage));
 			}
 		}
 	};
@@ -1940,7 +1950,7 @@
 	</title>
 </svelte:head>
 
-<audio id="audioElement" src="" style="display: none;" />
+<audio id="audioElement" src="" style="display: none;"></audio>
 
 <EventConfirmDialog
 	bind:show={showEventConfirmation}
