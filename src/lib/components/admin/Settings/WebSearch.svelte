@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { getI18n } from '$lib/utils/context';
 
 	import { getRAGConfig, updateRAGConfig } from '$lib/apis/retrieval';

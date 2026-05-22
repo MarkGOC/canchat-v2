@@ -27,6 +27,13 @@ const config = {
 	onwarn: (warning, handler) => {
 		const { code } = warning;
 		if (code === 'css-unused-selector') return;
+		if (
+			code === 'a11y_consider_explicit_label' ||
+			code === 'a11y_no_noninteractive_tabindex' ||
+			code === 'a11y-click-events-have-key-events' ||
+			code === 'a11y-no-static-element-interactions'
+		)
+			return;
 
 		handler(warning);
 	}

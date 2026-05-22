@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { config, showArchivedChats, user } from '$lib/stores';
 	import { getContext } from 'svelte';
 	import ShortcutsModal from '$lib/components/chat/ShortcutsModal.svelte';

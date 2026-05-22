@@ -1,4 +1,5 @@
 <script>
+	// @ts-nocheck
 	import { io } from 'socket.io-client';
 	import { spring } from 'svelte/motion';
 

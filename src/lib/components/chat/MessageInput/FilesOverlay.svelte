@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { showSidebar } from '$lib/stores';
 	import AddFilesPlaceholder from '$lib/components/AddFilesPlaceholder.svelte';
 

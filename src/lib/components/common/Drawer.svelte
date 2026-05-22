@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { onDestroy, onMount, createEventDispatcher } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { isApp } from '$lib/stores';

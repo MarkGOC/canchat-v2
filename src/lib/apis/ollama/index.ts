@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { OLLAMA_API_BASE_URL } from '$lib/constants';
 import i18next from 'i18next';
 

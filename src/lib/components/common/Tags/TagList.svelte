@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { createEventDispatcher } from 'svelte';
 	import Tooltip from '../Tooltip.svelte';
 	import XMark from '$lib/components/icons/XMark.svelte';

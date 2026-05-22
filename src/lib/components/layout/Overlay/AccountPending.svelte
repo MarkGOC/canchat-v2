@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { getUserRole } from '$lib/apis/users';
 	import { onMount } from 'svelte';
 

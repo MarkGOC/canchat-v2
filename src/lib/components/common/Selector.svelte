@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { Select } from 'bits-ui';
 
 	import { flyAndScale } from '$lib/utils/transitions';

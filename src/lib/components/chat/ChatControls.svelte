@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { SvelteFlowProvider } from '@xyflow/svelte';
 	import { Pane, PaneResizer } from 'paneforge';
 

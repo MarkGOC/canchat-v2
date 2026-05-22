@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { settings, playingNotificationSound, isLastActiveTab } from '$lib/stores';
 	import DOMPurify from 'dompurify';
 

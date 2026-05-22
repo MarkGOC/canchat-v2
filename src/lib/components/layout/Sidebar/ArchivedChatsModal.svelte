@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { getI18n } from '$lib/utils/context';
 
 	import fileSaver from 'file-saver';

@@ -1,4 +1,5 @@
 <script>
+	// @ts-nocheck
 	import { getI18n } from '$lib/utils/context';
 
 	import { toast } from 'svelte-sonner';

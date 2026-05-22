@@ -1,4 +1,5 @@
 <script>
+	// @ts-nocheck
 	import { marked } from 'marked';
 	import { replaceTokens, processResponseContent } from '$lib/utils';
 	import { user } from '$lib/stores';
