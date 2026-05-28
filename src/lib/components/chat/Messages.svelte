@@ -4,7 +4,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import { chats, settings, user as _user, currentChatPage, ariaMessage } from '$lib/stores';
 	import { tick, createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import { toast } from 'svelte-sonner';
 	import { getChatList, updateChatById } from '$lib/apis/chats';
@@ -22,12 +22,12 @@
 	export let chatId = '';
 	export let user = $_user;
 
-	export let prompt;
-	export let history = {};
-	export let selectedModels;
+	export let prompt: any;
+	export let history: Record<string, any> = {};
+	export let selectedModels: any;
 	export let selectedToolIds: string[] = [];
 
-	let messages = [];
+	let messages: any[] = [];
 
 	export let sendPrompt: Function;
 	export let continueResponse: Function;
@@ -42,14 +42,25 @@
 	export let readOnly = false;
 
 	export let bottomPadding = false;
-	export let autoScroll;
+	export let autoScroll: any;
 
 	let messagesCount = 20;
 	let messagesLoading = false;
 
+	type HistoryMessage = {
+		id: string;
+		parentId: string | null;
+	};
+
+	const getRootMessageIds = (messages: Record<string, unknown>) =>
+		Object.values(messages as Record<string, HistoryMessage>)
+			.filter((message) => message.parentId === null)
+			.map((message) => message.id);
+
 	const loadMoreMessages = async () => {
 		// scroll slightly down to disable continuous loading
 		const element = document.getElementById('messages-container');
+		if (!element) return;
 		element.scrollTop = element.scrollTop + 100;
 
 		messagesLoading = true;
@@ -61,7 +72,7 @@
 	};
 
 	$: if (history.currentId) {
-		let _messages = [];
+		let _messages: any[] = [];
 
 		let message = history.messages[history.currentId];
 		while (message && _messages.length <= messagesCount) {
@@ -83,6 +94,7 @@
 
 	const scrollToBottom = () => {
 		const element = document.getElementById('messages-container');
+		if (!element) return;
 		element.scrollTop = element.scrollHeight;
 	};
 
@@ -98,7 +110,7 @@
 		await chats.set(await getChatList(localStorage.token, $currentChatPage));
 	};
 
-	const showPreviousMessage = async (message) => {
+	const showPreviousMessage = async (message: any) => {
 		if (message.parentId !== null) {
 			let messageId =
 				history.messages[message.parentId].childrenIds[
@@ -116,9 +128,7 @@
 				history.currentId = messageId;
 			}
 		} else {
-			let childrenIds = Object.values(history.messages)
-				.filter((message) => message.parentId === null)
-				.map((message) => message.id);
+			let childrenIds = getRootMessageIds(history.messages ?? {});
 			let messageId = childrenIds[Math.max(childrenIds.indexOf(message.id) - 1, 0)];
 
 			if (message.id !== messageId) {
@@ -137,6 +147,7 @@
 
 		if ($settings?.scrollOnBranchChange ?? true) {
 			const element = document.getElementById('messages-container');
+			if (!element) return;
 			autoScroll = element.scrollHeight - element.scrollTop <= element.clientHeight + 50;
 
 			setTimeout(() => {
@@ -146,7 +157,7 @@
 		ariaMessage.set($i18n.t('Navigating to previous response'));
 	};
 
-	const showNextMessage = async (message) => {
+	const showNextMessage = async (message: any) => {
 		if (message.parentId !== null) {
 			let messageId =
 				history.messages[message.parentId].childrenIds[
@@ -167,9 +178,7 @@
 				history.currentId = messageId;
 			}
 		} else {
-			let childrenIds = Object.values(history.messages)
-				.filter((message) => message.parentId === null)
-				.map((message) => message.id);
+			let childrenIds = getRootMessageIds(history.messages ?? {});
 			let messageId =
 				childrenIds[Math.min(childrenIds.indexOf(message.id) + 1, childrenIds.length - 1)];
 
@@ -189,6 +198,7 @@
 
 		if ($settings?.scrollOnBranchChange ?? true) {
 			const element = document.getElementById('messages-container');
+			if (!element) return;
 			autoScroll = element.scrollHeight - element.scrollTop <= element.clientHeight + 50;
 
 			setTimeout(() => {
@@ -198,7 +208,7 @@
 		ariaMessage.set($i18n.t('Navigating to next response'));
 	};
 
-	const rateMessage = async (messageId, rating) => {
+	const rateMessage = async (messageId: any, rating: any) => {
 		history.messages[messageId].annotation = {
 			...history.messages[messageId].annotation,
 			rating: rating
@@ -207,7 +217,7 @@
 		await updateChat();
 	};
 
-	const editMessage = async (messageId, content, submit = true) => {
+	const editMessage = async (messageId: any, content: any, submit = true) => {
 		if (history.messages[messageId].role === 'user') {
 			if (submit) {
 				// New user message
@@ -281,35 +291,35 @@
 		}
 	};
 
-	const actionMessage = async (actionId, message, event = null) => {
+	const actionMessage = async (actionId: any, message: any, event = null) => {
 		await chatActionHandler(chatId, actionId, message.model, message.id, event);
 	};
 
-	const saveMessage = async (messageId, message) => {
+	const saveMessage = async (messageId: any, message: any) => {
 		history.messages[messageId] = message;
 		await updateChat();
 	};
 
-	const deleteMessage = async (messageId) => {
+	const deleteMessage = async (messageId: any) => {
 		const messageToDelete = history.messages[messageId];
 		const parentMessageId = messageToDelete.parentId;
 		const childMessageIds = messageToDelete.childrenIds ?? [];
 
 		// Collect all grandchildren
 		const grandchildrenIds = childMessageIds.flatMap(
-			(childId) => history.messages[childId]?.childrenIds ?? []
+			(childId: any) => history.messages[childId]?.childrenIds ?? []
 		);
 
 		// Update parent's children
 		if (parentMessageId && history.messages[parentMessageId]) {
 			history.messages[parentMessageId].childrenIds = [
-				...history.messages[parentMessageId].childrenIds.filter((id) => id !== messageId),
+				...history.messages[parentMessageId].childrenIds.filter((id: any) => id !== messageId),
 				...grandchildrenIds
 			];
 		}
 
 		// Update grandchildren's parent
-		grandchildrenIds.forEach((grandchildId) => {
+		grandchildrenIds.forEach((grandchildId: any) => {
 			if (history.messages[grandchildId]) {
 				history.messages[grandchildId].parentId = parentMessageId;
 			}
@@ -331,6 +341,7 @@
 	const triggerScroll = () => {
 		if (autoScroll) {
 			const element = document.getElementById('messages-container');
+			if (!element) return;
 			autoScroll = element.scrollHeight - element.scrollTop <= element.clientHeight + 50;
 			setTimeout(() => {
 				scrollToBottom();
@@ -343,7 +354,7 @@
 	{#if Object.keys(history?.messages ?? {}).length == 0}
 		<ChatPlaceholder
 			modelIds={selectedModels}
-			submitPrompt={async (p) => {
+			submitPrompt={async (p: any) => {
 				let text = p;
 
 				if (p.includes('{{CLIPBOARD}}')) {
@@ -378,7 +389,7 @@
 				<div class="w-full">
 					{#if messages.at(0)?.parentId !== null}
 						<Loader
-							on:visible={(e) => {
+							on:visible={(e: any) => {
 								if (!messagesLoading) {
 									loadMoreMessages();
 								}

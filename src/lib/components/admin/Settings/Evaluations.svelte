@@ -5,7 +5,7 @@
 	import { models, user } from '$lib/stores';
 	import { createEventDispatcher, onMount } from 'svelte';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 	import { getModels } from '$lib/apis';
 	import { getConfig, updateConfig } from '$lib/apis/evaluations';
 
@@ -18,7 +18,7 @@
 
 	const i18n = getI18n();
 
-	let config = null;
+	let config: any = null;
 	let showAddModel = false;
 
 	const submitHandler = async () => {
@@ -33,7 +33,7 @@
 		}
 	};
 
-	const addModelHandler = async (model) => {
+	const addModelHandler = async (model: any) => {
 		config.EVALUATION_ARENA_MODELS.push(model);
 		config.EVALUATION_ARENA_MODELS = [...config.EVALUATION_ARENA_MODELS];
 
@@ -41,7 +41,7 @@
 		models.set(await getModels(localStorage.token));
 	};
 
-	const editModelHandler = async (model, modelIdx) => {
+	const editModelHandler = async (model: any, modelIdx: any) => {
 		config.EVALUATION_ARENA_MODELS[modelIdx] = model;
 		config.EVALUATION_ARENA_MODELS = [...config.EVALUATION_ARENA_MODELS];
 
@@ -49,9 +49,9 @@
 		models.set(await getModels(localStorage.token));
 	};
 
-	const deleteModelHandler = async (modelIdx) => {
+	const deleteModelHandler = async (modelIdx: any) => {
 		config.EVALUATION_ARENA_MODELS = config.EVALUATION_ARENA_MODELS.filter(
-			(m, mIdx) => mIdx !== modelIdx
+			(m: any, mIdx: any) => mIdx !== modelIdx
 		);
 
 		await submitHandler();
@@ -70,7 +70,7 @@
 
 <ArenaModelModal
 	bind:show={showAddModel}
-	on:submit={async (e) => {
+	on:submit={async (e: any) => {
 		addModelHandler(e.detail);
 	}}
 />
@@ -123,10 +123,10 @@
 							{#each config.EVALUATION_ARENA_MODELS as model, index}
 								<Model
 									{model}
-									on:edit={(e) => {
+									on:edit={(e: any) => {
 										editModelHandler(e.detail, index);
 									}}
-									on:delete={(e) => {
+									on:delete={(e: any) => {
 										deleteModelHandler(index);
 									}}
 								/>
@@ -154,6 +154,7 @@
 		<button
 			class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full"
 			type="submit"
+			aria-label="Action"
 		>
 			{$i18n.t('Save')}
 		</button>

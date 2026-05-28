@@ -32,14 +32,14 @@
 	const i18n = getI18n();
 
 	let shiftKey = false;
-	let importFiles;
+	let importFiles: any;
 	let modelsImportInputElement: HTMLInputElement;
 	let loaded = false;
-	let models = [];
-	let filteredModels = [];
+	let models: any[] = [];
+	let filteredModels: any[] = [];
 	let selectedModel = null;
 	let showModelDeleteConfirm = false;
-	let group_ids = [];
+	let group_ids: any[] = [];
 	let searchValue = '';
 
 	$: filteredModels = models
@@ -52,8 +52,8 @@
 			).trim()
 		}));
 
-	const deleteModelHandler = async (model) => {
-		const res = await deleteModelById(localStorage.token, model.id).catch((e) => {
+	const deleteModelHandler = async (model: any) => {
+		const res = await deleteModelById(localStorage.token, model.id).catch((e: any) => {
 			toast.error(e);
 			return null;
 		});
@@ -66,7 +66,7 @@
 		models = await getWorkspaceModels(localStorage.token);
 	};
 
-	const cloneModelHandler = async (model) => {
+	const cloneModelHandler = async (model: any) => {
 		sessionStorage.model = JSON.stringify({
 			...model,
 			id: `${model.id}-clone`,
@@ -75,7 +75,7 @@
 		goto('/workspace/models/create');
 	};
 
-	const hideModelHandler = async (model) => {
+	const hideModelHandler = async (model: any) => {
 		let info = model.info;
 
 		if (!info) {
@@ -109,14 +109,14 @@
 		models = await getWorkspaceModels(localStorage.token);
 	};
 
-	const downloadModels = async (models) => {
+	const downloadModels = async (models: any) => {
 		let blob = new Blob([JSON.stringify(models)], {
 			type: 'application/json'
 		});
 		saveAs(blob, `models-export-${Date.now()}.json`);
 	};
 
-	const exportModelHandler = async (model) => {
+	const exportModelHandler = async (model: any) => {
 		let blob = new Blob([JSON.stringify([model])], {
 			type: 'application/json'
 		});
@@ -126,17 +126,17 @@
 	onMount(async () => {
 		models = await getWorkspaceModels(localStorage.token);
 		let groups = await getGroups(localStorage.token);
-		group_ids = groups.map((group) => group.id);
+		group_ids = groups.map((group: any) => group.id);
 
 		loaded = true;
 
-		const onKeyDown = (event) => {
+		const onKeyDown = (event: any) => {
 			if (event.key === 'Shift') {
 				shiftKey = true;
 			}
 		};
 
-		const onKeyUp = (event) => {
+		const onKeyUp = (event: any) => {
 			if (event.key === 'Shift') {
 				shiftKey = false;
 			}
@@ -199,6 +199,7 @@
 				<a
 					class=" px-2 py-2 rounded-xl hover:bg-gray-700/10 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition font-medium text-sm flex items-center space-x-1"
 					href="/workspace/models/create"
+					aria-label="Link"
 				>
 					<Plus className="size-3.5" />
 				</a>
@@ -230,6 +231,7 @@
 					<a
 						class=" flex flex-1 cursor-pointer w-full"
 						href={`/?models=${encodeURIComponent(model.id)}`}
+						aria-label="Link"
 					>
 						<div class=" flex-1 self-center {model.is_active ? '' : 'text-gray-500'}">
 							<Tooltip
@@ -280,11 +282,12 @@
 								</button>
 							</Tooltip>
 						{:else}
-							{#if $user?.role === 'admin' || model.user_id === $user?.id || model.access_control.write.group_ids.some( (wg) => group_ids.includes(wg) )}
+							{#if $user?.role === 'admin' || model.user_id === $user?.id || model.access_control.write.group_ids.some( (wg: any) => group_ids.includes(wg) )}
 								<a
 									class="self-center w-fit text-sm px-2 py-2 dark:text-gray-300 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-xl"
 									type="button"
 									href={`/workspace/models/edit?id=${encodeURIComponent(model.id)}`}
+									aria-label="Link"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -324,6 +327,7 @@
 								<button
 									class="self-center w-fit text-sm p-1.5 dark:text-gray-300 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-xl"
 									type="button"
+									aria-label="Action"
 								>
 									<EllipsisHorizontal className="size-5" />
 								</button>
@@ -333,7 +337,7 @@
 								<Tooltip content={model.is_active ? $i18n.t('Enabled') : $i18n.t('Disabled')}>
 									<Switch
 										state={model.is_active}
-										on:change={async (e) => {
+										on:change={async (e: any) => {
 											await toggleModelById(localStorage.token, model.id);
 											_models.set(await getModels(localStorage.token));
 											models = await getWorkspaceModels(localStorage.token);
@@ -360,7 +364,7 @@
 					hidden
 					on:change={() => {
 						let reader = new FileReader();
-						reader.onload = async (event) => {
+						reader.onload = async (event: any) => {
 							let savedModels = JSON.parse(event.target.result);
 							for (const model of savedModels) {
 								if (model?.info ?? false) {
@@ -447,6 +451,7 @@
 				class=" flex cursor-pointer items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-850 w-full mb-2 px-3.5 py-1.5 rounded-xl transition"
 				href="https://openwebui.com/#open-webui-community"
 				target="_blank"
+				aria-label="Link"
 			>
 				<div class=" self-center">
 					<div class=" font-semibold line-clamp-1">{$i18n.t('Discover a model')}</div>

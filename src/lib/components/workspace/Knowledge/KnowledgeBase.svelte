@@ -42,7 +42,7 @@
 
 	let largeScreen = true;
 
-	let pane;
+	let pane: any;
 	let showSidepanel = true;
 	let minSize = 0;
 
@@ -56,17 +56,17 @@
 		files: any[];
 	};
 
-	let id = null;
-	let knowledge: Knowledge | null = null;
+	let id = '';
+	let knowledge: any = null;
 	let query = '';
 
 	let showAddTextContentModal = false;
 	let showSyncConfirmModal = false;
 	let showAccessControlModal = false;
 
-	let inputFiles = null;
+	let inputFiles: any = null;
 
-	let filteredItems = [];
+	let filteredItems: any[] = [];
 	$: if (knowledge && knowledge.files) {
 		fuse = new Fuse(knowledge.files, {
 			keys: ['meta.name', 'meta.description']
@@ -75,17 +75,17 @@
 
 	$: if (fuse) {
 		filteredItems = query
-			? fuse.search(query).map((e) => {
+			? fuse.search(query).map((e: any) => {
 					return e.item;
 				})
 			: (knowledge?.files ?? []);
 	}
 
-	let selectedFile = null;
-	let selectedFileId = null;
+	let selectedFile: any = null;
+	let selectedFileId: string | null = null;
 
 	$: if (selectedFileId) {
-		const file = (knowledge?.files ?? []).find((file) => file.id === selectedFileId);
+		const file = (knowledge?.files ?? []).find((file: any) => file.id === selectedFileId);
 		if (file) {
 			file.data = file.data ?? { content: '' };
 			selectedFile = file;
@@ -96,18 +96,18 @@
 		selectedFile = null;
 	}
 
-	let fuse = null;
-	let debounceTimeout = null;
-	let mediaQuery;
+	let fuse: any = null;
+	let debounceTimeout: ReturnType<typeof setTimeout> | null = null;
+	let mediaQuery: MediaQueryList | null = null;
 	let dragged = false;
 
-	const createFileFromText = (name, content) => {
+	const createFileFromText = (name: any, content: any) => {
 		const blob = new Blob([content], { type: 'text/plain' });
 		const file = blobToFile(blob, `${name}.txt`);
 		return file;
 	};
 
-	const uploadFileHandler = async (file) => {
+	const uploadFileHandler = async (file: any) => {
 		const tempItemId = uuidv4();
 		const fileItem = {
 			type: 'file',
@@ -142,7 +142,7 @@
 		}
 
 		try {
-			const uploadedFile = await uploadFile(localStorage.token, file).catch((e) => {
+			const uploadedFile = await uploadFile(localStorage.token, file).catch((e: any) => {
 				toast.error(e);
 				return null;
 			});
@@ -162,7 +162,7 @@
 				toast.error($i18n.t('Failed to upload file.'));
 			}
 		} catch (e) {
-			toast.error(e);
+			toast.error(`${e}`);
 		}
 	};
 
@@ -184,8 +184,8 @@
 	};
 
 	// Helper function to check if a path contains hidden folders
-	const hasHiddenFolder = (path) => {
-		return path.split('/').some((part) => part.startsWith('.'));
+	const hasHiddenFolder = (path: any) => {
+		return path.split('/').some((part: any) => part.startsWith('.'));
 	};
 
 	// Modern browsers implementation using File System Access API
@@ -201,7 +201,7 @@
 		};
 
 		// Recursive function to count all files excluding hidden ones
-		async function countFiles(dirHandle) {
+		async function countFiles(dirHandle: any) {
 			for await (const entry of dirHandle.values()) {
 				// Skip hidden files and directories
 				if (entry.name.startsWith('.')) continue;
@@ -218,7 +218,7 @@
 		}
 
 		// Recursive function to process directories excluding hidden files and folders
-		async function processDirectory(dirHandle, path = '') {
+		async function processDirectory(dirHandle: any, path = '') {
 			for await (const entry of dirHandle.values()) {
 				// Skip hidden files and directories
 				if (entry.name.startsWith('.')) continue;
@@ -256,12 +256,12 @@
 
 	// Firefox fallback implementation using traditional file input
 	const handleFirefoxUpload = async () => {
-		return new Promise((resolve, reject) => {
+		return new Promise<void>((resolve, reject) => {
 			// Create hidden file input
 			const input = document.createElement('input');
 			input.type = 'file';
 			input.webkitdirectory = true;
-			input.directory = true;
+			(input as any).directory = true;
 			input.multiple = true;
 			input.style.display = 'none';
 
@@ -270,7 +270,7 @@
 
 			input.onchange = async () => {
 				try {
-					const files = Array.from(input.files)
+					const files = Array.from(input.files ?? [])
 						// Filter out files from hidden folders
 						.filter((file) => !hasHiddenFolder(file.webkitRelativePath));
 
@@ -319,7 +319,7 @@
 	};
 
 	// Error handler
-	const handleUploadError = (error) => {
+	const handleUploadError = (error: any) => {
 		if (error.name === 'AbortError') {
 			toast.info('Directory selection was cancelled');
 		} else {
@@ -331,7 +331,7 @@
 	// Helper function to maintain file paths within zip
 	const syncDirectoryHandler = async () => {
 		if ((knowledge?.files ?? []).length > 0) {
-			const res = await resetKnowledgeById(localStorage.token, id).catch((e) => {
+			const res = await resetKnowledgeById(localStorage.token, id).catch((e: any) => {
 				toast.error(e);
 			});
 
@@ -347,9 +347,9 @@
 		}
 	};
 
-	const addFileHandler = async (fileId) => {
+	const addFileHandler = async (fileId: any) => {
 		const updatedKnowledge = await addFileToKnowledgeById(localStorage.token, id, fileId).catch(
-			(e) => {
+			(e: any) => {
 				toast.error(e);
 				return null;
 			}
@@ -364,7 +364,7 @@
 		}
 	};
 
-	const deleteFileHandler = async (fileId) => {
+	const deleteFileHandler = async (fileId: any) => {
 		try {
 			// Remove from knowledge base only
 			const updatedKnowledge = await removeFileFromKnowledgeById(localStorage.token, id, fileId);
@@ -375,7 +375,7 @@
 			}
 		} catch (e) {
 			console.error('Error in deleteFileHandler:', e);
-			toast.error(e);
+			toast.error(`${e}`);
 		}
 	};
 
@@ -383,7 +383,7 @@
 		const fileId = selectedFile.id;
 		const content = selectedFile.data.content;
 
-		const res = updateFileDataContentById(localStorage.token, fileId, content).catch((e) => {
+		const res = updateFileDataContentById(localStorage.token, fileId, content).catch((e: any) => {
 			toast.error(e);
 		});
 
@@ -391,7 +391,7 @@
 			localStorage.token,
 			id,
 			fileId
-		).catch((e) => {
+		).catch((e: any) => {
 			toast.error(e);
 		});
 
@@ -417,7 +417,7 @@
 				name: knowledge.name,
 				description: knowledge.description,
 				access_control: knowledge.access_control
-			}).catch((e) => {
+			}).catch((e: any) => {
 				toast.error(e);
 			});
 
@@ -428,7 +428,7 @@
 		}, 1000);
 	};
 
-	const handleMediaQuery = async (e) => {
+	const handleMediaQuery = async (e: any) => {
 		if (e.matches) {
 			largeScreen = true;
 		} else {
@@ -436,7 +436,7 @@
 		}
 	};
 
-	const onDragOver = (e) => {
+	const onDragOver = (e: any) => {
 		e.preventDefault();
 
 		// Check if a file is being draggedOver.
@@ -451,7 +451,7 @@
 		dragged = false;
 	};
 
-	const onDrop = async (e) => {
+	const onDrop = async (e: any) => {
 		e.preventDefault();
 		dragged = false;
 
@@ -479,6 +479,9 @@
 
 		// Select the container element you want to observe
 		const container = document.getElementById('collection-container');
+		if (!container) {
+			return;
+		}
 
 		// initialize the minSize based on the container width
 		minSize = !largeScreen ? 100 : Math.floor((300 / container.clientWidth) * 100);
@@ -509,7 +512,7 @@
 
 		id = $page.params.id;
 
-		const res = await getKnowledgeById(localStorage.token, id).catch((e) => {
+		const res = await getKnowledgeById(localStorage.token, id).catch((e: any) => {
 			toast.error(e);
 			return null;
 		});
@@ -570,7 +573,7 @@
 
 <AddTextContentModal
 	bind:show={showAddTextContentModal}
-	on:submit={(e) => {
+	on:submit={(e: any) => {
 		const file = createFileFromText(e.detail.name, e.detail.content);
 		uploadFileHandler(file);
 	}}
@@ -589,7 +592,7 @@
 			}
 
 			inputFiles = null;
-			const fileInputElement = document.getElementById('files-input');
+			const fileInputElement = document.getElementById('files-input') as HTMLInputElement | null;
 
 			if (fileInputElement) {
 				fileInputElement.value = '';
@@ -682,6 +685,7 @@
 										class="hover:text-gray-500 hover:dark:text-gray-100 hover:underline flex-grow line-clamp-1"
 										href={selectedFile.id ? `/api/v1/files/${selectedFile.id}/content` : '#'}
 										target="_blank"
+										aria-label="Link"
 									>
 										{selectedFile?.meta?.name}
 									</a>
@@ -813,7 +817,7 @@
 
 								<div>
 									<AddContentMenu
-										on:upload={(e) => {
+										on:upload={(e: any) => {
 											if (e.detail.type === 'directory') {
 												uploadDirectoryHandler();
 											} else if (e.detail.type === 'text') {
@@ -822,7 +826,7 @@
 												document.getElementById('files-input').click();
 											}
 										}}
-										on:sync={(e) => {
+										on:sync={(e: any) => {
 											showSyncConfirmModal = true;
 										}}
 									/>
@@ -836,10 +840,10 @@
 									small
 									files={filteredItems}
 									{selectedFileId}
-									on:click={(e) => {
+									on:click={(e: any) => {
 										selectedFileId = selectedFileId === e.detail ? null : e.detail;
 									}}
-									on:delete={(e) => {
+									on:delete={(e: any) => {
 										selectedFileId = null;
 										deleteFileHandler(e.detail);
 									}}

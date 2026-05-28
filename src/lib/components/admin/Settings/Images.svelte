@@ -18,14 +18,14 @@
 	import SensitiveInput from '$lib/components/common/SensitiveInput.svelte';
 	import Switch from '$lib/components/common/Switch.svelte';
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	const i18n = getI18n();
 
 	let loading = false;
 
-	let config = null;
-	let imageGenerationConfig = null;
+	let config: any = null;
+	let imageGenerationConfig: any = null;
 
 	let models = null;
 
@@ -127,7 +127,7 @@
 		}
 	};
 
-	const validateJSON = (json) => {
+	const validateJSON = (json: any) => {
 		try {
 			const obj = JSON.parse(json);
 
@@ -201,7 +201,8 @@
 			}
 
 			requiredWorkflowNodes = requiredWorkflowNodes.map((node) => {
-				const n = config.comfyui.COMFYUI_WORKFLOW_NODES.find((n) => n.type === node.type) ?? node;
+				const n =
+					config.comfyui.COMFYUI_WORKFLOW_NODES.find((n: any) => n.type === node.type) ?? node;
 
 				return {
 					type: n.type,
@@ -242,7 +243,7 @@
 						<div class="px-1">
 							<Switch
 								bind:state={config.enabled}
-								on:change={(e) => {
+								on:change={(e: any) => {
 									const enabled = e.detail;
 
 									if (enabled) {
@@ -313,6 +314,7 @@
 								/>
 							</div>
 							<button
+								aria-label="Action"
 								class="px-2.5 bg-gray-50 hover:bg-gray-100 text-gray-800 dark:bg-gray-850 dark:hover:bg-gray-800 dark:text-gray-100 rounded-lg transition"
 								type="button"
 								on:click={async () => {
@@ -348,6 +350,7 @@
 								class=" text-gray-300 font-medium"
 								href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/discussions/3734"
 								target="_blank"
+								aria-label="Link"
 							>
 								{$i18n.t('(e.g. `sh webui.sh --api`)')}
 							</a>
@@ -370,6 +373,7 @@
 								class=" text-gray-300 font-medium"
 								href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/discussions/13993"
 								target="_blank"
+								aria-label="Link"
 							>
 								{$i18n
 									.t('(e.g. `sh webui.sh --api --api-auth username_password`)')
@@ -449,6 +453,7 @@
 								/>
 							</div>
 							<button
+								aria-label="Action"
 								class="px-2.5 bg-gray-50 hover:bg-gray-100 text-gray-800 dark:bg-gray-850 dark:hover:bg-gray-800 dark:text-gray-100 rounded-lg transition"
 								type="button"
 								on:click={async () => {
@@ -511,11 +516,11 @@
 									hidden
 									type="file"
 									accept=".json"
-									on:change={(e) => {
+									on:change={(e: any) => {
 										const file = e.target.files[0];
 										const reader = new FileReader();
 
-										reader.onload = (e) => {
+										reader.onload = (e: any) => {
 											config.comfyui.COMFYUI_WORKFLOW = e.target.result;
 											e.target.value = null;
 										};
@@ -680,6 +685,7 @@
 				: ''}"
 			type="submit"
 			disabled={loading}
+			aria-label="Action"
 		>
 			{$i18n.t('Save')}
 

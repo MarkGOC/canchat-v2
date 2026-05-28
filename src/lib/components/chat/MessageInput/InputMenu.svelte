@@ -81,7 +81,7 @@
 		}
 	})();
 
-	let tools = {};
+	let tools: Record<string, any> = {};
 	let wikiGroundingTooltip;
 	let show = false;
 
@@ -101,7 +101,6 @@
 	let showWikiGrounding = false;
 
 	$: showWikiGrounding = $config?.features?.enable_wiki_grounding || false;
-	$settings?.wikipediaGrounding ?? true;
 
 	// Check if any MCP tools are enabled
 	$: hasMcpToolsEnabled = Object.keys(tools).some(
@@ -152,7 +151,7 @@
 
 <Dropdown
 	bind:show
-	on:change={(e) => {
+	on:change={(e: any) => {
 		if (e.detail === false) {
 			onClose();
 		}
@@ -175,7 +174,7 @@
 			alignOffset={-8}
 			side="top"
 			align="start"
-			transition={flyAndScale}
+			{...{ transition: flyAndScale } as any}
 		>
 			{#if Object.keys(tools).length > 0}
 				<div
@@ -206,7 +205,7 @@
 								(webSearchEnabled || wikiGroundingEnabled)
 									? 'opacity-50 cursor-not-allowed'
 									: ''}"
-								on:click={() => {
+								onclick={() => {
 									if (tools[toolId].isMcp && (webSearchEnabled || wikiGroundingEnabled)) {
 										return; // Don't allow toggling MCP tools when web search or wiki grounding is active
 									}
@@ -250,7 +249,7 @@
 											? `${$i18n.t('Toggle')} ${getMCPToolName(tools[toolId].meta?.manifest?.original_name || tools[toolId].name, $i18n)}`
 											: `${$i18n.t('Toggle')} ${tools[toolId].name}`}
 										disabled={tools[toolId].isMcp && (webSearchEnabled || wikiGroundingEnabled)}
-										on:change={async (e) => {
+										on:change={async (e: any) => {
 											if (tools[toolId].isMcp && (webSearchEnabled || wikiGroundingEnabled)) {
 												return; // Don't allow toggling MCP tools
 											}
@@ -287,7 +286,7 @@
 					<button
 						role="menuitem"
 						class="flex w-full justify-between gap-2 items-center px-3 py-2 text-sm font-medium cursor-pointer rounded-xl"
-						on:click={() => {
+						onclick={() => {
 							imageGenerationEnabled = !imageGenerationEnabled;
 						}}
 					>
@@ -318,7 +317,7 @@
 							? 'opacity-50 cursor-not-allowed'
 							: ''}"
 						disabled={wikiGroundingEnabled || hasMcpToolsEnabled}
-						on:click={() => {
+						onclick={() => {
 							if (!wikiGroundingEnabled && !hasMcpToolsEnabled) {
 								webSearchEnabled = !webSearchEnabled;
 								if (webSearchEnabled) {
@@ -361,7 +360,7 @@
 							? 'opacity-50 cursor-not-allowed'
 							: ''}"
 						disabled={webSearchEnabled || hasMcpToolsEnabled}
-						on:click={() => {
+						onclick={() => {
 							if (!webSearchEnabled && !hasMcpToolsEnabled) {
 								// Simple toggle: off -> on -> off
 								if (wikiGroundingEnabled) {
@@ -401,7 +400,7 @@
 			{#if !$mobile}
 				<DropdownMenu.Item
 					class="flex gap-2 items-center px-3 py-2 text-sm  font-medium cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800  rounded-xl"
-					on:click={() => {
+					onclick={() => {
 						screenCaptureHandler();
 					}}
 				>
@@ -412,7 +411,7 @@
 
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm font-medium cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl"
-				on:click={() => {
+				onclick={() => {
 					uploadFilesHandler();
 				}}
 			>
@@ -423,7 +422,7 @@
 			{#if $config?.features?.enable_google_drive_integration}
 				<DropdownMenu.Item
 					class="flex gap-2 items-center px-3 py-2 text-sm font-medium cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl"
-					on:click={() => {
+					onclick={() => {
 						uploadGoogleDriveHandler();
 					}}
 				>

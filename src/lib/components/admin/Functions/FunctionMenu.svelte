@@ -15,7 +15,7 @@
 
 	const i18n = getI18n();
 
-	export let func;
+	export let func: any;
 
 	export let editHandler: Function;
 	export let shareHandler: Function;
@@ -31,7 +31,7 @@
 
 <Dropdown
 	bind:show
-	on:change={(e) => {
+	on:change={(e: any) => {
 		if (e.detail === false) {
 			onClose();
 		}
@@ -47,7 +47,7 @@
 			sideOffset={-2}
 			side="bottom"
 			align="start"
-			transition={flyAndScale}
+			{...{ transition: flyAndScale } as any}
 		>
 			{#if ['filter', 'action'].includes(func.type)}
 				<div
@@ -69,7 +69,7 @@
 
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm  font-medium cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800  rounded-md"
-				on:click={() => {
+				onclick={() => {
 					editHandler();
 				}}
 			>
@@ -93,7 +93,7 @@
 
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm  font-medium cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800  rounded-md"
-				on:click={() => {
+				onclick={() => {
 					shareHandler();
 				}}
 			>
@@ -103,7 +103,7 @@
 
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm  font-medium cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					cloneHandler();
 				}}
 			>
@@ -114,7 +114,7 @@
 
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm  font-medium cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					exportHandler();
 				}}
 			>
@@ -127,7 +127,7 @@
 
 			<DropdownMenu.Item
 				class="flex  gap-2  items-center px-3 py-2 text-sm  font-medium cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					deleteHandler();
 				}}
 			>

@@ -1,5 +1,17 @@
 import { WEBUI_API_BASE_URL } from '$lib/constants';
 
+const getErrorMessage = (err: unknown): string => {
+	if (err instanceof Error && err.message) {
+		return err.message;
+	}
+
+	if (typeof err === 'string' && err.length > 0) {
+		return err;
+	}
+
+	return 'An unexpected error occurred';
+};
+
 export const getDomains = async (token: string): Promise<string[]> => {
 	try {
 		const [usersRes, metricsRes] = await Promise.all([
@@ -41,7 +53,7 @@ export const getDomains = async (token: string): Promise<string[]> => {
 		// Return unique domains
 		return Array.from(new Set(allDomains));
 	} catch (err) {
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };
 
@@ -69,7 +81,7 @@ export const getTotalUsers = async (token: string, domain?: string): Promise<num
 		const data = await res.json();
 		return data || 0;
 	} catch (err) {
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };
 
@@ -96,7 +108,7 @@ export const getDailyUsers = async (token: string, domain?: string): Promise<num
 		const data = await res.json();
 		return data || 0;
 	} catch (err) {
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };
 
@@ -196,7 +208,7 @@ export const getTotalPrompts = async (token: string, domain?: string): Promise<n
 		const data = await res.json();
 		return data.total_prompts || 0; // Ensure we return 0 if null/undefined
 	} catch (err) {
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };
 
@@ -223,7 +235,7 @@ export const getDailyPrompts = async (token: string, domain?: string): Promise<n
 		const data = await res.json();
 		return data.total_daily_prompts || 0;
 	} catch (err) {
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };
 
@@ -261,7 +273,7 @@ export const getTotalTokens = async (
 		const data = await res.json();
 		return data.total_tokens || 0;
 	} catch (err) {
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };
 
@@ -295,7 +307,7 @@ export const getDailyTokens = async (
 		const data = await res.json();
 		return data.total_daily_tokens || 0;
 	} catch (err) {
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };
 
@@ -399,7 +411,7 @@ export const getModels = async (token: string): Promise<string[]> => {
 		const data = await res.json();
 		return data.models;
 	} catch (err) {
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };
 
@@ -464,7 +476,7 @@ export const getModelPrompts = async (
 		const data = await res.json();
 		return data.total_prompts || 0;
 	} catch (err) {
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };
 
@@ -509,7 +521,7 @@ export const getModelDailyPrompts = async (
 		const data = await res.json();
 		return data.total_daily_prompts || 0;
 	} catch (err) {
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };
 
@@ -590,7 +602,7 @@ export const getRangeMetrics = async (
 		return await res.json();
 	} catch (err) {
 		console.error('Error fetching range metrics:', err);
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };
 
@@ -641,7 +653,7 @@ export const getInterPromptLatencyHistogram = async (
 		return data;
 	} catch (err) {
 		console.error('Error fetching inter-prompt latency histogram:', err);
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };
 
@@ -672,7 +684,7 @@ export const exportMetricsData = async (
 		return await res.blob();
 	} catch (err) {
 		console.error('Error exporting metrics data:', err);
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };
 
@@ -695,6 +707,6 @@ export const getExportLogs = async (token: string): Promise<any[]> => {
 		return data.export_logs || [];
 	} catch (err) {
 		console.error('Error fetching export logs:', err);
-		throw new Error(err.message || 'An unexpected error occurred');
+		throw new Error(getErrorMessage(err));
 	}
 };

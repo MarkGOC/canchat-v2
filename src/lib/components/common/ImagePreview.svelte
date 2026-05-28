@@ -9,7 +9,7 @@
 
 	let previewElement = null;
 
-	const downloadImage = (url, filename, prefixName = '') => {
+	const downloadImage = (url: any, filename: any, prefixName = '') => {
 		fetch(url)
 			.then((response) => response.blob())
 			.then((blob) => {
@@ -64,6 +64,7 @@
 		<div class=" absolute left-0 w-full flex justify-between select-none">
 			<div>
 				<button
+					aria-label="Action"
 					class=" p-5"
 					on:click={() => {
 						show = false;
@@ -84,6 +85,7 @@
 
 			<div>
 				<button
+					aria-label="Action"
 					class=" p-5"
 					on:click={() => {
 						downloadImage(src, src.substring(src.lastIndexOf('/') + 1), alt);

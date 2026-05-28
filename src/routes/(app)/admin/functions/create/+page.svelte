@@ -16,6 +16,7 @@
 
 	let mounted = false;
 	let clone = false;
+	/** @type {any} */
 	let func = null;
 
 	const saveHandler = async (data) => {

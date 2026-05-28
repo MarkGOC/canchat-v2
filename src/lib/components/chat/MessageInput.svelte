@@ -6,7 +6,7 @@
 	import { createPicker } from '$lib/utils/google-drive-picker';
 
 	import { onMount, tick, createEventDispatcher, onDestroy } from 'svelte';
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import {
 		type Model,
@@ -66,15 +66,15 @@
 	export let atSelectedModel: Model | undefined = undefined;
 	export let selectedModels: [''];
 
-	let selectedModelIds = [];
+	let selectedModelIds: any[] = [];
 	$: selectedModelIds = atSelectedModel !== undefined ? [atSelectedModel.id] : selectedModels;
 
-	export let history;
+	export let history: any;
 
 	export let prompt = '';
-	export let files = [];
+	export let files: any[] = [];
 
-	export let selectedToolIds = [];
+	export let selectedToolIds: any[] = [];
 
 	export let imageGenerationEnabled = false;
 	export let webSearchEnabled = false;
@@ -96,17 +96,17 @@
 
 	let chatInputElement;
 
-	let filesInputElement;
+	let filesInputElement: HTMLInputElement;
 	let commandsElement;
 
-	let inputFiles;
+	let inputFiles: any;
 	let dragged = false;
 
 	export let placeholder = '';
 	let placeholderText = placeholder ? placeholder : $i18n.t('Send a Message');
 	$: placeholderText = placeholder ? placeholder : $i18n.t('Send a Message');
 
-	let visionCapableModels = [];
+	let visionCapableModels: any[] = [];
 	$: visionCapableModels = [...(atSelectedModel ? [atSelectedModel] : selectedModels)].filter(
 		(model) => $models.find((m) => m.id === model)?.info?.meta?.capabilities?.vision ?? true
 	);
@@ -116,6 +116,7 @@
 
 	const scrollToBottom = () => {
 		const element = document.getElementById('messages-container');
+		if (!element) return;
 		element.scrollTo({
 			top: element.scrollHeight,
 			behavior: 'smooth'
@@ -160,7 +161,7 @@
 		}
 	};
 
-	const uploadFileHandler = async (file, fullContext: boolean = false) => {
+	const uploadFileHandler = async (file: any, fullContext: boolean = false) => {
 		if ($_user?.role !== 'admin' && !($_user?.permissions?.chat?.file_upload ?? true)) {
 			toast.error($i18n.t('You do not have permission to upload files.'));
 			return null;
@@ -232,19 +233,20 @@
 		}
 	};
 
-	const inputFilesHandler = async (inputFiles) => {
-		inputFiles.forEach((file) => {
-			if (
-				($config?.file?.max_size ?? null) !== null &&
-				file.size > ($config?.file?.max_size ?? 0) * 1024 * 1024
-			) {
+	const inputFilesHandler = async (inputFiles: any) => {
+		const maxFileSizeMb = Number($config?.file?.max_size ?? 0);
+		const hasMaxFileSize = ($config?.file?.max_size ?? null) !== null;
+		const maxFileSizeBytes = maxFileSizeMb * 1024 * 1024;
+
+		inputFiles.forEach((file: any) => {
+			if (hasMaxFileSize && file.size > maxFileSizeBytes) {
 				console.log('File exceeds max size limit:', {
 					fileSize: file.size,
-					maxSize: ($config?.file?.max_size ?? 0) * 1024 * 1024
+					maxSize: maxFileSizeBytes
 				});
 				toast.error(
 					$i18n.t(`File size should not exceed {{maxSize}} MB.`, {
-						maxSize: $config?.file?.max_size
+						maxSize: maxFileSizeMb
 					})
 				);
 				return;
@@ -256,7 +258,7 @@
 					return;
 				}
 				let reader = new FileReader();
-				reader.onload = async (event) => {
+				reader.onload = async (event: any) => {
 					let imageUrl = event.target.result;
 
 					if ($settings?.imageCompression ?? false) {
@@ -289,7 +291,7 @@
 		}
 	};
 
-	const onDragOver = (e) => {
+	const onDragOver = (e: any) => {
 		e.preventDefault();
 
 		// Check if a file is being dragged.
@@ -304,7 +306,7 @@
 		dragged = false;
 	};
 
-	const onDrop = async (e) => {
+	const onDrop = async (e: any) => {
 		e.preventDefault();
 		if (e.dataTransfer?.files) {
 			const inputFiles = Array.from(e.dataTransfer?.files);
@@ -364,6 +366,7 @@
 							class=" absolute -top-12 left-0 right-0 flex justify-center z-30 pointer-events-none"
 						>
 							<button
+								aria-label="Action"
 								class=" bg-white border border-gray-100 dark:border-none dark:bg-white/20 p-1.5 rounded-full pointer-events-auto"
 								on:click={() => {
 									autoScroll = true;
@@ -481,7 +484,7 @@
 												interactive: false,
 												animation: 'fade',
 												duration: [200, 150],
-												onCreate: (instance) => {
+												onCreate: (instance: any) => {
 													if (instance.popper) {
 														instance.popper.style.fontSize = '12px';
 														instance.popper.style.padding = '4px 8px';
@@ -535,10 +538,10 @@
 						bind:this={commandsElement}
 						bind:prompt
 						bind:files
-						on:upload={(e) => {
+						on:upload={(e: any) => {
 							dispatch('upload', e.detail);
 						}}
-						on:select={(e) => {
+						on:select={(e: any) => {
 							const data = e.detail;
 
 							if (data?.type === 'model') {
@@ -590,7 +593,7 @@
 								document.getElementById('chat-input')?.focus();
 								ariaMessage.set($i18n.t('Voice recording cancelled'));
 							}}
-							on:confirm={async (e) => {
+							on:confirm={async (e: any) => {
 								const { text, filename } = e.detail;
 								prompt = `${prompt}${text} `;
 
@@ -657,6 +660,7 @@
 													</div>
 													<div class=" absolute -top-1 -right-1">
 														<button
+															aria-label="Action"
 															class=" bg-gray-400 text-white border border-white rounded-full group-hover:visible invisible transition"
 															type="button"
 															on:click={() => {
@@ -740,7 +744,7 @@
 												chatInput?.focus();
 											}}
 										>
-											<!-- Removed nested <button> to avoid focusable descendants -->
+											<!-- Removed nested <button aria-label="Action"> to avoid focusable descendants -->
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												viewBox="0 0 20 20"
@@ -769,12 +773,12 @@
 													!(
 														'ontouchstart' in window ||
 														navigator.maxTouchPoints > 0 ||
-														navigator.msMaxTouchPoints > 0
+														navigator.maxTouchPoints > 0
 													)}
 												placeholder={placeholderText}
 												largeTextAsFile={$settings?.largeTextAsFile ?? false}
 												autocomplete={true}
-												generateAutoCompletion={async (text) => {
+												generateAutoCompletion={async (text: any) => {
 													if (selectedModelIds.length === 0 || !selectedModelIds.at(0)) {
 														toast.error($i18n.t('Please select a model first.'));
 													}
@@ -791,7 +795,7 @@
 													});
 													return res;
 												}}
-												on:keydown={async (e) => {
+												on:keydown={async (e: any) => {
 													e = e.detail.event;
 
 													const isCtrlPressed = e.ctrlKey || e.metaKey; // metaKey is for Cmd key on Mac
@@ -813,7 +817,7 @@
 														e.preventDefault();
 														const regenerateButton = [
 															...document.getElementsByClassName('regenerate-response-button')
-														]?.at(-1);
+														]?.at(-1) as HTMLElement | undefined;
 
 														regenerateButton?.click();
 													}
@@ -823,13 +827,13 @@
 
 														const userMessageElement = [
 															...document.getElementsByClassName('user-message')
-														]?.at(-1);
+														]?.at(-1) as HTMLElement | undefined;
 
 														if (userMessageElement) {
 															userMessageElement.scrollIntoView({ block: 'center' });
 															const editButton = [
 																...document.getElementsByClassName('edit-user-message-button')
-															]?.at(-1);
+															]?.at(-1) as HTMLElement | undefined;
 
 															editButton?.click();
 														}
@@ -842,7 +846,7 @@
 
 															const commandOptionButton = [
 																...document.getElementsByClassName('selected-command-option-button')
-															]?.at(-1);
+															]?.at(-1) as HTMLElement | undefined;
 															commandOptionButton.scrollIntoView({ block: 'center' });
 														}
 
@@ -852,7 +856,7 @@
 
 															const commandOptionButton = [
 																...document.getElementsByClassName('selected-command-option-button')
-															]?.at(-1);
+															]?.at(-1) as HTMLElement | undefined;
 															commandOptionButton.scrollIntoView({ block: 'center' });
 														}
 
@@ -861,7 +865,7 @@
 
 															const commandOptionButton = [
 																...document.getElementsByClassName('selected-command-option-button')
-															]?.at(-1);
+															]?.at(-1) as HTMLElement | undefined;
 
 															commandOptionButton?.click();
 														}
@@ -871,7 +875,7 @@
 
 															const commandOptionButton = [
 																...document.getElementsByClassName('selected-command-option-button')
-															]?.at(-1);
+															]?.at(-1) as HTMLElement | undefined;
 
 															if (commandOptionButton) {
 																commandOptionButton?.click();
@@ -885,7 +889,7 @@
 															!(
 																'ontouchstart' in window ||
 																navigator.maxTouchPoints > 0 ||
-																navigator.msMaxTouchPoints > 0
+																navigator.maxTouchPoints > 0
 															)
 														) {
 															// Prevent Enter key from creating a new line
@@ -909,7 +913,7 @@
 														imageGenerationEnabled = false;
 													}
 												}}
-												on:paste={async (e) => {
+												on:paste={async (e: any) => {
 													e = e.detail.event;
 													const clipboardData = e.clipboardData || window.clipboardData;
 
@@ -959,13 +963,13 @@
 											aria-label={$i18n.t('Type your message here')}
 											title={$i18n.t('Type your message here')}
 											bind:value={prompt}
-											on:keypress={(e) => {
+											on:keypress={(e: any) => {
 												if (
 													!$mobile ||
 													!(
 														'ontouchstart' in window ||
 														navigator.maxTouchPoints > 0 ||
-														navigator.msMaxTouchPoints > 0
+														navigator.maxTouchPoints > 0
 													)
 												) {
 													// Prevent Enter key from creating a new line
@@ -984,7 +988,7 @@
 													}
 												}
 											}}
-											on:keydown={async (e) => {
+											on:keydown={async (e: any) => {
 												const isCtrlPressed = e.ctrlKey || e.metaKey; // metaKey is for Cmd key on Mac
 												const commandsContainerElement =
 													document.getElementById('commands-container');
@@ -1003,7 +1007,7 @@
 													e.preventDefault();
 													const regenerateButton = [
 														...document.getElementsByClassName('regenerate-response-button')
-													]?.at(-1);
+													]?.at(-1) as HTMLElement | undefined;
 
 													regenerateButton?.click();
 												}
@@ -1013,11 +1017,11 @@
 
 													const userMessageElement = [
 														...document.getElementsByClassName('user-message')
-													]?.at(-1);
+													]?.at(-1) as HTMLElement | undefined;
 
 													const editButton = [
 														...document.getElementsByClassName('edit-user-message-button')
-													]?.at(-1);
+													]?.at(-1) as HTMLElement | undefined;
 
 													userMessageElement.scrollIntoView({ block: 'center' });
 													editButton?.click();
@@ -1029,7 +1033,7 @@
 
 													const commandOptionButton = [
 														...document.getElementsByClassName('selected-command-option-button')
-													]?.at(-1);
+													]?.at(-1) as HTMLElement | undefined;
 													commandOptionButton.scrollIntoView({ block: 'center' });
 												}
 
@@ -1039,7 +1043,7 @@
 
 													const commandOptionButton = [
 														...document.getElementsByClassName('selected-command-option-button')
-													]?.at(-1);
+													]?.at(-1) as HTMLElement | undefined;
 													commandOptionButton.scrollIntoView({ block: 'center' });
 												}
 
@@ -1048,7 +1052,7 @@
 
 													const commandOptionButton = [
 														...document.getElementsByClassName('selected-command-option-button')
-													]?.at(-1);
+													]?.at(-1) as HTMLElement | undefined;
 
 													if (e.shiftKey) {
 														prompt = `${prompt}\n`;
@@ -1064,7 +1068,7 @@
 
 													const commandOptionButton = [
 														...document.getElementsByClassName('selected-command-option-button')
-													]?.at(-1);
+													]?.at(-1) as HTMLElement | undefined;
 
 													commandOptionButton?.click();
 												} else if (e.key === 'Tab') {
@@ -1098,15 +1102,15 @@
 												}
 											}}
 											rows="1"
-											on:input={async (e) => {
+											on:input={async (e: any) => {
 												e.target.style.height = '';
 												e.target.style.height = Math.min(e.target.scrollHeight, 320) + 'px';
 											}}
-											on:focus={async (e) => {
+											on:focus={async (e: any) => {
 												e.target.style.height = '';
 												e.target.style.height = Math.min(e.target.scrollHeight, 320) + 'px';
 											}}
-											on:paste={async (e) => {
+											on:paste={async (e: any) => {
 												const clipboardData = e.clipboardData || window.clipboardData;
 
 												if (clipboardData && clipboardData.items) {
@@ -1282,6 +1286,7 @@
 											<div class=" flex items-center">
 												<Tooltip content={$i18n.t('Stop')}>
 													<button
+														aria-label="Action"
 														class="bg-white hover:bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-800 transition rounded-full p-1.5"
 														on:click={() => {
 															stopResponse();

@@ -141,7 +141,7 @@
 											showCitationModal = true;
 											selectedCitation = citation;
 										}}
-										on:pointerup={(e) => {
+										on:pointerup={(e: any) => {
 											e.stopPropagation();
 										}}
 									>

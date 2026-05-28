@@ -16,14 +16,14 @@
 	import SvgPanZoom from '$lib/components/common/SVGPanZoom.svelte';
 
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	export let id = '';
 
 	export let save = false;
 	export let run = true;
 
-	export let token;
+	export let token: any;
 	export let lang = '';
 	export let code = '';
 
@@ -74,7 +74,7 @@
 		}, 1000);
 	};
 
-	const checkPythonCode = (str) => {
+	const checkPythonCode = (str: any) => {
 		// Check if the string contains typical Python syntax characters
 		const pythonSyntax = [
 			'def ',
@@ -109,7 +109,7 @@
 		return false;
 	};
 
-	const executePython = async (code) => {
+	const executePython = async (code: any) => {
 		if (!code.includes('input') && !code.includes('matplotlib')) {
 			executePythonAsWorker(code);
 		} else {
@@ -184,7 +184,7 @@ __builtins__.input = input`);
 		}
 	};
 
-	const executePythonAsWorker = async (code) => {
+	const executePythonAsWorker = async (code: any) => {
 		result = null;
 		stdout = null;
 		stderr = null;
@@ -218,7 +218,7 @@ __builtins__.input = input`);
 			}
 		}, 60000);
 
-		pyodideWorker.onmessage = (event) => {
+		pyodideWorker.onmessage = (event: any) => {
 			const { id, ...data } = event.data;
 			data['stdout'] && (stdout = data['stdout']);
 			data['stderr'] && (stderr = data['stderr']);
@@ -227,7 +227,7 @@ __builtins__.input = input`);
 			executing = false;
 		};
 
-		pyodideWorker.onerror = (event) => {
+		pyodideWorker.onerror = (event: any) => {
 			executing = false;
 		};
 	};
@@ -325,6 +325,7 @@ __builtins__.input = input`);
 						<button
 							class="save-code-button bg-none border-none bg-gray-50 hover:bg-gray-100 dark:bg-gray-850 dark:hover:bg-gray-800 transition rounded-md px-1.5 py-0.5"
 							on:click={saveCode}
+							aria-label="Action"
 						>
 							{saved ? $i18n.t('Saved') : $i18n.t('Save')}
 						</button>
@@ -332,7 +333,8 @@ __builtins__.input = input`);
 
 					<button
 						class="copy-code-button bg-none border-none bg-gray-50 hover:bg-gray-100 dark:bg-gray-850 dark:hover:bg-gray-800 transition rounded-md px-1.5 py-0.5"
-						on:click={copyCode}>{copied ? $i18n.t('Copied') : $i18n.t('Copy')}</button
+						on:click={copyCode}
+						aria-label="Action">{copied ? $i18n.t('Copied') : $i18n.t('Copy')}</button
 					>
 				</div>
 			</div>
@@ -352,7 +354,7 @@ __builtins__.input = input`);
 					on:save={() => {
 						saveCode();
 					}}
-					on:change={(e) => {
+					on:change={(e: any) => {
 						_code = e.detail.value;
 					}}
 				/>

@@ -6,18 +6,69 @@ import type { Socket } from 'socket.io-client';
 
 import emojiShortCodes from '$lib/emoji-shortcodes.json';
 
+type LooseRecord = Record<string, any>;
+
+type ModelDownloadState = {
+	abortController?: AbortController;
+	pullProgress?: number;
+	done?: boolean;
+	[key: string]: any;
+};
+
 // Backend
 export const WEBUI_NAME = writable(APP_NAME);
-export const config: Writable<Config | undefined> = writable(undefined);
-export const user: Writable<SessionUser | undefined> = writable(undefined);
+const defaultConfig: Config = {
+	status: false,
+	name: APP_NAME,
+	version: 'dev',
+	default_locale: 'en-US',
+	default_models: '',
+	default_prompt_suggestions: [],
+	docs_url: '',
+	docs_url_fr: '',
+	survey_url: '',
+	survey_url_fr: '',
+	features: {
+		auth: false,
+		auth_trusted_header: false,
+		enable_api_key: false,
+		enable_signup: false,
+		enable_login_form: true,
+		enable_web_search: false,
+		enable_wiki_grounding: false,
+		enable_google_drive_integration: false,
+		enable_image_generation: false,
+		enable_admin_export: false,
+		enable_admin_chat_access: false,
+		enable_community_sharing: false
+	},
+	audio: {
+		stt: {},
+		tts: {}
+	},
+	oauth: {
+		providers: {}
+	}
+};
+
+const defaultSessionUser: SessionUser = {
+	id: '',
+	email: '',
+	name: '',
+	role: '',
+	profile_image_url: ''
+};
+
+export const config: Writable<Config> = writable(defaultConfig);
+export const user: Writable<SessionUser> = writable(defaultSessionUser);
 
 // Electron App
 export const isApp = writable(false);
-export const appInfo = writable(null);
-export const appData = writable(null);
+export const appInfo: Writable<Record<string, unknown> | null> = writable(null);
+export const appData: Writable<Record<string, unknown> | null> = writable(null);
 
 // Frontend
-export const MODEL_DOWNLOAD_POOL = writable({});
+export const MODEL_DOWNLOAD_POOL: Writable<Record<string, ModelDownloadState>> = writable({});
 
 export const mobile = writable(false);
 
@@ -28,7 +79,7 @@ export const USAGE_POOL: Writable<null | string[]> = writable(null);
 export const theme = writable('system');
 
 export const shortCodesToEmojis = writable(
-	Object.entries(emojiShortCodes).reduce((acc, [key, value]) => {
+	Object.entries(emojiShortCodes).reduce<Record<string, string>>((acc, [key, value]) => {
 		if (typeof value === 'string') {
 			acc[value] = key;
 		} else {
@@ -41,28 +92,28 @@ export const shortCodesToEmojis = writable(
 	}, {})
 );
 
-export const TTSWorker = writable(null);
+export const TTSWorker: Writable<unknown | null> = writable(null);
 
 export const ariaMessage = writable('');
 
 export const chatId = writable('');
 export const chatTitle = writable('');
 
-export const channels = writable([]);
-export const chats = writable([]);
-export const pinnedChats = writable([]);
-export const tags = writable([]);
+export const channels: Writable<LooseRecord[]> = writable([]);
+export const chats: Writable<LooseRecord[]> = writable([]);
+export const pinnedChats: Writable<LooseRecord[]> = writable([]);
+export const tags: Writable<LooseRecord[]> = writable([]);
 
 export const models: Writable<Model[]> = writable([]);
 
 export const prompts: Writable<null | Prompt[]> = writable(null);
-export const knowledge: Writable<null | Document[]> = writable(null);
-export const tools = writable(null);
-export const functions = writable(null);
+export const knowledge: Writable<Document[]> = writable([]);
+export const tools: Writable<LooseRecord[] | null> = writable(null);
+export const functions: Writable<LooseRecord[] | null> = writable(null);
 
 export const banners: Writable<Banner[]> = writable([]);
 
-export const settings: Writable<Settings> = writable({});
+export const settings: Writable<Partial<Settings>> = writable({});
 
 export const showSidebar = writable(false);
 export const showSettings = writable(false);
@@ -87,7 +138,7 @@ export const suggestionCycle = writable(0);
 
 export const initNewChatAction: Writable<(() => Promise<void>) | null> = writable(null);
 
-export type Model = OpenAIModel | OllamaModel;
+export type Model = OpenAIModel | OllamaModel | ArenaModel;
 
 type BaseModel = {
 	id: string;
@@ -128,6 +179,12 @@ export interface OllamaModel extends BaseModel {
 	};
 }
 
+export interface ArenaModel extends BaseModel {
+	owned_by: 'arena';
+	external?: boolean;
+	source?: string;
+}
+
 type OllamaModelDetails = {
 	parent_model: string;
 	format: string;
@@ -142,10 +199,29 @@ type Settings = {
 	conversationMode?: boolean;
 	speechAutoSend?: boolean;
 	responseAutoPlayback?: boolean;
-	audio?: AudioSettings;
+	audio: AudioSettings;
 	showUsername?: boolean;
 	notificationEnabled?: boolean;
 	wikipediaGrounding?: boolean;
+	autoTags?: boolean;
+	responseAutoCopy?: boolean;
+	showChangelog?: boolean;
+	showEmojiInCall?: boolean;
+	voiceInterruption?: boolean;
+	richTextInput?: boolean;
+	largeTextAsFile?: boolean;
+	landingPageMode?: string;
+	chatBubble?: boolean;
+	widescreenMode?: boolean;
+	splitLargeChunks?: boolean;
+	scrollOnBranchChange?: boolean;
+	userLocation?: boolean;
+	hapticFeedback?: boolean;
+	imageCompression?: boolean;
+	imageCompressionSize?: {
+		width?: string;
+		height?: string;
+	};
 	title?: TitleSettings;
 	splitLargeDeltas?: boolean;
 
@@ -160,10 +236,13 @@ type Settings = {
 	num_batch?: string;
 	num_keep?: string;
 	options?: ModelOptions;
+	params?: Record<string, unknown>;
+	[key: string]: unknown;
 };
 
 type ModelOptions = {
-	stop?: boolean;
+	stop?: string[];
+	[key: string]: unknown;
 };
 
 type AudioSettings = {
@@ -172,6 +251,23 @@ type AudioSettings = {
 	speaker?: string;
 	model?: string;
 	nonLocalVoices?: boolean;
+	stt: {
+		engine?: string;
+		model?: string;
+		language?: string;
+		[key: string]: unknown;
+	};
+	tts: {
+		engine?: string;
+		model?: string;
+		voice?: string;
+		defaultVoice?: string;
+		nonLocalVoices?: boolean;
+		playbackRate?: number;
+		split_on?: string;
+		[key: string]: unknown;
+	};
+	[key: string]: unknown;
 };
 
 type TitleSettings = {
@@ -190,10 +286,23 @@ type Prompt = {
 };
 
 type Document = {
+	id?: string;
 	collection_name: string;
 	filename: string;
 	name: string;
 	title: string;
+	description?: string;
+	files?: any[];
+	legacy?: boolean;
+	type?: string;
+	pyodideMplTarget?: unknown;
+	meta?: {
+		document?: boolean;
+		legacy?: boolean;
+		tags?: Array<{ name: string; [key: string]: any }>;
+		[key: string]: any;
+	};
+	[key: string]: any;
 };
 
 type Config = {
@@ -210,21 +319,31 @@ type Config = {
 	features: {
 		auth: boolean;
 		auth_trusted_header: boolean;
+		enable_ldap?: boolean;
 		enable_api_key: boolean;
 		enable_signup: boolean;
 		enable_login_form: boolean;
 		enable_web_search?: boolean;
+		enable_wiki_grounding?: boolean;
 		enable_google_drive_integration: boolean;
 		enable_image_generation: boolean;
 		enable_admin_export: boolean;
 		enable_admin_chat_access: boolean;
 		enable_community_sharing: boolean;
+		[key: string]: unknown;
 	};
+	audio: AudioSettings;
+	file?: {
+		max_count?: number;
+		[key: string]: unknown;
+	};
+	onboarding?: boolean;
 	oauth: {
 		providers: {
 			[key: string]: string;
 		};
 	};
+	[key: string]: unknown;
 };
 
 type PromptSuggestion = {
@@ -233,10 +352,26 @@ type PromptSuggestion = {
 	lang: string;
 };
 
+type WorkspacePermissions = {
+	models?: boolean;
+	knowledge?: boolean;
+	prompts?: boolean;
+	tools?: boolean;
+	[key: string]: unknown;
+};
+
+type SessionUserPermissions = {
+	workspace?: WorkspacePermissions;
+	[key: string]: unknown;
+};
+
 type SessionUser = {
 	id: string;
 	email: string;
 	name: string;
 	role: string;
 	profile_image_url: string;
+	permissions?: SessionUserPermissions;
+	groups?: string[];
+	[key: string]: unknown;
 };

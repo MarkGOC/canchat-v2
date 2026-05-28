@@ -77,8 +77,8 @@
 
 	let loaded = false;
 	const eventTarget = new EventTarget();
-	let controlPane;
-	let controlPaneComponent;
+	let controlPane: any;
+	let controlPaneComponent: any;
 
 	let autoScroll = true;
 	let processing = '';
@@ -92,18 +92,18 @@
 	let eventConfirmationInput = false;
 	let eventConfirmationInputPlaceholder = '';
 	let eventConfirmationInputValue = '';
-	let eventCallback = null;
+	let eventCallback: ((value: any) => void) | null = null;
 
 	let chatIdUnsubscriber: Unsubscriber | undefined;
 
-	let selectedModels = [''];
+	let selectedModels: string[] = [''];
 	let atSelectedModel: Model | undefined;
-	let selectedModelIds = [];
+	let selectedModelIds: string[] = [];
 	$: selectedModelIds = atSelectedModel !== undefined ? [atSelectedModel.id] : selectedModels;
 
-	let chat = null;
-	let tags = [];
-	let taskId = null;
+	let chat: any = null;
+	let tags: any[] = [];
+	let taskId: string | null = null;
 
 	// Default transient state values
 	const TRANSIENT_DEFAULTS = {
@@ -127,12 +127,12 @@
 	let webSearchEnabled = TRANSIENT_DEFAULTS.webSearchEnabled;
 	let wikiGroundingEnabled = TRANSIENT_DEFAULTS.wikiGroundingEnabled;
 	let wikiGroundingMode = TRANSIENT_DEFAULTS.wikiGroundingMode;
-	let history = structuredClone(TRANSIENT_DEFAULTS.history);
+	let history: any = structuredClone(TRANSIENT_DEFAULTS.history);
 	let chatFiles = TRANSIENT_DEFAULTS.chatFiles;
-	let params = TRANSIENT_DEFAULTS.params;
+	let params: any = TRANSIENT_DEFAULTS.params;
 
 	// Chat Input Handler for draft saving
-	const handleInputChange = (input) => {
+	const handleInputChange = (input: any) => {
 		if ($chatId) {
 			if (input.prompt) {
 				localStorage.setItem(`chat-input-${$chatId}`, JSON.stringify(input));
@@ -225,13 +225,13 @@
 		}
 		const model = $models.find((m) => m.id === selectedModels[0]);
 		if (model) {
-			selectedToolIds = (model?.info?.meta?.toolIds ?? []).filter((id) =>
-				$tools.find((t) => t.id === id)
+			selectedToolIds = ((model as any)?.info?.meta?.toolIds ?? []).filter((id: any) =>
+				($tools ?? []).find((t) => t.id === id)
 			);
 		}
 	};
 
-	const showMessage = async (message) => {
+	const showMessage = async (message: any) => {
 		const _chatId = JSON.parse(JSON.stringify($chatId));
 		let _messageId = JSON.parse(JSON.stringify(message.id));
 
@@ -257,7 +257,7 @@
 		saveChatHandler(_chatId);
 	};
 
-	const chatEventHandler = async (event, cb) => {
+	const chatEventHandler = async (event: any, cb: any) => {
 		if (event.chat_id === $chatId) {
 			await tick();
 			let message = history.messages[event.message_id];
@@ -280,7 +280,7 @@
 						}
 
 						const existingCodeExecutionIndex = message.code_executions.findIndex(
-							(execution) => execution.id === data.id
+							(execution: any) => execution.id === data.id
 						);
 
 						if (existingCodeExecutionIndex !== -1) {
@@ -483,7 +483,7 @@
 
 	// File upload functions
 
-	const uploadGoogleDriveFile = async (fileData) => {
+	const uploadGoogleDriveFile = async (fileData: any) => {
 		// Validate input
 		if (!fileData?.id || !fileData?.name || !fileData?.url || !fileData?.headers?.Authorization) {
 			throw new Error('Invalid file data provided');
@@ -568,7 +568,7 @@
 		}
 	};
 
-	const uploadWeb = async (url) => {
+	const uploadWeb = async (url: any) => {
 		const fileItem = {
 			type: 'doc',
 			name: url,
@@ -599,7 +599,7 @@
 		}
 	};
 
-	const uploadYoutubeTranscription = async (url) => {
+	const uploadYoutubeTranscription = async (url: any) => {
 		const fileItem = {
 			type: 'doc',
 			name: url,
@@ -823,7 +823,7 @@
 		}
 	};
 
-	const createMessagesList = (responseMessageId) => {
+	const createMessagesList = (responseMessageId: any) => {
 		if (responseMessageId === null) {
 			return [];
 		}
@@ -836,7 +836,12 @@
 		}
 	};
 
-	const chatCompletedHandler = async (chatIdParam, modelId, responseMessageId, messages) => {
+	const chatCompletedHandler = async (
+		chatIdParam: any,
+		modelId: any,
+		responseMessageId: any,
+		messages: any
+	) => {
 		const currentSocket = get(socket);
 		const currentChatId = get(chatId);
 		const isTemporaryChatEnabled = get(temporaryChatEnabled);
@@ -844,7 +849,7 @@
 
 		const res = await chatCompleted(localStorage.token, {
 			model: modelId,
-			messages: messages.map((m) => ({
+			messages: messages.map((m: any) => ({
 				id: m.id,
 				role: m.role,
 				content: m.content,
@@ -896,7 +901,13 @@
 		}
 	};
 
-	const chatActionHandler = async (chatIdParam, actionId, modelId, responseMessageId, event = null) => {
+	const chatActionHandler = async (
+		chatIdParam: any,
+		actionId: any,
+		modelId: any,
+		responseMessageId: any,
+		event = null
+	) => {
 		const currentSocket = get(socket);
 		const currentChatId = get(chatId);
 		const isTemporaryChatEnabled = get(temporaryChatEnabled);
@@ -906,7 +917,7 @@
 
 		const res = await chatAction(localStorage.token, actionId, {
 			model: modelId,
-			messages: messages.map((m) => ({
+			messages: messages.map((m: any) => ({
 				id: m.id,
 				role: m.role,
 				content: m.content,
@@ -963,13 +974,13 @@
 		}, 1000);
 	};
 
-	const createMessagePair = async (userPrompt) => {
+	const createMessagePair = async (userPrompt: any) => {
 		prompt = '';
 		if (selectedModels.length === 0) {
 			toast.error($i18n.t('Model not selected'));
 		} else {
 			const modelId = selectedModels[0];
-			const model = $models.filter((m) => m.id === modelId).at(0);
+			const model = $models.filter((m) => m.id === modelId).at(0) ?? { id: modelId, name: modelId };
 
 			const messages = createMessagesList(history.currentId);
 			const parentMessage = messages.length !== 0 ? messages.at(-1) : null;
@@ -1024,7 +1035,7 @@
 	};
 
 	const addMessages = async ({ modelId, parentId, messages }) => {
-		const model = $models.filter((m) => m.id === modelId).at(0);
+		const model = $models.filter((m) => m.id === modelId).at(0) ?? { id: modelId, name: modelId };
 
 		let parentMessage = history.messages[parentId];
 		let currentParentId = parentMessage ? parentMessage.id : null;
@@ -1086,7 +1097,7 @@
 		}
 	};
 
-	const chatCompletionEventHandler = async (data, message, chatId) => {
+	const chatCompletionEventHandler = async (data: any, message: any, chatId: any) => {
 		const { id, done, choices, content, sources, selected_model_id, error, usage } = data;
 
 		if (error) {
@@ -1228,7 +1239,7 @@
 	// Chat functions
 	//////////////////////////
 
-	const submitPrompt = async (userPrompt, { _raw = false } = {}) => {
+	const submitPrompt = async (userPrompt: any, { _raw = false } = {}) => {
 		const messages = createMessagesList(history.currentId);
 		const _selectedModels = selectedModels.map((modelId) =>
 			$models.map((m) => m.id).includes(modelId) ? modelId : ''
@@ -1287,7 +1298,9 @@
 		}
 
 		const _files = JSON.parse(JSON.stringify(files));
-		chatFiles.push(..._files.filter((item) => ['doc', 'file', 'collection'].includes(item.type)));
+		chatFiles.push(
+			..._files.filter((item: any) => ['doc', 'file', 'collection'].includes(item.type))
+		);
 		chatFiles = chatFiles.filter(
 			// Remove duplicates
 			(item, index, array) =>
@@ -1403,8 +1416,8 @@
 				if (model) {
 					const messages = createMessagesList(parentId);
 					// If there are image files, check if model is vision capable
-					const hasImages = messages.some((message) =>
-						message.files?.some((file) => file.type === 'image')
+					const hasImages = messages.some((message: any) =>
+						message.files?.some((file: any) => file.type === 'image')
 					);
 
 					if (hasImages && !(model.info?.meta?.capabilities?.vision ?? true)) {
@@ -1563,21 +1576,23 @@
 		chats.set(await getChatList(localStorage.token, $currentChatPage));
 	};
 
-	const sendPromptSocket = async (model, responseMessageId, _chatId) => {
+	const sendPromptSocket = async (model: any, responseMessageId: any, _chatId: any) => {
 		const responseMessage = history.messages[responseMessageId];
 		const userMessage = history.messages[responseMessage.parentId];
 
 		let files = JSON.parse(JSON.stringify(chatFiles));
 		files.push(
-			...(userMessage?.files ?? []).filter((item) =>
+			...(userMessage?.files ?? []).filter((item: any) =>
 				['doc', 'file', 'collection'].includes(item.type)
 			),
-			...(responseMessage?.files ?? []).filter((item) => ['web_search_results'].includes(item.type))
+			...(responseMessage?.files ?? []).filter((item: any) =>
+				['web_search_results'].includes(item.type)
+			)
 		);
 		// Remove duplicates
 		files = files.filter(
-			(item, index, array) =>
-				array.findIndex((i) => JSON.stringify(i) === JSON.stringify(item)) === index
+			(item: any, index: any, array: any) =>
+				array.findIndex((i: any) => JSON.stringify(i) === JSON.stringify(item)) === index
 		);
 
 		scrollToBottom();
@@ -1620,7 +1635,7 @@
 						}`
 					}
 				: undefined,
-			...createMessagesList(responseMessageId).map((message) => ({
+			...createMessagesList(responseMessageId).map((message: any) => ({
 				...message,
 				content: removeDetailsWithReasoning(message.content)
 			}))
@@ -1628,7 +1643,7 @@
 			.filter((message) => message?.content?.trim())
 			.map((message, idx, arr) => ({
 				role: message.role,
-				...((message.files?.filter((file) => file.type === 'image').length > 0 ?? false) &&
+				...((message.files?.filter((file: any) => file.type === 'image').length > 0 ?? false) &&
 				message.role === 'user'
 					? {
 							content: [
@@ -1637,8 +1652,8 @@
 									text: message?.merged?.content ?? message.content
 								},
 								...message.files
-									.filter((file) => file.type === 'image')
-									.map((file) => ({
+									.filter((file: any) => file.type === 'image')
+									.map((file: any) => ({
 										type: 'image_url',
 										image_url: {
 											url: file.url
@@ -1666,8 +1681,10 @@
 					keep_alive: $settings.keepAlive ?? undefined,
 					stop:
 						(params?.stop ?? $settings?.params?.stop ?? undefined)
-							? (params?.stop.split(',').map((token) => token.trim()) ?? $settings.params.stop).map(
-									(str) => decodeURIComponent(JSON.parse('"' + str.replace(/\"/g, '\\"') + '"'))
+							? (
+									params?.stop.split(',').map((token: any) => token.trim()) ?? $settings.params.stop
+								).map((str: any) =>
+									decodeURIComponent(JSON.parse('"' + str.replace(/\"/g, '\\"') + '"'))
 								)
 							: undefined
 				},
@@ -1729,7 +1746,7 @@
 		scrollToBottom();
 	};
 
-	const handleOpenAIError = async (error, responseMessage) => {
+	const handleOpenAIError = async (error: any, responseMessage: any) => {
 		let errorMessage = '';
 		let innerError;
 
@@ -1761,7 +1778,7 @@
 
 		if (responseMessage.statusHistory) {
 			responseMessage.statusHistory = responseMessage.statusHistory.filter(
-				(status) => status.action !== 'knowledge_search'
+				(status: any) => status.action !== 'knowledge_search'
 			);
 		}
 
@@ -1789,7 +1806,7 @@
 		}
 	};
 
-	const submitMessage = async (parentId, prompt) => {
+	const submitMessage = async (parentId: any, prompt: any) => {
 		let userPrompt = prompt;
 		let userMessageId = uuidv4();
 
@@ -1816,7 +1833,7 @@
 		await sendPrompt(userPrompt, userMessageId);
 	};
 
-	const regenerateResponse = async (message) => {
+	const regenerateResponse = async (message: any) => {
 		if (history.currentId) {
 			let userMessage = history.messages[message.parentId];
 			let userPrompt = userMessage.content;
@@ -1853,7 +1870,7 @@
 		}
 	};
 
-	const mergeResponses = async (messageId, responses, _chatId) => {
+	const mergeResponses = async (messageId: any, responses: any, _chatId: any) => {
 		const message = history.messages[messageId];
 		const mergedResponse = {
 			status: true,
@@ -1924,7 +1941,7 @@
 		await tick();
 	};
 
-	const saveChatHandler = async (_chatId) => {
+	const saveChatHandler = async (_chatId: any) => {
 		if ($chatId == _chatId) {
 			if (!$temporaryChatEnabled) {
 				chat = await updateChatById(localStorage.token, _chatId, {
@@ -1959,7 +1976,7 @@
 	input={eventConfirmationInput}
 	inputPlaceholder={eventConfirmationInputPlaceholder}
 	inputValue={eventConfirmationInputValue}
-	on:confirm={(e) => {
+	on:confirm={(e: any) => {
 		if (e.detail) {
 			eventCallback(e.detail);
 		} else {
@@ -2009,7 +2026,7 @@
 							{#each $banners.filter((b) => (b.lang ? b.lang === $i18n.language : true) && (b.dismissible ? !JSON.parse(localStorage.getItem('dismissedBannerIds') ?? '[]').includes(b.id) : true)) as banner}
 								<Banner
 									{banner}
-									on:dismiss={(e) => {
+									on:dismiss={(e: any) => {
 										const bannerId = e.detail;
 
 										localStorage.setItem(
@@ -2034,7 +2051,7 @@
 							class=" pb-2.5 flex flex-col justify-between w-full flex-auto overflow-auto h-0 max-w-full z-10 scrollbar-hidden"
 							id="messages-container"
 							bind:this={messagesContainerElement}
-							on:scroll={(e) => {
+							on:scroll={(e: any) => {
 								autoScroll =
 									messagesContainerElement.scrollHeight - messagesContainerElement.scrollTop <=
 									messagesContainerElement.clientHeight + 5;
@@ -2046,7 +2063,7 @@
 									bind:history
 									bind:autoScroll
 									bind:prompt
-									{selectedModels}
+									selectedModels={selectedModels as any}
 									{selectedToolIds}
 									{sendPrompt}
 									{showMessage}
@@ -2064,7 +2081,7 @@
 						<div class=" pb-[1rem]">
 							<MessageInput
 								{history}
-								{selectedModels}
+								selectedModels={selectedModels as any}
 								bind:files
 								bind:prompt
 								bind:autoScroll
@@ -2077,7 +2094,7 @@
 								{stopResponse}
 								{createMessagePair}
 								onChange={handleInputChange}
-								on:upload={async (e) => {
+								on:upload={async (e: any) => {
 									const { type, data } = e.detail;
 
 									if (type === 'web') {
@@ -2088,7 +2105,7 @@
 										await uploadGoogleDriveFile(data);
 									}
 								}}
-								on:submit={async (e) => {
+								on:submit={async (e: any) => {
 									if (e.detail) {
 										await tick();
 										submitPrompt(
@@ -2110,7 +2127,7 @@
 						<div class="overflow-auto w-full h-full flex items-center">
 							<Placeholder
 								{history}
-								{selectedModels}
+								selectedModels={selectedModels as any}
 								bind:files
 								bind:prompt
 								bind:autoScroll
@@ -2123,7 +2140,7 @@
 								onChange={handleInputChange}
 								{stopResponse}
 								{createMessagePair}
-								on:upload={async (e) => {
+								on:upload={async (e: any) => {
 									const { type, data } = e.detail;
 
 									if (type === 'web') {
@@ -2132,7 +2149,7 @@
 										await uploadYoutubeTranscription(data);
 									}
 								}}
-								on:submit={async (e) => {
+								on:submit={async (e: any) => {
 									if (e.detail) {
 										await tick();
 										submitPrompt(
@@ -2156,14 +2173,14 @@
 				bind:files
 				bind:pane={controlPane}
 				chatId={$chatId}
-				modelId={selectedModelIds?.at(0) ?? null}
+				modelId={selectedModelIds?.at(0)}
 				models={selectedModelIds.reduce((a, e, i, arr) => {
 					const model = $models.find((m) => m.id === e);
 					if (model) {
 						return [...a, model];
 					}
 					return a;
-				}, [])}
+				}, [] as any[])}
 				{submitPrompt}
 				{stopResponse}
 				{showMessage}

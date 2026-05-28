@@ -38,8 +38,8 @@
 	let importV1Files = '';
 	let query = '';
 
-	let prompts = [];
-	let groups = [];
+	let prompts: any[] = [];
+	let groups: any[] = [];
 	let totalCount = 0;
 	let loading = false;
 
@@ -89,7 +89,7 @@
 		return result;
 	};
 
-	const sanitizeCommandString = (inputString) => {
+	const sanitizeCommandString = (inputString: any) => {
 		// Replace any non-alphanumeric characters with hyphens and ensure no consecutive hyphens
 		return inputString
 			.replace(/[^a-zA-Z0-9-]/g, '-') // Replace special chars with hyphens
@@ -97,12 +97,12 @@
 			.replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
 	};
 
-	const cloneHandler = async (prompt) => {
+	const cloneHandler = async (prompt: any) => {
 		sessionStorage.prompt = JSON.stringify(prompt);
 		goto('/workspace/prompts/create');
 	};
 
-	const deleteHandler = async (prompt) => {
+	const deleteHandler = async (prompt: any) => {
 		const command = prompt.command;
 		await deletePromptByCommand(localStorage.token, command);
 		await loadPrompts(); // Reload current page
@@ -144,7 +144,7 @@
 		await loadPrompts();
 	};
 
-	const getPromptGroupName = (prompt) => {
+	const getPromptGroupName = (prompt: any) => {
 		if (prompt.access_control === null) return null;
 
 		// Check for both read and write group access with safe property access
@@ -161,7 +161,7 @@
 		return null;
 	};
 
-	const isGroupPrompt = (prompt) => {
+	const isGroupPrompt = (prompt: any) => {
 		return (
 			prompt.access_control !== null &&
 			(prompt.access_control?.read?.group_ids?.length > 0 ||
@@ -169,7 +169,7 @@
 		);
 	};
 
-	$: getPromptDisplayText = (prompt) => {
+	$: getPromptDisplayText = (prompt: any) => {
 		if (prompt.access_control === null) {
 			return $i18n.t('Public');
 		}
@@ -262,6 +262,7 @@
 					(prompt?.user?.id === $user?.id && prompt.access_control !== null)
 						? `/workspace/prompts/edit?command=${encodeURIComponent(prompt.command.replace(/^\//, ''))}`
 						: `/workspace/prompts/view?command=${encodeURIComponent(prompt.command.replace(/^\//, ''))}`}
+					aria-label="Link"
 				>
 					<div class="flex flex-col flex-1">
 						<div class="flex items-center gap-2">
@@ -307,6 +308,7 @@
 							class="self-center w-fit text-sm px-2 py-2 dark:text-gray-300 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-xl"
 							type="button"
 							href={`/workspace/prompts/edit?command=${encodeURIComponent(prompt.command.replace(/^\//, ''))}`}
+							aria-label="Link"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -340,6 +342,7 @@
 						<button
 							class="self-center w-fit text-sm p-1.5 dark:text-gray-300 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-xl"
 							type="button"
+							aria-label="Action"
 						>
 							<EllipsisHorizontal className="size-5" />
 						</button>
@@ -368,7 +371,7 @@
 					hidden
 					on:change={() => {
 						const reader = new FileReader();
-						reader.onload = async (event) => {
+						reader.onload = async (event: any) => {
 							const savedPrompts = JSON.parse(event.target.result);
 							for (const prompt of savedPrompts) {
 								// Check if the prompt should be private (has access_control)

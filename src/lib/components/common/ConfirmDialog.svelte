@@ -3,7 +3,7 @@
 
 	import { onMount, createEventDispatcher } from 'svelte';
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import { fade } from 'svelte/transition';
 	import { flyAndScale } from '$lib/utils/transitions';
@@ -108,7 +108,7 @@
 			id="confirm-dialog-container-wrapper"
 			class=" m-auto rounded-2xl max-w-full w-[32rem] mx-2 bg-gray-50 dark:bg-gray-950 max-h-[100dvh] shadow-3xl"
 			in:flyAndScale
-			on:mousedown={(e) => {
+			on:mousedown={(e: any) => {
 				e.stopPropagation();
 			}}
 		>

@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 	import RecursiveFolder from './RecursiveFolder.svelte';
-	export let folders = {};
+	export let folders: Record<string, any> = {};
 	export let selectedChatIds: string[] = [];
 	export let showBulkActions = false;
 
-	let folderList = [];
+	let folderList: any[] = [];
 	// Get the list of folders that have no parent, sorted by name alphabetically
 	$: folderList = Object.keys(folders)
 		.filter((key) => folders[key].parent_id === null)
@@ -26,22 +26,22 @@
 		{folderId}
 		{selectedChatIds}
 		{showBulkActions}
-		on:import={(e) => {
+		on:import={(e: any) => {
 			dispatch('import', e.detail);
 		}}
-		on:update={(e) => {
+		on:update={(e: any) => {
 			dispatch('update', e.detail);
 		}}
-		on:change={(e) => {
+		on:change={(e: any) => {
 			dispatch('change', e.detail);
 		}}
-		on:select={(e) => {
+		on:select={(e: any) => {
 			dispatch('select', e.detail);
 		}}
-		on:unselect={(e) => {
+		on:unselect={(e: any) => {
 			dispatch('unselect', e.detail);
 		}}
-		on:tag={(e) => {
+		on:tag={(e: any) => {
 			dispatch('tag', e.detail);
 		}}
 	/>

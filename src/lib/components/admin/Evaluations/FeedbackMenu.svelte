@@ -8,7 +8,7 @@
 	import fileSaver from 'file-saver';
 	const { saveAs } = fileSaver;
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 	const i18n = getI18n();
 
 	import Dropdown from '$lib/components/common/Dropdown.svelte';
@@ -18,7 +18,7 @@
 	let show = false;
 </script>
 
-<Dropdown bind:show on:change={(e) => {}}>
+<Dropdown bind:show on:change={(e: any) => {}}>
 	<Tooltip content={$i18n.t('More')}>
 		<slot />
 	</Tooltip>
@@ -29,11 +29,11 @@
 			sideOffset={-2}
 			side="bottom"
 			align="start"
-			transition={flyAndScale}
+			{...{ transition: flyAndScale } as any}
 		>
 			<DropdownMenu.Item
 				class="flex  gap-2  items-center px-3 py-1.5 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					dispatch('delete');
 					show = false;
 				}}

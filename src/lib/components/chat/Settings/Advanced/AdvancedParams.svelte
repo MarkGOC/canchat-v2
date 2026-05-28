@@ -6,7 +6,7 @@
 	import { ariaMessage } from '$lib/stores';
 	import { createEventDispatcher } from 'svelte';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	const i18n = getI18n();
 

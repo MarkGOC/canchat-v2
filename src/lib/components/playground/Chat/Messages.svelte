@@ -5,7 +5,7 @@
 
 	const i18n = getI18n();
 
-	export let messages = [];
+	export let messages: any[] = [];
 	let textAreaElement: HTMLTextAreaElement;
 	onMount(() => {
 		messages.forEach((message, idx) => {
@@ -37,11 +37,11 @@
 						role: message.role === 'user' ? $i18n.t('a user') : $i18n.t('an assistant')
 					})}
 					rows="1"
-					on:input={(e) => {
+					on:input={(e: any) => {
 						textAreaElement.style.height = '';
 						textAreaElement.style.height = textAreaElement.scrollHeight + 'px';
 					}}
-					on:focus={(e) => {
+					on:focus={(e: any) => {
 						textAreaElement.style.height = '';
 						textAreaElement.style.height = textAreaElement.scrollHeight + 'px';
 
@@ -53,6 +53,7 @@
 
 			<div class=" pt-1">
 				<button
+					aria-label="Action"
 					class=" group-hover:text-gray-500 dark:text-gray-900 dark:hover:text-gray-300 transition"
 					on:click={() => {
 						messages = messages.filter((message, messageIdx) => messageIdx !== idx);

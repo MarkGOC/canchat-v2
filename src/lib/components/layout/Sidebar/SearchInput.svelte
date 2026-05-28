@@ -6,7 +6,7 @@
 	import { createEventDispatcher, onMount, onDestroy } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 	const i18n = getI18n();
 
 	export let placeholder = '';
@@ -101,7 +101,7 @@
 		loading = false;
 	};
 
-	const documentClickHandler = (e) => {
+	const documentClickHandler = (e: any) => {
 		const searchContainer = document.getElementById('search-container');
 		const chatSearch = document.getElementById('chat-search');
 
@@ -114,7 +114,7 @@
 	};
 
 	// Handle storage events for locale changes
-	const handleStorageChange = (event) => {
+	const handleStorageChange = (event: any) => {
 		if (event?.detail?.locale || (event?.key === 'locale' && event?.newValue)) {
 			// Force options and tagPrefixes to update by triggering reactivity
 			options = [
@@ -168,7 +168,7 @@
 				focused = true;
 				initTags();
 			}}
-			on:keydown={(e) => {
+			on:keydown={(e: any) => {
 				if (e.key === 'Enter') {
 					if (filteredTags.length > 0) {
 						const tagElement = document.getElementById(`search-tag-${selectedIdx}`);

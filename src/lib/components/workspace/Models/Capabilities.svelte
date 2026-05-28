@@ -31,7 +31,7 @@
 			<div class=" flex items-center gap-2 mr-3">
 				<Checkbox
 					state={capabilities[capability] ? 'checked' : 'unchecked'}
-					on:change={(e) => {
+					on:change={(e: any) => {
 						capabilities[capability] = e.detail === 'checked';
 					}}
 				/>

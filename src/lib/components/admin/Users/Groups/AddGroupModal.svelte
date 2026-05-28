@@ -10,7 +10,7 @@
 
 	let name = '';
 	let description = '';
-	let userIds = [];
+	let userIds: any[] = [];
 
 	let loading = false;
 
@@ -33,13 +33,14 @@
 	};
 </script>
 
-<Modal size="sm" bind:show returnfocusSelector="#add-group">
+<Modal size="sm" bind:show returnFocusSelector="#add-group">
 	<div>
 		<div class=" flex justify-between dark:text-gray-100 px-5 pt-4 mb-1.5">
 			<div class=" text-lg font-medium self-center font-primary">
 				{$i18n.t('Add User Group')}
 			</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;
@@ -62,7 +63,7 @@
 			<div class=" flex flex-col w-full sm:flex-row sm:justify-center sm:space-x-6">
 				<form
 					class="flex flex-col w-full"
-					on:submit={(e) => {
+					on:submit={(e: any) => {
 						e.preventDefault();
 						submitHandler();
 					}}
@@ -106,6 +107,7 @@
 								: ''}"
 							type="submit"
 							disabled={loading}
+							aria-label="Action"
 						>
 							{$i18n.t('Create')}
 

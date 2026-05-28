@@ -17,6 +17,7 @@
 
 	const i18n = getI18n();
 
+	/** @type {any} */
 	let func = null;
 
 	const saveHandler = async (data) => {

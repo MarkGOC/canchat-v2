@@ -7,7 +7,7 @@
 	import { tick, createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import {
 		config,
@@ -37,21 +37,21 @@
 	export let atSelectedModel: Model | undefined;
 	export let selectedModels: [''];
 
-	export let history;
+	export let history: any;
 
 	export let prompt = '';
-	export let files = [];
+	export let files: any[] = [];
 
-	export let selectedToolIds = [];
+	export let selectedToolIds: any[] = [];
 	export let imageGenerationEnabled = false;
 	export let webSearchEnabled = false;
 	export let wikiGroundingEnabled = false;
 	export let wikiGroundingMode = 'off'; // 'off', 'on'
 
-	let models = [];
+	let models: any[] = [];
 	let modelDescription = '';
 
-	const selectSuggestionPrompt = async (p) => {
+	const selectSuggestionPrompt = async (p: any) => {
 		let text = p;
 
 		if (p.includes('{{CLIPBOARD}}')) {
@@ -93,7 +93,7 @@
 
 	$: models = selectedModels.map((id) => $_models.find((m) => m.id === id));
 
-	const getModelDesc = (model) =>
+	const getModelDesc = (model: any) =>
 		$i18n.language === 'fr-CA'
 			? sanitizeResponseContent(model?.info?.meta?.description_fr ?? '')
 			: sanitizeResponseContent(model?.info?.meta?.description ?? '');
@@ -132,7 +132,7 @@
 						{#each models as model, modelIdx}
 							<Tooltip
 								content={(models[modelIdx]?.info?.meta?.tags ?? [])
-									.map((tag) => tag.name.toUpperCase())
+									.map((tag: any) => tag.name.toUpperCase())
 									.join(', ')}
 								placement="top"
 							>
@@ -184,6 +184,7 @@
 									<a
 										href="https://openwebui.com/m/{models[selectedModelIdx]?.info?.meta?.user
 											.username}"
+										aria-label="Link"
 										>{models[selectedModelIdx]?.info?.meta?.user.name
 											? models[selectedModelIdx]?.info?.meta?.user.name
 											: `@${models[selectedModelIdx]?.info?.meta?.user.username}`}</a
@@ -219,10 +220,10 @@
 					{stopResponse}
 					{createMessagePair}
 					placeholder={$i18n.t('How can I help you today?')}
-					on:upload={(e) => {
+					on:upload={(e: any) => {
 						dispatch('upload', e.detail);
 					}}
-					on:submit={(e) => {
+					on:submit={(e: any) => {
 						dispatch('submit', e.detail);
 					}}
 				/>
@@ -235,7 +236,7 @@
 				suggestionPrompts={models[selectedModelIdx]?.info?.meta?.suggestion_prompts ??
 					$config?.default_prompt_suggestions ??
 					[]}
-				on:select={(e) => {
+				on:select={(e: any) => {
 					selectSuggestionPrompt(e.detail);
 				}}
 			/>

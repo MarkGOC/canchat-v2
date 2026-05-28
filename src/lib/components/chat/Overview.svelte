@@ -4,7 +4,7 @@
 	import { createEventDispatcher, onDestroy } from 'svelte';
 	import { useSvelteFlow, useNodesInitialized, useStore } from '@xyflow/svelte';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 	const i18n = getI18n();
 
 	import { onMount, tick } from 'svelte';
@@ -24,7 +24,7 @@
 	const { fitView, getViewport } = useSvelteFlow();
 	const nodesInitialized = useNodesInitialized();
 
-	export let history;
+	export let history: any;
 
 	let selectedMessageId = null;
 
@@ -63,13 +63,13 @@
 		let positionMap = new Map();
 
 		// Helper function to truncate labels
-		function createLabel(content) {
+		function createLabel(content: any) {
 			const maxLength = 100;
 			return content.length > maxLength ? content.substr(0, maxLength) + '...' : content;
 		}
 
 		// Create nodes and map children to ensure alignment in width
-		let layerWidths = {}; // Track widths of each layer
+		let layerWidths: Record<string, any> = {}; // Track widths of each layer
 
 		Object.keys(history.messages).forEach((id) => {
 			const message = history.messages[id];
@@ -120,32 +120,32 @@
 		await nodes.set([...nodeList]);
 	};
 
-	const recurseCheckChild = (nodeId, currentId) => {
+	const recurseCheckChild = (nodeId: any, currentId: any) => {
 		const node = history.messages[nodeId];
 		return (
 			node.childrenIds &&
-			node.childrenIds.some((id) => id === currentId || recurseCheckChild(id, currentId))
+			node.childrenIds.some((id: any) => id === currentId || recurseCheckChild(id, currentId))
 		);
 	};
 
 	onMount(() => {
 		drawFlow();
 
-		nodesInitialized.subscribe(async (initialized) => {
+		nodesInitialized.subscribe(async (initialized: any) => {
 			if (initialized) {
 				await tick();
 				const res = await fitView({ nodes: [{ id: history.currentId }] });
 			}
 		});
 
-		width.subscribe((value) => {
+		width.subscribe((value: any) => {
 			if (value) {
 				// fitView();
 				fitView({ nodes: [{ id: history.currentId }] });
 			}
 		});
 
-		height.subscribe((value) => {
+		height.subscribe((value: any) => {
 			if (value) {
 				// fitView();
 				fitView({ nodes: [{ id: history.currentId }] });
@@ -188,7 +188,7 @@
 			{nodes}
 			{nodeTypes}
 			{edges}
-			on:nodeclick={(e) => {
+			on:nodeclick={(e: any) => {
 				dispatch('nodeclick', e.detail);
 				selectedMessageId = e.detail.node.data.message.id;
 				fitView({ nodes: [{ id: selectedMessageId }] });

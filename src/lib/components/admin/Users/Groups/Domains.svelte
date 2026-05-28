@@ -7,9 +7,9 @@
 
 	const i18n = getI18n();
 
-	export let allowedDomains = [];
+	export let allowedDomains: any[] = [];
 
-	let dbDomains = [];
+	let dbDomains: any[] = [];
 	let loading = true;
 	let searchQuery = '';
 
@@ -31,7 +31,7 @@
 	};
 
 	// Handle checkbox changes
-	const handleDomainToggle = (domain, isChecked) => {
+	const handleDomainToggle = (domain: any, isChecked: any) => {
 		if (isChecked) {
 			if (!allowedDomains.includes(domain)) {
 				allowedDomains = [...allowedDomains, domain];
@@ -80,6 +80,7 @@
 					>
 						@{domain}
 						<button
+							aria-label="Action"
 							type="button"
 							class="ml-1 inline-flex items-center justify-center w-4 h-4 text-blue-400 hover:text-blue-600"
 							on:click={() => handleDomainToggle(domain, false)}
@@ -171,7 +172,7 @@
 						type="checkbox"
 						class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
 						checked={isSelected}
-						on:change={(e) => handleDomainToggle(domainObj.domain, e.target.checked)}
+						on:change={(e: any) => handleDomainToggle(domainObj.domain, e.target.checked)}
 					/>
 					<div class="flex-1">
 						<div class="text-sm font-medium text-gray-900 dark:text-gray-100">

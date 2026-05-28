@@ -33,6 +33,7 @@
 				<Confetti x={[-1, -0.25]} y={[0, 0.5]} />
 			</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					localStorage.version = $config.version;

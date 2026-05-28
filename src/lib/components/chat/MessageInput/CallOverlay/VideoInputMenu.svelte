@@ -6,7 +6,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import Dropdown from '$lib/components/common/Dropdown.svelte';
 
@@ -20,7 +20,7 @@
 
 <Dropdown
 	bind:show
-	on:change={(e) => {
+	on:change={(e: any) => {
 		if (e.detail === false) {
 			onClose();
 		}
@@ -36,12 +36,12 @@
 			sideOffset={6}
 			side="top"
 			align="start"
-			transition={flyAndScale}
+			{...{ transition: flyAndScale } as any}
 		>
 			{#each devices as device}
 				<DropdownMenu.Item
 					class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-					on:click={() => {
+					onclick={() => {
 						dispatch('change', device.deviceId);
 					}}
 				>

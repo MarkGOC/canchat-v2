@@ -23,7 +23,7 @@
 	/>
 	<button
 		class={showButtonClassName}
-		on:click={(e) => {
+		on:click={(e: any) => {
 			e.preventDefault();
 			show = !show;
 		}}

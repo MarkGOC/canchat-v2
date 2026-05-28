@@ -35,7 +35,7 @@
 		<div class="flex flex-col md:flex-row w-full p-5 md:space-x-4 dark:text-gray-200">
 			<div class=" flex flex-col w-full sm:flex-row sm:justify-center sm:space-x-6">
 				<div class="flex flex-col space-y-3 w-full self-start">
-					<div class="w-full flex justify-between items-center" tabindex="0">
+					<div class="w-full flex justify-between items-center">
 						<div class=" text-sm">{$i18n.t('Open new chat')}</div>
 
 						<div class="flex space-x-1 text-xs">
@@ -59,7 +59,7 @@
 						</div>
 					</div>
 
-					<div class="w-full flex justify-between items-center" tabindex="0">
+					<div class="w-full flex justify-between items-center">
 						<div class=" text-sm">{$i18n.t('Focus chat input')}</div>
 
 						<div class="flex space-x-1 text-xs">
@@ -77,7 +77,7 @@
 						</div>
 					</div>
 
-					<div class="w-full flex justify-between items-center" tabindex="0">
+					<div class="w-full flex justify-between items-center">
 						<div class=" text-sm">{$i18n.t('Copy last code block')}</div>
 
 						<div class="flex space-x-1 text-xs">
@@ -101,7 +101,7 @@
 						</div>
 					</div>
 
-					<div class="w-full flex justify-between items-center" tabindex="0">
+					<div class="w-full flex justify-between items-center">
 						<div class=" text-sm">{$i18n.t('Copy last response')}</div>
 
 						<div class="flex space-x-1 text-xs">
@@ -127,7 +127,7 @@
 				</div>
 
 				<div class="flex flex-col space-y-3 w-full self-start">
-					<div class="w-full flex justify-between items-center" tabindex="0">
+					<div class="w-full flex justify-between items-center">
 						<div class=" text-sm">{$i18n.t('Toggle settings')}</div>
 
 						<div class="flex space-x-1 text-xs">
@@ -144,7 +144,7 @@
 						</div>
 					</div>
 
-					<div class="w-full flex justify-between items-center" tabindex="0">
+					<div class="w-full flex justify-between items-center">
 						<div class=" text-sm">{$i18n.t('Toggle sidebar')}</div>
 
 						<div class="flex space-x-1 text-xs">
@@ -168,7 +168,7 @@
 						</div>
 					</div>
 
-					<div class="w-full flex justify-between items-center" tabindex="0">
+					<div class="w-full flex justify-between items-center">
 						<div class=" text-sm">{$i18n.t('Delete chat')}</div>
 
 						<div class="flex space-x-1 text-xs">
@@ -191,7 +191,7 @@
 						</div>
 					</div>
 
-					<div class="w-full flex justify-between items-center" tabindex="0">
+					<div class="w-full flex justify-between items-center">
 						<div class=" text-sm">{$i18n.t('Show shortcuts')}</div>
 
 						<div class="flex space-x-1 text-xs">
@@ -219,7 +219,7 @@
 		<div class="flex flex-col md:flex-row w-full p-5 md:space-x-4 dark:text-gray-200">
 			<div class=" flex flex-col w-full sm:flex-row sm:justify-center sm:space-x-6">
 				<div class="flex flex-col space-y-3 w-full self-start">
-					<div class="w-full flex justify-between items-center" tabindex="0">
+					<div class="w-full flex justify-between items-center">
 						<div class=" text-sm">
 							{$i18n.t('Attach file')}
 						</div>
@@ -233,7 +233,7 @@
 						</div>
 					</div>
 
-					<div class="w-full flex justify-between items-center" tabindex="0">
+					<div class="w-full flex justify-between items-center">
 						<div class=" text-sm">
 							{$i18n.t('Add custom prompt')}
 						</div>
@@ -247,7 +247,7 @@
 						</div>
 					</div>
 
-					<div class="w-full flex justify-between items-center" tabindex="0">
+					<div class="w-full flex justify-between items-center">
 						<div class=" text-sm">
 							{$i18n.t('Select model')}
 						</div>

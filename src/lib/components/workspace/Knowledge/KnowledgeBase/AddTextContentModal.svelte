@@ -5,7 +5,7 @@
 
 	import { createEventDispatcher } from 'svelte';
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import Modal from '$lib/components/common/Modal.svelte';
 	import RichTextInput from '$lib/components/common/RichTextInput.svelte';
@@ -89,7 +89,7 @@
 								on:cancel={() => {
 									voiceInput = false;
 								}}
-								on:confirm={(e) => {
+								on:confirm={(e: any) => {
 									const { text, filename } = e.detail;
 									content = `${content}${text} `;
 
@@ -137,6 +137,7 @@
 						<button
 							class=" px-3.5 py-2 bg-black text-white dark:bg-white dark:text-black transition rounded-full"
 							type="submit"
+							aria-label="Action"
 						>
 							{$i18n.t('Save')}
 						</button>

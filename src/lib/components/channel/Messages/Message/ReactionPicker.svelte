@@ -7,7 +7,7 @@
 	import VirtualList from '@sveltejs/svelte-virtual-list';
 
 	export let onClose = () => {};
-	export let onSubmit = (name) => {};
+	export let onSubmit = (name: any) => {};
 	export let side = 'top';
 	export let align = 'start';
 	export let user = null;
@@ -15,8 +15,8 @@
 	let show = false;
 	let emojis = emojiShortCodes;
 	let search = '';
-	let flattenedEmojis = [];
-	let emojiRows = [];
+	let flattenedEmojis: any[] = [];
+	let emojiRows: any[] = [];
 
 	// Reactive statement to filter the emojis based on search query
 	$: {
@@ -46,11 +46,11 @@
 	$: {
 		flattenedEmojis = [];
 		Object.keys(emojiGroups).forEach((group) => {
-			const groupEmojis = emojiGroups[group].filter((emoji) => emojis[emoji]);
+			const groupEmojis = emojiGroups[group].filter((emoji: any) => emojis[emoji]);
 			if (groupEmojis.length > 0) {
 				flattenedEmojis.push({ type: 'group', label: group });
 				flattenedEmojis.push(
-					...groupEmojis.map((emoji) => ({
+					...groupEmojis.map((emoji: any) => ({
 						type: 'emoji',
 						name: emoji,
 						shortCodes:
@@ -63,7 +63,7 @@
 		});
 		// Group emojis into rows of 8
 		emojiRows = [];
-		let currentRow = [];
+		let currentRow: any[] = [];
 		flattenedEmojis.forEach((item) => {
 			if (item.type === 'emoji') {
 				currentRow.push(item);
@@ -85,7 +85,7 @@
 	}
 	const ROW_HEIGHT = 48; // Approximate height for a row with multiple emojis
 	// Handle emoji selection
-	function selectEmoji(emoji) {
+	function selectEmoji(emoji: any) {
 		const selectedCode = emoji.shortCodes[0];
 		onSubmit(selectedCode);
 		show = false;
@@ -94,8 +94,7 @@
 
 <DropdownMenu.Root
 	bind:open={show}
-	closeFocus={false}
-	onOpenChange={(state) => {
+	onOpenChange={(state: any) => {
 		if (!state) {
 			search = '';
 			onClose();
@@ -109,9 +108,10 @@
 	<DropdownMenu.Content
 		class="max-w-full w-80 bg-gray-50 dark:bg-gray-850 rounded-lg z-[9999] shadow-lg dark:text-white"
 		sideOffset={8}
+		onCloseAutoFocus={(event: Event) => event.preventDefault()}
 		{side}
 		{align}
-		transition={flyAndScale}
+		{...{ transition: flyAndScale } as any}
 	>
 		<div class="mb-1 px-3 pt-2 pb-2">
 			<input
@@ -139,7 +139,7 @@
 								<div class="flex items-center gap-1.5 w-full">
 									{#each item as emojiItem}
 										<Tooltip
-											content={emojiItem.shortCodes.map((code) => `:${code}:`).join(', ')}
+											content={emojiItem.shortCodes.map((code: any) => `:${code}:`).join(', ')}
 											placement="top"
 										>
 											<button

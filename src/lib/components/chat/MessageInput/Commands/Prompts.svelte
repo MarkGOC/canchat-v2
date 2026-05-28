@@ -16,14 +16,14 @@
 
 	const i18n = getI18n();
 
-	export let files;
+	export let files: any;
 
 	export let prompt = '';
 	export let command = '';
 
 	let selectedPromptIdx = 0;
-	let filteredPrompts = [];
-	let loadedPrompts = [];
+	let filteredPrompts: any[] = [];
+	let loadedPrompts: any[] = [];
 	let currentPage = 1;
 	let isLoading = false;
 	let hasMorePrompts = true;
@@ -125,7 +125,7 @@
 		selectedPromptIdx = Math.min(selectedPromptIdx + 1, filteredPrompts.length - 1);
 	};
 
-	const confirmPrompt = async (command) => {
+	const confirmPrompt = async (command: any) => {
 		let text = command.content;
 
 		if (command.content.includes('{{CLIPBOARD}}')) {
@@ -231,7 +231,7 @@
 			>
 				<div
 					class="m-1 overflow-y-auto p-1 space-y-0.5 scrollbar-hidden"
-					on:scroll={(e) => {
+					on:scroll={(e: any) => {
 						const target = e.target;
 						if (target) {
 							const scrollPercentage =

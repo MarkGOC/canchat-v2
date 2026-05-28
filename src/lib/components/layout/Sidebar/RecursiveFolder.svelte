@@ -4,7 +4,7 @@
 	import { createEventDispatcher, onMount, onDestroy, tick } from 'svelte';
 
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import DOMPurify from 'dompurify';
 	import fileSaver from 'file-saver';
@@ -388,7 +388,7 @@
 		buttonClassName="w-full"
 		hide={(folders[folderId]?.childrenIds ?? []).length === 0 &&
 			(folders[folderId].items?.chats ?? []).length === 0}
-		on:change={(e) => {
+		on:change={(e: any) => {
 			dispatch('open', e.detail);
 		}}
 	>
@@ -419,15 +419,15 @@
 								nameUpdateHandler();
 								edit = false;
 							}}
-							on:click={(e) => {
+							on:click={(e: any) => {
 								// Prevent accidental collapse toggling when clicking inside input
 								e.stopPropagation();
 							}}
-							on:mousedown={(e) => {
+							on:mousedown={(e: any) => {
 								// Prevent accidental collapse toggling when clicking inside input
 								e.stopPropagation();
 							}}
-							on:keydown={(e) => {
+							on:keydown={(e: any) => {
 								if (e.key === 'Enter') {
 									nameUpdateHandler();
 									edit = false;
@@ -457,10 +457,10 @@
 						on:export={() => {
 							exportHandler();
 						}}
-						on:pointerup={(e) => {
+						on:pointerup={(e: any) => {
 							e.stopPropagation();
 						}}
-						on:click={(e) => {}}
+						on:click={(e: any) => {}}
 					>
 						<div>
 							<EllipsisHorizontal className="size-4" strokeWidth="2.5" />
@@ -494,19 +494,19 @@
 								{selectedChatIds}
 								{showBulkActions}
 								parentDragged={dragged}
-								on:import={(e) => {
+								on:import={(e: any) => {
 									dispatch('import', e.detail);
 								}}
-								on:update={(e) => {
+								on:update={(e: any) => {
 									dispatch('update', e.detail);
 								}}
-								on:change={(e) => {
+								on:change={(e: any) => {
 									dispatch('change', e.detail);
 								}}
-								on:select={(e) => {
+								on:select={(e: any) => {
 									dispatch('select', e.detail);
 								}}
-								on:unselect={(e) => {
+								on:unselect={(e: any) => {
 									dispatch('unselect', e.detail);
 								}}
 							/>
@@ -527,10 +527,10 @@
 								on:unselect={() => {
 									dispatch('unselect', chat.id);
 								}}
-								on:change={(e) => {
+								on:change={(e: any) => {
 									dispatch('change', e.detail);
 								}}
-								on:tag={(e) => {
+								on:tag={(e: any) => {
 									dispatch('tag', { ...e.detail, chatId: chat.id });
 								}}
 							/>

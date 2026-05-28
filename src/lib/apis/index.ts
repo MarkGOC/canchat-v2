@@ -1090,8 +1090,19 @@ export interface ModelConfig {
 
 export interface ModelMeta {
 	description?: string;
-	capabilities?: object;
+	capabilities?: {
+		vision?: boolean;
+		image_generation?: boolean;
+		web_search?: boolean;
+		[key: string]: any;
+	};
 	profile_image_url?: string;
+	hidden?: boolean;
+	tags?: Array<{ name: string; [key: string]: any }>;
+	model_ids?: string[];
+	filter_mode?: 'include' | 'exclude' | string;
+	access_control?: Record<string, any>;
+	[key: string]: any;
 }
 
 export interface ModelParams {}

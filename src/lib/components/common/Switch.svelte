@@ -5,7 +5,7 @@
 	export let ariaLabel = '';
 	export let disabled = false;
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	$: dispatch('change', state);
 

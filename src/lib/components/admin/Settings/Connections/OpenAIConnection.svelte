@@ -15,7 +15,7 @@
 
 	export let url = '';
 	export let key = '';
-	export let config = {};
+	export let config: Record<string, any> = {};
 
 	let showConfigModal = false;
 </script>
@@ -29,7 +29,7 @@
 		config
 	}}
 	{onDelete}
-	onSubmit={(connection) => {
+	onSubmit={(connection: any) => {
 		url = connection.url;
 		key = connection.key;
 		config = connection.config;

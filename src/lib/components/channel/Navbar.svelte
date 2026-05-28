@@ -8,7 +8,7 @@
 
 	const i18n = getI18n();
 
-	export let channel;
+	export let channel: any;
 </script>
 
 <nav class="sticky top-0 z-30 w-full px-1.5 py-1.5 -mb-8 flex items-center drag-region">
@@ -54,7 +54,7 @@
 					<UserMenu
 						className="max-w-[200px]"
 						role={$user.role}
-						on:show={(e) => {
+						on:show={(e: any) => {
 							if (e.detail === 'archived-chat') {
 								showArchivedChats.set(true);
 							}

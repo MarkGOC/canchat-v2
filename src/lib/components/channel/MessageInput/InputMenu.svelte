@@ -29,7 +29,7 @@
 
 <Dropdown
 	bind:show
-	on:change={(e) => {
+	on:change={(e: any) => {
 		if (e.detail === false) {
 			onClose();
 		}
@@ -46,12 +46,12 @@
 			alignOffset={-8}
 			side="top"
 			align="start"
-			transition={flyAndScale}
+			{...{ transition: flyAndScale } as any}
 		>
 			{#if !$mobile}
 				<DropdownMenu.Item
 					class="flex gap-2 items-center px-3 py-2 text-sm  font-medium cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800  rounded-xl"
-					on:click={() => {
+					onclick={() => {
 						screenCaptureHandler();
 					}}
 				>
@@ -62,7 +62,7 @@
 
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm font-medium cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl"
-				on:click={() => {
+				onclick={() => {
 					uploadFilesHandler();
 				}}
 			>

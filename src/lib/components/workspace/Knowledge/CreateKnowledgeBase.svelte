@@ -125,6 +125,7 @@
 						: ' bg-gray-50 hover:bg-gray-100 dark:bg-gray-850 dark:hover:bg-gray-800'} flex"
 					type="submit"
 					disabled={loading}
+					aria-label="Action"
 				>
 					<div class=" self-center font-medium">{$i18n.t('Create Knowledge')}</div>
 

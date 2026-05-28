@@ -9,9 +9,9 @@
 
 	const i18n = getI18n();
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
-	export let message;
+	export let message: any;
 	export let show = false;
 	export let disabled = false;
 
@@ -35,9 +35,9 @@
 		'other'
 	];
 
-	let tags = [];
+	let tags: any[] = [];
 
-	let reasons = [];
+	let reasons: any[] = [];
 	let selectedReason = null;
 	let comment = '';
 
@@ -63,7 +63,7 @@
 			comment = message?.annotation?.comment ?? '';
 		}
 
-		tags = (message?.annotation?.tags ?? []).map((tag) => ({
+		tags = (message?.annotation?.tags ?? []).map((tag: any) => ({
 			name: tag
 		}));
 
@@ -92,15 +92,15 @@
 		comment !== null &&
 		comment.trim() !== '';
 
-	function handleDetailedRatingClick(rating) {
+	function handleDetailedRatingClick(rating: any) {
 		detailedRating = rating;
 	}
 
-	function handleReasonSelect(reason) {
+	function handleReasonSelect(reason: any) {
 		selectedReason = reason;
 	}
 
-	function handleCommentInput(event) {
+	function handleCommentInput(event: any) {
 		comment = event.target.value;
 	}
 
@@ -149,6 +149,7 @@
 		<!-- <div class=" text-sm">{$i18n.t('Tell us more:')}</div> -->
 
 		<button
+			aria-label="Action"
 			on:click={() => {
 				show = false;
 			}}
@@ -265,14 +266,14 @@
 		<div class="flex items-end group">
 			<Tags
 				{tags}
-				on:delete={(e) => {
+				on:delete={(e: any) => {
 					tags = tags.filter(
 						(tag) =>
 							tag.name.replaceAll(' ', '_').toLowerCase() !==
 							e.detail.replaceAll(' ', '_').toLowerCase()
 					);
 				}}
-				on:add={(e) => {
+				on:add={(e: any) => {
 					tags = [...tags, { name: e.detail }];
 				}}
 			/>
@@ -282,6 +283,7 @@
 			class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
 			on:click={saveHandler}
 			disabled={!formValid || disabled}
+			aria-label="Action"
 		>
 			{disabled ? $i18n.t('Generating tags...') : $i18n.t('Save')}
 		</button>

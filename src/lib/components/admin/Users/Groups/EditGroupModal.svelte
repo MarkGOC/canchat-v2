@@ -19,7 +19,7 @@
 	export let show = false;
 	export let edit = false;
 
-	export let users = [];
+	export let users: any[] = [];
 	export let group = null;
 
 	export let custom = true;
@@ -56,8 +56,8 @@
 			news_server: false
 		}
 	};
-	export let userIds = [];
-	export let allowedDomains = [];
+	export let userIds: any[] = [];
+	export let allowedDomains: any[] = [];
 
 	const submitHandler = async () => {
 		loading = true;
@@ -96,7 +96,7 @@
 	});
 </script>
 
-<Modal size="md" bind:show returnfocusSelector="#edit-group">
+<Modal size="md" bind:show returnFocusSelector="#edit-group">
 	<div>
 		<div class=" flex justify-between dark:text-gray-100 px-5 pt-4 mb-1.5">
 			<div class=" text-lg font-medium self-center font-primary">
@@ -111,6 +111,7 @@
 				{/if}
 			</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;
@@ -133,7 +134,7 @@
 			<div class=" flex flex-col w-full sm:flex-row sm:justify-center sm:space-x-6">
 				<form
 					class="flex flex-col w-full"
-					on:submit={(e) => {
+					on:submit={(e: any) => {
 						e.preventDefault();
 						submitHandler();
 					}}
@@ -319,6 +320,7 @@
 								: ''}"
 							type="submit"
 							disabled={loading}
+							aria-label="Action"
 						>
 							{$i18n.t('Save')}
 

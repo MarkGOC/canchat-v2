@@ -58,28 +58,32 @@
 							class="min-w-fit rounded-full p-1.5 {['/admin/users'].includes($page.url.pathname)
 								? ''
 								: 'text-[#717171] dark:text-gray-600 hover:text-gray-700 dark:hover:text-white'} transition"
-							href="/admin/users">{$i18n.t('Users & Access')}</a
+							href="/admin/users"
+							aria-label="Link">{$i18n.t('Users & Access')}</a
 						>
 
 						<a
 							class="min-w-fit rounded-full p-1.5 {$page.url.pathname.includes('/admin/evaluations')
 								? ''
 								: 'text-[#717171] dark:text-gray-600 hover:text-gray-700 dark:hover:text-white'} transition"
-							href="/admin/evaluations">{$i18n.t('Evaluations')}</a
+							href="/admin/evaluations"
+							aria-label="Link">{$i18n.t('Evaluations')}</a
 						>
 
 						<a
 							class="min-w-fit rounded-full p-1.5 {$page.url.pathname.includes('/admin/functions')
 								? ''
 								: 'text-[#717171] dark:text-gray-600 hover:text-gray-700 dark:hover:text-white'} transition"
-							href="/admin/functions">{$i18n.t('Functions')}</a
+							href="/admin/functions"
+							aria-label="Link">{$i18n.t('Functions')}</a
 						>
 
 						<a
 							class="min-w-fit rounded-full p-1.5 {$page.url.pathname.includes('/admin/settings')
 								? ''
 								: 'text-[#717171] dark:text-gray-600 hover:text-gray-700 dark:hover:text-white'} transition"
-							href="/admin/settings">{$i18n.t('Settings')}</a
+							href="/admin/settings"
+							aria-label="Link">{$i18n.t('Settings')}</a
 						>
 					</div>
 				</div>

@@ -28,16 +28,16 @@
 	let downloading = false;
 	let uploading = false;
 
-	let pipelineFiles;
+	let pipelineFiles: FileList | null = null;
 
-	let PIPELINES_LIST = null;
+	let PIPELINES_LIST: any[] | null = null;
 	let selectedPipelinesUrlIdx = '';
 
-	let pipelines = null;
+	let pipelines: any = null;
 
-	let valves = null;
-	let valves_spec = null;
-	let selectedPipelineIdx = null;
+	let valves: Record<string, any> = {};
+	let valves_spec: any = null;
+	let selectedPipelineIdx: any = 0;
 
 	let pipelineDownloadUrl = '';
 
@@ -47,7 +47,10 @@
 		if (pipeline && (pipeline?.valves ?? false)) {
 			for (const property in valves_spec.properties) {
 				if (valves_spec.properties[property]?.type === 'array') {
-					valves[property] = valves[property].split(',').map((v) => v.trim());
+					valves[property] = (valves[property] ?? '')
+						.toString()
+						.split(',')
+						.map((v: any) => v.trim());
 				}
 			}
 
@@ -71,8 +74,8 @@
 		}
 	};
 
-	const getValves = async (idx) => {
-		valves = null;
+	const getValves = async (idx: any) => {
+		valves = {};
 		valves_spec = null;
 
 		valves_spec = await getPipelineValvesSpec(
@@ -88,17 +91,19 @@
 
 		for (const property in valves_spec.properties) {
 			if (valves_spec.properties[property]?.type === 'array') {
-				valves[property] = valves[property].join(',');
+				valves[property] = Array.isArray(valves[property])
+					? valves[property].join(',')
+					: (valves[property] ?? '').toString();
 			}
 		}
 	};
 
 	const setPipelines = async () => {
 		pipelines = null;
-		valves = null;
+		valves = {};
 		valves_spec = null;
 
-		if (PIPELINES_LIST.length > 0) {
+		if ((PIPELINES_LIST?.length ?? 0) > 0) {
 			pipelines = await getPipelines(localStorage.token, selectedPipelinesUrlIdx);
 
 			if (pipelines.length > 0) {
@@ -153,10 +158,12 @@
 		}
 
 		pipelineFiles = null;
-		const pipelineUploadInputElement = document.getElementById('pipelines-upload-input');
+		const pipelineUploadInputElement = document.getElementById(
+			'pipelines-upload-input'
+		) as HTMLInputElement | null;
 
 		if (pipelineUploadInputElement) {
-			pipelineUploadInputElement.value = null;
+			pipelineUploadInputElement.value = '';
 		}
 
 		uploading = false;
@@ -423,6 +430,7 @@
 									</div>
 
 									<button
+										aria-label="Action"
 										class="px-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 dark:bg-gray-850 dark:hover:bg-gray-800 dark:text-gray-100 rounded-lg transition"
 										on:click={() => {
 											deletePipelineHandler();
@@ -545,6 +553,7 @@
 			<button
 				class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full"
 				type="submit"
+				aria-label="Action"
 			>
 				{$i18n.t('Save')}
 			</button>

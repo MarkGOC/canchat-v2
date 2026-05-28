@@ -112,7 +112,7 @@
 
 			<!-- <button
 				class="cursor-pointer p-2.5 flex rounded-full hover:bg-gray-100 dark:hover:bg-gray-850 transition shadow-xl"
-			>
+			 aria-label="Action">
 				<SparklesSolid className="size-4" />
 			</button> -->
 		</div>

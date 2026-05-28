@@ -5,7 +5,7 @@
 
 	import { onMount, createEventDispatcher } from 'svelte';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import {
 		getQuerySettings,
@@ -296,7 +296,7 @@
 						class="dark:bg-gray-900 w-fit pr-8 rounded px-2 p-1 text-xs bg-transparent outline-none text-right"
 						bind:value={embeddingEngine}
 						placeholder="Select an embedding model engine"
-						on:change={(e) => {
+						on:change={(e: any) => {
 							if (e.target.value === 'ollama') {
 								embeddingModel = '';
 							} else if (e.target.value === 'openai') {
@@ -576,7 +576,7 @@
 					<select
 						class="dark:bg-gray-900 w-fit pr-8 rounded px-2 text-xs bg-transparent outline-none text-right"
 						bind:value={contentExtractionEngine}
-						on:change={(e) => {
+						on:change={(e: any) => {
 							showTikaServerUrl = e.target.value === 'tika';
 						}}
 					>
@@ -858,6 +858,7 @@
 		<button
 			class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full"
 			type="submit"
+			aria-label="Action"
 		>
 			{$i18n.t('Save')}
 		</button>

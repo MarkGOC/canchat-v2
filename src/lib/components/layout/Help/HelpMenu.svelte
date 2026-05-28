@@ -28,7 +28,7 @@
 
 <Dropdown
 	{ariaLabel}
-	on:change={(e) => {
+	on:change={(e: any) => {
 		if (e.detail === false) {
 			onClose();
 		}
@@ -42,12 +42,12 @@
 			sideOffset={4}
 			side="top"
 			align="end"
-			transition={flyAndScale}
+			{...{ transition: flyAndScale } as any}
 		>
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
 				id="docs-button"
-				on:click={() => {
+				onclick={() => {
 					showDocsHandler();
 				}}
 			>
@@ -58,7 +58,7 @@
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
 				id="training-button"
-				on:click={() => {
+				onclick={() => {
 					showTrainingHandler();
 				}}
 			>
@@ -69,7 +69,7 @@
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
 				id="issue-button"
-				on:click={() => {
+				onclick={() => {
 					showIssueHandler();
 				}}
 			>
@@ -80,7 +80,7 @@
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
 				id="suggestion-button"
-				on:click={() => {
+				onclick={() => {
 					showSuggestionHandler();
 				}}
 			>
@@ -91,7 +91,7 @@
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
 				id="survey-button"
-				on:click={() => {
+				onclick={() => {
 					showSurveyHandler();
 				}}
 			>
@@ -101,7 +101,7 @@
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
 				id="shortcut-button"
-				on:click={() => {
+				onclick={() => {
 					showShortcutsHandler();
 				}}
 			>

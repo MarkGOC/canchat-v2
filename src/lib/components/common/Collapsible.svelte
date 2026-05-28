@@ -11,7 +11,7 @@
 	dayjs.extend(duration);
 	dayjs.extend(relativeTime);
 
-	async function loadLocale(locales) {
+	async function loadLocale(locales: any) {
 		for (const locale of locales) {
 			try {
 				dayjs.locale(locale);
@@ -25,7 +25,7 @@
 	// Assuming $i18n.languages is an array of language codes
 	$: loadLocale($i18n.languages);
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 	$: dispatch('change', open);
 
 	import { slide } from 'svelte/transition';
@@ -61,23 +61,14 @@
 
 <div class={className}>
 	{#if title !== null}
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
-			class="{buttonClassName} cursor-pointer"
-			tabindex="0"
-			on:pointerup={() => {
-				if (!disabled) {
-					open = !open;
-					announceAction(open);
-				}
-			}}
-			on:keydown={(e) => {
-				if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
-					e.preventDefault();
-					open = !open;
-					announceAction(open);
-				}
+		<button
+			type="button"
+			class="{buttonClassName} cursor-pointer text-left w-full"
+			aria-expanded={open}
+			{disabled}
+			on:click={() => {
+				open = !open;
+				announceAction(open);
 			}}
 		>
 			<div
@@ -115,7 +106,7 @@
 					{/if}
 				</div>
 			</div>
-		</div>
+		</button>
 	{:else}
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -127,7 +118,7 @@
 					announceAction(open);
 				}
 			}}
-			on:keydown={(e) => {
+			on:keydown={(e: any) => {
 				if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
 					e.preventDefault();
 					open = !open;
@@ -142,7 +133,7 @@
 					{#if open && !hide}
 						<div
 							transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}
-							on:pointerup={(e) => {
+							on:pointerup={(e: any) => {
 								e.stopPropagation();
 							}}
 						>

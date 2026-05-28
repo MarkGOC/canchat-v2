@@ -7,7 +7,7 @@
 
 	const i18n = getI18n();
 
-	export let tags;
+	export let tags: any;
 	export let deleteTag: Function;
 	export let addTag: Function;
 
@@ -18,10 +18,10 @@
 	<div class="px-4 pt-4 pb-5 w-full flex flex-col justify-center">
 		<Tags
 			{tags}
-			on:delete={(e) => {
+			on:delete={(e: any) => {
 				deleteTag(e.detail);
 			}}
-			on:add={(e) => {
+			on:add={(e: any) => {
 				addTag(e.detail);
 			}}
 		/>

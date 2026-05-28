@@ -7,7 +7,7 @@
 
 	const i18n = getContext<Writable<i18nType>>('i18n');
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import { ariaMessage, config, models, settings, user } from '$lib/stores';
 	import { synthesizeOpenAISpeech } from '$lib/apis/audio';
@@ -49,10 +49,14 @@
 	interface MessageType {
 		id: string;
 		model: string;
+		selectedModelId?: string;
+		parentId?: string;
 		content: string;
 		files?: { type: string; url: string }[];
 		timestamp: number;
 		role: string;
+		crewAI?: boolean;
+		arena?: boolean;
 		statusHistory?: {
 			done: boolean;
 			action: string;
@@ -70,44 +74,27 @@
 			count?: number;
 			hidden?: boolean;
 		}[];
-		status?:
-			| {
-					done: boolean;
-					action: string;
-					description: string;
-					urls?: string[];
-					query?: string;
-					sources?: Array<{
-						title: string;
-						content?: string;
-						url: string;
-						score: number;
-						language?: string;
-						fallback_reason?: string;
-					}>;
-					count?: number;
-					hidden?: boolean;
-			  }
-			| Array<{
-					done: boolean;
-					action: string;
-					description: string;
-					urls?: string[];
-					query?: string;
-					sources?: Array<{
-						title: string;
-						content?: string;
-						url: string;
-						score: number;
-						language?: string;
-						fallback_reason?: string;
-					}>;
-					count?: number;
-					hidden?: boolean;
-			  }>;
+		status?: {
+			done: boolean;
+			action: string;
+			description: string;
+			urls?: string[];
+			query?: string;
+			sources?: Array<{
+				title: string;
+				content?: string;
+				url: string;
+				score: number;
+				language?: string;
+				fallback_reason?: string;
+			}>;
+			count?: number;
+			hidden?: boolean;
+		};
 		done: boolean;
 		error?: boolean | { content: string };
 		sources?: string[];
+		citations?: string[];
 		code_executions?: {
 			uuid: string;
 			name: string;
@@ -132,12 +119,20 @@
 			load_duration?: number;
 			usage?: unknown;
 		};
-		annotation?: { type: string; rating: number };
+		annotation?: {
+			type?: string;
+			rating?: number;
+			reason?: string;
+			comment?: string;
+			tags?: string[];
+		};
+		feedbackId?: string;
+		usage?: unknown;
 	}
 
 	export let chatId = '';
-	export let history;
-	export let messageId;
+	export let history: any;
+	export let messageId: any;
 	export let selectedToolIds: string[] = [];
 
 	let message: MessageType = JSON.parse(JSON.stringify(history.messages[messageId]));
@@ -147,7 +142,7 @@
 		}
 	}
 
-	export let siblings;
+	export let siblings: any;
 
 	export let showPreviousMessage: Function;
 	export let showNextMessage: Function;
@@ -167,7 +162,7 @@
 	export let isLastMessage = true;
 	export let readOnly = false;
 
-	let model = null;
+	let model: any = null;
 	$: model = $models.find((m) => m.id === message.model);
 
 	// Capture Wikipedia sources from status events
@@ -187,7 +182,7 @@
 	let showIssueModal = false;
 	let showSuggestionModal = false;
 
-	const copyToClipboard = async (text) => {
+	const copyToClipboard = async (text: any) => {
 		const res = await _copyToClipboard(text);
 		if (res) {
 			toast.success($i18n.t('Copying to clipboard was successful!'));
@@ -294,7 +289,7 @@
 				}
 			}
 		} else {
-			let voices = [];
+			let voices: any[] = [];
 			const getVoicesLoop = setInterval(() => {
 				voices = speechSynthesis.getVoices();
 				if (voices.length > 0) {
@@ -371,7 +366,7 @@
 		});
 
 		if (res) {
-			const files = res.map((image) => ({
+			const files = res.map((image: any) => ({
 				type: 'image',
 				url: `${image.url}`
 			}));
@@ -417,8 +412,8 @@
 				...(history.messages[message.parentId].childrenIds.length > 1
 					? {
 							sibling_model_ids: history.messages[message.parentId].childrenIds
-								.filter((id) => id !== message.id)
-								.map((id) =>
+								.filter((id: any) => id !== message.id)
+								.map((id: any) =>
 									history.messages[id]?.crewAI
 										? 'azure/o3-mini'
 										: (history.messages[id]?.selectedModelId ?? history.messages[id].model)
@@ -431,7 +426,8 @@
 				model_id: message?.crewAI ? 'azure/o3-mini' : message.model,
 				message_id: message.id,
 				message_index: messages.length,
-				chat_id: chatId
+				chat_id: chatId,
+				base_models: {} as Record<string, string | null>
 			},
 			snapshot: {
 				chat: chat
@@ -604,7 +600,7 @@
 							{@const statusHistory = message?.statusHistory ?? [
 								...(message?.status ? [message?.status] : [])
 							]}
-							{@const status = statusHistory.at(-1)}
+							{@const status = statusHistory.at(-1) as any}
 							{@const hasRagContextTruncatedStatus = statusHistory.some(
 								(entry) => entry?.action === 'rag_context_truncated'
 							)}
@@ -627,7 +623,7 @@
 									{#if shouldRenderRagFallbackWebSearchStatus || (status?.action === 'web_search' && status?.urls)}
 										{@const webSearchStatus = shouldRenderRagFallbackWebSearchStatus
 											? latestWebSearchStatus
-											: status}
+											: status as any}
 										<WebSearchResults status={webSearchStatus}>
 											<div class="flex flex-col justify-center -space-y-0.5">
 												<div
@@ -760,11 +756,11 @@
 									bind:this={editTextAreaElement}
 									class=" bg-transparent outline-none w-full resize-none"
 									bind:value={editedContent}
-									on:input={(e) => {
+									on:input={(e: any) => {
 										e.target.style.height = '';
 										e.target.style.height = `${e.target.scrollHeight}px`;
 									}}
-									on:keydown={(e) => {
+									on:keydown={(e: any) => {
 										if (e.key === 'Escape') {
 											document.getElementById('close-edit-message-button')?.click();
 										}
@@ -830,17 +826,22 @@
 										floatingButtons={message?.done}
 										save={!readOnly}
 										{model}
-										onSourceClick={(e) => {
-											const sourceButton = document.getElementById(`source-${e}`);
+										onSourceClick={
+											((e: any) => {
+												const sourceButton = document.getElementById(`source-${e}`);
 
-											if (sourceButton) {
-												sourceButton.click();
-											}
-										}}
-										onAddMessages={({ modelId, parentId, messages }) => {
-											addMessages({ modelId, parentId, messages });
-										}}
-										on:update={(e) => {
+												if (sourceButton) {
+													sourceButton.click();
+												}
+											}) as any
+										}
+										onAddMessages={
+											((payload: any) => {
+												const { modelId, parentId, messages } = payload;
+												addMessages({ modelId, parentId, messages });
+											}) as any
+										}
+										on:update={(e: any) => {
 											const { raw, oldContent, newContent } = e.detail;
 
 											history.messages[message.id].content = history.messages[
@@ -849,7 +850,7 @@
 
 											updateChat();
 										}}
-										on:select={(e) => {
+										on:select={(e: any) => {
 											const { type, content } = e.detail;
 
 											if (type === 'explain') {
@@ -866,11 +867,11 @@
 								{/if}
 
 								{#if message?.error}
-									<Error content={message?.error?.content ?? message.content} />
+									<Error content={typeof message.error === 'object' ? message.error.content : message.content} />
 								{/if}
 
 								{#if (message?.sources || message?.citations) && (model?.info?.meta?.capabilities?.citations ?? true)}
-									<Citations sources={message?.sources ?? message?.citations} {selectedToolIds} />
+									<Citations sources={message?.sources ?? message?.citations} selectedToolIds={selectedToolIds?.length ? selectedToolIds : null} />
 								{/if}
 
 								{#if message.code_executions}
@@ -947,7 +948,7 @@
 
 							{#if message.done}
 								{#if !readOnly}
-									{#if $user.role === 'user' ? ($user?.permissions?.chat?.edit ?? true) : true}
+									{#if $user.role === 'user' ? (($user as any)?.permissions?.chat?.edit ?? true) : true}
 										<Tooltip content={$i18n.t('Edit')} placement="bottom">
 											<button
 												aria-label={$i18n.t('Edit')}
@@ -1083,7 +1084,7 @@
 									</button>
 								</Tooltip>
 
-								{#if $config?.features.enable_image_generation && ($user.role === 'admin' || $user?.permissions?.features?.image_generation) && !readOnly}
+								{#if $config?.features.enable_image_generation && ($user.role === 'admin' || ($user as any)?.permissions?.features?.image_generation) && !readOnly}
 									<Tooltip content={$i18n.t('Generate Image')} placement="bottom">
 										<button
 											aria-label={$i18n.t('Generate Image')}
@@ -1168,7 +1169,7 @@
 												? 'visible'
 												: 'invisible group-hover:visible'} p-1.5 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition whitespace-pre-wrap"
 											id="info-{message.id}"
-										>
+										 aria-label="Action">
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												fill="none"
@@ -1311,7 +1312,7 @@
 												showRateComment = false;
 												regenerateResponse(message);
 
-												(model?.actions ?? []).forEach((action) => {
+												(model?.actions ?? []).forEach((action: any) => {
 													dispatch('action', {
 														id: action.id,
 														event: {
@@ -1379,7 +1380,7 @@
 												class="{isLastMessage
 													? 'visible'
 													: 'invisible group-hover:visible'} p-1.5 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition"
-												on:click={(e) => {
+												on:click={(e: any) => {
 													e.currentTarget.blur();
 													showIssueModal = true;
 												}}
@@ -1395,7 +1396,7 @@
 												class="{isLastMessage
 													? 'visible'
 													: 'invisible group-hover:visible'} p-1.5 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition"
-												on:click={(e) => {
+												on:click={(e: any) => {
 													e.currentTarget.blur();
 													showSuggestionModal = true;
 												}}
@@ -1414,7 +1415,7 @@
 							bind:message
 							bind:show={showRateComment}
 							disabled={tagGenerationInProgress}
-							on:save={async (e) => {
+							on:save={async (e: any) => {
 								await feedbackHandler(null, {
 									...e.detail
 								});

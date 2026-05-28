@@ -10,9 +10,9 @@
 	import Modal from '../common/Modal.svelte';
 	import Link from '../icons/Link.svelte';
 
-	export let chatId;
+	export let chatId: any;
 
-	let chat = null;
+	let chat: any = null;
 	let shareUrl = null;
 	const i18n = getI18n();
 
@@ -35,7 +35,7 @@
 		const tab = await window.open(`${url}/chats/upload`, '_blank');
 		window.addEventListener(
 			'message',
-			(event) => {
+			(event: any) => {
 				if (event.origin !== url) return;
 				if (event.data === 'loaded') {
 					tab.postMessage(
@@ -53,7 +53,7 @@
 
 	export let show = false;
 
-	const isDifferentChat = (_chat) => {
+	const isDifferentChat = (_chat: any) => {
 		if (!chat) {
 			return true;
 		}
@@ -87,6 +87,7 @@
 		<div class=" flex justify-between dark:text-gray-300 px-5 pt-4 pb-0.5">
 			<h2 class=" text-lg font-medium self-center">{$i18n.t('Share Chat')}</h2>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;
@@ -109,7 +110,7 @@
 			<div class="px-5 pt-4 pb-5 w-full flex flex-col justify-center">
 				<div class=" text-sm dark:text-gray-300 mb-1">
 					{#if chat.share_id}
-						<a href="/s/{chat.share_id}" target="_blank"
+						<a href="/s/{chat.share_id}" target="_blank" aria-label="Link"
 							>{$i18n.t('You have shared this chat')}
 							<span class=" underline">{$i18n.t('before')}</span>.</a
 						>

@@ -33,7 +33,7 @@
 	let enable = true;
 
 	let modelId = '';
-	let modelIds = [];
+	let modelIds: any[] = [];
 
 	let loading = false;
 
@@ -147,7 +147,7 @@
 	});
 </script>
 
-<Modal size="sm" bind:show returnfocusSelector="#add-connection">
+<Modal size="sm" bind:show returnFocusSelector="#add-connection">
 	<div>
 		<div class=" flex justify-between dark:text-gray-100 px-5 pt-4 pb-2">
 			<div class=" text-lg font-medium self-center font-primary">
@@ -162,6 +162,7 @@
 				{/if}
 			</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;
@@ -184,7 +185,7 @@
 			<div class=" flex flex-col w-full sm:flex-row sm:justify-center sm:space-x-6">
 				<form
 					class="flex flex-col w-full"
-					on:submit={(e) => {
+					on:submit={(e: any) => {
 						e.preventDefault();
 						submitHandler();
 					}}
@@ -208,6 +209,7 @@
 
 							<Tooltip content="Verify Connection" className="self-end -mb-1">
 								<button
+									aria-label="Action"
 									class="self-center p-1 bg-transparent hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-850 rounded-lg transition"
 									on:click={() => {
 										verifyHandler();
@@ -357,6 +359,7 @@
 								: ''}"
 							type="submit"
 							disabled={loading}
+							aria-label="Action"
 						>
 							{$i18n.t('Save')}
 

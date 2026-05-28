@@ -2,7 +2,7 @@
 	import { getI18n } from '$lib/utils/context';
 
 	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 	const i18n = getI18n();
 
 	import { settings } from '$lib/stores';
@@ -11,32 +11,37 @@
 	import ResponseMessage from './ResponseMessage.svelte';
 	import UserMessage from './UserMessage.svelte';
 
-	export let chatId;
+	type HistoryMessage = {
+		id: string;
+		parentId: string | null;
+	};
+
+	export let chatId: any;
 	export let idx = 0;
 
-	export let history;
-	export let messageId;
+	export let history: any;
+	export let messageId: any;
 
-	export let user;
+	export let user: any;
 	export let selectedToolIds: string[] = [];
 
-	export let showPreviousMessage;
-	export let showNextMessage;
-	export let updateChat;
+	export let showPreviousMessage: any;
+	export let showNextMessage: any;
+	export let updateChat: any;
 
-	export let editMessage;
-	export let saveMessage;
-	export let deleteMessage;
-	export let rateMessage;
-	export let actionMessage;
-	export let submitMessage;
+	export let editMessage: any;
+	export let saveMessage: any;
+	export let deleteMessage: any;
+	export let rateMessage: any;
+	export let actionMessage: any;
+	export let submitMessage: any;
 
-	export let regenerateResponse;
-	export let continueResponse;
-	export let mergeResponses;
+	export let regenerateResponse: any;
+	export let continueResponse: any;
+	export let mergeResponses: any;
 
-	export let addMessages;
-	export let triggerScroll;
+	export let addMessages: any;
+	export let triggerScroll: any;
 	export let readOnly = false;
 </script>
 
@@ -54,7 +59,7 @@
 				isFirstMessage={idx === 0}
 				siblings={history.messages[messageId].parentId !== null
 					? (history.messages[history.messages[messageId].parentId]?.childrenIds ?? [])
-					: (Object.values(history.messages)
+					: (Object.values(history.messages as Record<string, HistoryMessage>)
 							.filter((message) => message.parentId === null)
 							.map((message) => message.id) ?? [])}
 				{showPreviousMessage}

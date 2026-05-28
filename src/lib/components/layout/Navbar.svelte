@@ -27,8 +27,8 @@
 	export let title: string = $WEBUI_NAME;
 	export let shareEnabled: boolean = false;
 
-	export let chat;
-	export let selectedModels;
+	export let chat: any;
+	export let selectedModels: any;
 	export let showModelSelector = true;
 
 	let showShareChatModal = false;
@@ -89,6 +89,7 @@
 						<button
 							class="flex cursor-pointer px-2 py-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-850 transition"
 							id="chat-context-menu-button"
+							aria-label="Action"
 						>
 							<div class=" m-auto self-center">
 								<svg
@@ -159,7 +160,7 @@
 					<UserMenu
 						className="max-w-[200px]"
 						role={$user.role}
-						on:show={(e) => {
+						on:show={(e: any) => {
 							if (e.detail === 'archived-chat') {
 								showArchivedChats.set(true);
 							}

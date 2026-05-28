@@ -31,12 +31,12 @@
 
 	let recording = false;
 	let content = '';
-	let files = [];
+	let files: any[] = [];
 
-	let filesInputElement;
-	let inputFiles;
+	let filesInputElement: HTMLInputElement;
+	let inputFiles: any;
 
-	export let typingUsers = [];
+	export let typingUsers: any[] = [];
 
 	export let onSubmit: Function;
 	export let onChange: Function;
@@ -83,19 +83,20 @@
 		}
 	};
 
-	const inputFilesHandler = async (inputFiles) => {
-		inputFiles.forEach((file) => {
-			if (
-				($config?.file?.max_size ?? null) !== null &&
-				file.size > ($config?.file?.max_size ?? 0) * 1024 * 1024
-			) {
+	const inputFilesHandler = async (inputFiles: any) => {
+		const maxFileSizeMb = Number($config?.file?.max_size ?? 0);
+		const hasMaxFileSize = ($config?.file?.max_size ?? null) !== null;
+		const maxFileSizeBytes = maxFileSizeMb * 1024 * 1024;
+
+		inputFiles.forEach((file: any) => {
+			if (hasMaxFileSize && file.size > maxFileSizeBytes) {
 				console.log('File exceeds max size limit:', {
 					fileSize: file.size,
-					maxSize: ($config?.file?.max_size ?? 0) * 1024 * 1024
+					maxSize: maxFileSizeBytes
 				});
 				toast.error(
 					$i18n.t(`File size should not exceed {{maxSize}} MB.`, {
-						maxSize: $config?.file?.max_size
+						maxSize: maxFileSizeMb
 					})
 				);
 				return;
@@ -104,7 +105,7 @@
 			if (['image/gif', 'image/webp', 'image/jpeg', 'image/png'].includes(file['type'])) {
 				let reader = new FileReader();
 
-				reader.onload = async (event) => {
+				reader.onload = async (event: any) => {
 					let imageUrl = event.target.result;
 
 					if ($settings?.imageCompression ?? false) {
@@ -132,7 +133,7 @@
 		});
 	};
 
-	const uploadFileHandler = async (file) => {
+	const uploadFileHandler = async (file: any) => {
 		const tempItemId = uuidv4();
 		const fileItem = {
 			type: 'file',
@@ -202,7 +203,7 @@
 		}
 	};
 
-	const onDragOver = (e) => {
+	const onDragOver = (e: any) => {
 		e.preventDefault();
 
 		// Check if a file is being draggedOver.
@@ -217,7 +218,7 @@
 		draggedOver = false;
 	};
 
-	const onDrop = async (e) => {
+	const onDrop = async (e: any) => {
 		e.preventDefault();
 		if (e.dataTransfer?.files) {
 			const inputFiles = Array.from(e.dataTransfer?.files);
@@ -321,6 +322,7 @@
 							class=" absolute -top-12 left-0 right-0 flex justify-center z-30 pointer-events-none"
 						>
 							<button
+								aria-label="Action"
 								class=" bg-white border border-gray-100 dark:border-none dark:bg-white/20 p-1.5 rounded-full pointer-events-auto"
 								on:click={() => {
 									scrollEnd = true;
@@ -369,7 +371,7 @@
 						await tick();
 						document.getElementById(`chat-input-${id}`)?.focus();
 					}}
-					on:confirm={async (e) => {
+					on:confirm={async (e: any) => {
 						const { text, filename } = e.detail;
 						content = `${content}${text} `;
 						recording = false;
@@ -402,6 +404,7 @@
 											</div>
 											<div class=" absolute -top-1 -right-1">
 												<button
+													aria-label="Action"
 													class=" bg-gray-400 text-white border border-white rounded-full group-hover:visible invisible transition"
 													type="button"
 													on:click={() => {
@@ -479,11 +482,11 @@
 										!(
 											'ontouchstart' in window ||
 											navigator.maxTouchPoints > 0 ||
-											navigator.msMaxTouchPoints > 0
+											navigator.maxTouchPoints > 0
 										)}
 									{placeholder}
 									largeTextAsFile={$settings?.largeTextAsFile ?? false}
-									on:keydown={async (e) => {
+									on:keydown={async (e: any) => {
 										e = e.detail.event;
 										const isCtrlPressed = e.ctrlKey || e.metaKey; // metaKey is for Cmd key on Mac
 										if (
@@ -491,7 +494,7 @@
 											!(
 												'ontouchstart' in window ||
 												navigator.maxTouchPoints > 0 ||
-												navigator.msMaxTouchPoints > 0
+												navigator.maxTouchPoints > 0
 											)
 										) {
 											// Prevent Enter key from creating a new line
@@ -506,7 +509,7 @@
 											}
 										}
 									}}
-									on:paste={async (e) => {
+									on:paste={async (e: any) => {
 										e = e.detail.event;
 										console.log(e);
 									}}
@@ -570,6 +573,7 @@
 													: 'text-white bg-gray-200 dark:text-gray-900 dark:bg-gray-700 disabled'} transition rounded-full p-1.5 self-center"
 												type="submit"
 												disabled={content === '' || hasUploadingFiles}
+												aria-label="Action"
 											>
 												<svg
 													xmlns="http://www.w3.org/2000/svg"

@@ -19,7 +19,7 @@
 	};
 
 	let selectedGroupId = '';
-	let groups = [];
+	let groups: any[] = [];
 
 	onMount(async () => {
 		try {
@@ -102,7 +102,7 @@
 						id="models"
 						class="outline-none bg-transparent text-sm font-medium rounded-lg block w-fit pr-8 max-w-full placeholder-gray-400"
 						value={accessControl !== null ? 'private' : 'public'}
-						on:change={(e) => {
+						on:change={(e: any) => {
 							accessControl =
 								e.target.value === 'public'
 									? null

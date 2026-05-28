@@ -58,6 +58,7 @@
 				<button
 					class="text-sm text-center w-full mb-5 text-gray-700 dark:text-gray-200 underline"
 					on:click={toggleLanguage}
+					aria-label="Action"
 				>
 					{currentLangDisplay}
 				</button>
@@ -75,6 +76,7 @@
 					<a
 						href="mailto:dsaiclientengagement.sdiaclientmobilisation@ssc-spc.gc.ca"
 						class="underline"
+						aria-label="Link"
 					>
 						{currentTranslation.action}
 					</a>

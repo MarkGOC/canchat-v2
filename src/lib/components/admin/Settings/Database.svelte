@@ -42,11 +42,11 @@
 				hidden
 				type="file"
 				accept=".json"
-				on:change={(e) => {
+				on:change={(e: any) => {
 					const file = e.target.files[0];
 					const reader = new FileReader();
 
-					reader.onload = async (e) => {
+					reader.onload = async (e: any) => {
 						const res = await importConfig(localStorage.token, JSON.parse(e.target.result)).catch(
 							(error) => {
 								toast.error(`${error}`);
@@ -190,7 +190,7 @@
 		<button
 			class=" px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-gray-100 transition rounded-lg"
 			type="submit"
-		>
+		 aria-label="Action">
 			{$i18n.t('Save')}
 		</button>
 

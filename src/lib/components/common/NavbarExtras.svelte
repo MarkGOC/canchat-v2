@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { config, showArchivedChats, user } from '$lib/stores';
-	import { getContext } from 'svelte';
+	import { getI18n } from '$lib/utils/context';
 	import ShortcutsModal from '$lib/components/chat/ShortcutsModal.svelte';
 	import QuestionMarkCircle from '$lib/components/icons/QuestionMarkCircle.svelte';
 	import HelpMenu from '$lib/components/layout/Help/HelpMenu.svelte';
@@ -10,7 +10,7 @@
 	import SuggestionModal from '$lib/components/common/SuggestionModal.svelte';
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
 
-	const i18n = getContext('i18n');
+	const i18n = getI18n();
 
 	// Modals
 	let showShortcuts = false;
@@ -61,7 +61,7 @@
 			>
 				<UserMenu
 					role={$user.role}
-					on:show={(e) => {
+					on:show={(e: any) => {
 						if (e.detail === 'archived-chat') {
 							showArchivedChats.set(true);
 						}

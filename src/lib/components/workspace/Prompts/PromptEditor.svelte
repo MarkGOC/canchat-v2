@@ -68,7 +68,7 @@
 		loading = false;
 	};
 
-	const validateCommandString = (inputString) => {
+	const validateCommandString = (inputString: any) => {
 		// Regular expression to match only alphanumeric characters and hyphen
 		const regex = /^[a-zA-Z0-9-]+$/;
 
@@ -189,6 +189,7 @@
 					: 'bg-gray-900 hover:bg-gray-850 text-white dark:bg-gray-100 dark:hover:bg-white dark:text-gray-800'} flex"
 				type="submit"
 				disabled={loading}
+				aria-label="Action"
 			>
 				<div class="self-center font-medium">
 					{edit ? $i18n.t('Save Changes') : $i18n.t('Create Prompt')}

@@ -185,6 +185,7 @@
 						type="button"
 						on:click={closeModal}
 						class="text-sm px-4 py-2 transition rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-850 dark:hover:bg-gray-800 dark:text-white"
+						aria-label="Action"
 					>
 						<div class="self-center font-medium">
 							{$i18n.t('Cancel')}
@@ -196,6 +197,7 @@
 						class="text-sm px-4 py-2 transition rounded-lg {loading
 							? 'cursor-not-allowed bg-gray-400 text-white dark:bg-gray-100 dark:text-gray-800'
 							: 'bg-gray-900 hover:bg-gray-850 text-white dark:bg-gray-100 dark:hover:bg-white dark:text-gray-800'} flex"
+						aria-label="Action"
 					>
 						<div class="self-center font-medium">
 							{$i18n.t('Submit')}

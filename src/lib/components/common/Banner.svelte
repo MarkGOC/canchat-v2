@@ -9,7 +9,7 @@
 
 	const i18n = getI18n();
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	export let banner: Banner = {
 		id: '',
@@ -78,7 +78,8 @@
 							<a
 								class="text-gray-700 dark:text-white text-xs font-semibold underline"
 								href="/assets/files/whitepaper.pdf"
-								target="_blank">Learn More</a
+								target="_blank"
+								aria-label="Link">Learn More</a
 							>
 
 							<div
@@ -112,7 +113,8 @@
 					<a
 						class="text-gray-700 dark:text-white text-xs font-semibold underline"
 						href="/"
-						target="_blank">Learn More</a
+						target="_blank"
+						aria-label="Link">Learn More</a
 					>
 
 					<div class=" ml-1 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-white">

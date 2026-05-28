@@ -29,21 +29,23 @@
 	import ArrowDownTray from '$lib/components/icons/ArrowDownTray.svelte';
 	import ManageModelsModal from './Models/ManageModelsModal.svelte';
 
-	let importFiles;
+	let importFiles: any;
 	let modelsImportInputElement: HTMLInputElement;
 
 	let models = null;
 	let workspaceModels = null;
 	let baseModels = null;
-	let filteredModels = [];
+	let filteredModels: any[] = [];
 	let selectedModelId = null;
 	let showConfigModal = false;
 	let showManageModal = false;
 	let searchValue = '';
 
 	$: filteredModels = models
-		?.filter((m) => searchValue === '' || m.name.toLowerCase().includes(searchValue.toLowerCase()))
-		.map((model) => ({
+		?.filter(
+			(m: any) => searchValue === '' || m.name.toLowerCase().includes(searchValue.toLowerCase())
+		)
+		.map((model: any) => ({
 			...model,
 			description: ($i18n.language === 'fr-CA'
 				? model?.meta?.description_fr || ''
@@ -51,7 +53,7 @@
 			).trim()
 		}));
 
-	const downloadModels = async (models) => {
+	const downloadModels = async (models: any) => {
 		let blob = new Blob([JSON.stringify(models)], {
 			type: 'application/json'
 		});
@@ -63,8 +65,8 @@
 		baseModels = await getModels(localStorage.token, true);
 
 		models = baseModels
-			.map((m) => {
-				const workspaceModel = workspaceModels.find((wm) => wm.id === m.id);
+			.map((m: any) => {
+				const workspaceModel = workspaceModels.find((wm: any) => wm.id === m.id);
 
 				if (workspaceModel) {
 					return {
@@ -80,13 +82,13 @@
 					};
 				}
 			})
-			.sort((a, b) => a.name.localeCompare(b.name));
+			.sort((a: any, b: any) => a.name.localeCompare(b.name));
 	};
 
-	const upsertModelHandler = async (model) => {
+	const upsertModelHandler = async (model: any) => {
 		model.base_model_id = null;
 
-		if (workspaceModels.find((m) => m.id === model.id)) {
+		if (workspaceModels.find((m: any) => m.id === model.id)) {
 			const res = await updateModelById(localStorage.token, model.id, model).catch(() => null);
 
 			if (res) {
@@ -104,7 +106,7 @@
 		await init();
 	};
 
-	const toggleModelHandler = async (model) => {
+	const toggleModelHandler = async (model: any) => {
 		if (!Object.keys(model).includes('base_model_id')) {
 			await createNewModel(localStorage.token, {
 				id: model.id,
@@ -229,6 +231,7 @@
 						</button>
 						<div class="flex flex-row gap-0.5 items-center self-center">
 							<button
+								aria-label="Action"
 								class="self-center w-fit text-sm px-2 py-2 dark:text-gray-300 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-xl"
 								type="button"
 								on:click={() => {
@@ -287,7 +290,7 @@
 						hidden
 						on:change={() => {
 							let reader = new FileReader();
-							reader.onload = async (event) => {
+							reader.onload = async (event: any) => {
 								let savedModels = JSON.parse(event.target.result);
 
 								for (const model of savedModels) {
@@ -369,9 +372,9 @@
 	{:else}
 		<ModelEditor
 			edit
-			model={models.find((m) => m.id === selectedModelId)}
+			model={models.find((m: any) => m.id === selectedModelId)}
 			preset={false}
-			onSubmit={(model) => {
+			onSubmit={(model: any) => {
 				upsertModelHandler(model);
 				selectedModelId = null;
 			}}

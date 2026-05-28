@@ -2,9 +2,9 @@
 	import { createEventDispatcher } from 'svelte';
 	import Tooltip from '../Tooltip.svelte';
 	import XMark from '$lib/components/icons/XMark.svelte';
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
-	export let tags = [];
+	export let tags: any[] = [];
 </script>
 
 {#each tags as tag}

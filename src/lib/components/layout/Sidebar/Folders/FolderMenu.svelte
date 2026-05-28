@@ -6,7 +6,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import Dropdown from '$lib/components/common/Dropdown.svelte';
 	import GarbageBin from '$lib/components/icons/GarbageBin.svelte';
@@ -21,7 +21,7 @@
 
 <Dropdown
 	bind:show
-	on:change={(e) => {
+	on:change={(e: any) => {
 		if (e.detail === false) {
 			dispatch('close');
 		}
@@ -38,11 +38,11 @@
 			sideOffset={-2}
 			side="bottom"
 			align="start"
-			transition={flyAndScale}
+			{...{ transition: flyAndScale } as any}
 		>
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-1.5 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					dispatch('rename');
 				}}
 			>
@@ -52,7 +52,7 @@
 
 			<DropdownMenu.Item
 				class="flex  gap-2  items-center px-3 py-1.5 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					dispatch('delete');
 				}}
 			>

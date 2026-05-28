@@ -329,7 +329,7 @@
 						scope="col"
 						class="px-2 py-1.5 w-16 text-center cursor-pointer"
 						on:click={() => setSortKey('user.name')}
-						on:keydown={(e) => e.key === 'Enter' && setSortKey('user.name')}
+						on:keydown={(e: any) => e.key === 'Enter' && setSortKey('user.name')}
 						tabindex="0"
 						aria-sort={sortKey === 'user.name'
 							? sortOrder === 'asc'
@@ -359,7 +359,7 @@
 						scope="col"
 						class="px-3 py-1.5 w-[12%] cursor-pointer select-none"
 						on:click={() => setSortKey('data.model_id')}
-						on:keydown={(e) => e.key === 'Enter' && setSortKey('data.model_id')}
+						on:keydown={(e: any) => e.key === 'Enter' && setSortKey('data.model_id')}
 						tabindex="0"
 						role="columnheader"
 						aria-sort={sortKey === 'data.model_id'
@@ -399,7 +399,7 @@
 						scope="col"
 						class="px-1 py-1.5 w-16 cursor-pointer select-none"
 						on:click={() => setSortKey('data.rating')}
-						on:keydown={(e) => e.key === 'Enter' && setSortKey('data.rating')}
+						on:keydown={(e: any) => e.key === 'Enter' && setSortKey('data.rating')}
 						tabindex="0"
 						role="columnheader"
 						aria-sort={sortKey === 'data.rating'
@@ -434,7 +434,7 @@
 						scope="col"
 						class="px-1 py-1.5 w-16 cursor-pointer select-none"
 						on:click={() => setSortKey('data.details.rating')}
-						on:keydown={(e) => e.key === 'Enter' && setSortKey('data.details.rating')}
+						on:keydown={(e: any) => e.key === 'Enter' && setSortKey('data.details.rating')}
 						tabindex="0"
 						role="columnheader"
 						aria-sort={sortKey === 'data.details.rating'
@@ -469,7 +469,7 @@
 						scope="col"
 						class="px-3 py-1.5 w-[13%] cursor-pointer select-none"
 						on:click={() => setSortKey('data.reason')}
-						on:keydown={(e) => e.key === 'Enter' && setSortKey('data.reason')}
+						on:keydown={(e: any) => e.key === 'Enter' && setSortKey('data.reason')}
 						tabindex="0"
 						role="columnheader"
 						aria-sort={sortKey === 'data.reason'
@@ -504,7 +504,7 @@
 						scope="col"
 						class="px-3 py-1.5 w-[15%] cursor-pointer select-none"
 						on:click={() => setSortKey('data.comment')}
-						on:keydown={(e) => e.key === 'Enter' && setSortKey('data.comment')}
+						on:keydown={(e: any) => e.key === 'Enter' && setSortKey('data.comment')}
 						tabindex="0"
 						role="columnheader"
 						aria-sort={sortKey === 'data.comment'
@@ -544,7 +544,7 @@
 						scope="col"
 						class="px-3 py-1.5 w-[13%] text-right cursor-pointer select-none"
 						on:click={() => setSortKey('updated_at')}
-						on:keydown={(e) => e.key === 'Enter' && setSortKey('updated_at')}
+						on:keydown={(e: any) => e.key === 'Enter' && setSortKey('updated_at')}
 						tabindex="0"
 						role="columnheader"
 						aria-sort={sortKey === 'updated_at'

@@ -8,11 +8,11 @@
 	const i18n = getI18n();
 
 	export let show = false;
-	export let citation;
+	export let citation: any;
 	export let showPercentage = false;
 	export let showRelevance = true;
 
-	let mergedDocuments = [];
+	let mergedDocuments: any[] = [];
 
 	function calculatePercentage(distance: number) {
 		if (distance < 0) return 0;
@@ -31,7 +31,7 @@
 	}
 
 	$: if (citation) {
-		mergedDocuments = citation.document?.map((c, i) => {
+		mergedDocuments = citation.document?.map((c: any, i: any) => {
 			return {
 				source: citation.source,
 				document: c,
@@ -54,6 +54,7 @@
 				{$i18n.t('Citation')}
 			</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;
@@ -98,6 +99,7 @@
 												? document.source.url
 												: `#`}
 										target="_blank"
+										aria-label="Link"
 									>
 										{document?.metadata?.name ?? document.source.name}
 									</a>

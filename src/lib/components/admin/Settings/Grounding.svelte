@@ -88,6 +88,7 @@
 			class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full disabled:opacity-50"
 			type="submit"
 			disabled={loading}
+			aria-label="Action"
 		>
 			{#if loading}
 				<svg class="w-3.5 h-3.5 animate-spin mr-2 inline" viewBox="0 0 24 24" fill="currentColor">

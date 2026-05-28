@@ -44,7 +44,7 @@ async function loadPyodideAndPackages(packages: string[] = []) {
 	await micropip.install(packages);
 }
 
-self.onmessage = async (event) => {
+self.onmessage = async (event: any) => {
 	const { id, code, ...context } = event.data;
 
 	// The worker copies the context in its own "memory" (an object mapping name to values)

@@ -10,19 +10,19 @@
 	import Dropdown from '$lib/components/common/Dropdown.svelte';
 
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	export let onClose: Function = () => {};
 
 	let query = '';
 
-	let items = [];
-	let filteredItems = [];
+	let items: any[] = [];
+	let filteredItems: any[] = [];
 
 	let fuse = null;
 	$: if (fuse) {
 		filteredItems = query
-			? fuse.search(query).map((e) => {
+			? fuse.search(query).map((e: any) => {
 					return e.item;
 				})
 			: items;
@@ -45,16 +45,20 @@
 
 						...legacy_documents
 							.reduce((a, item) => {
-								return [...new Set([...a, ...(item?.meta?.tags ?? []).map((tag) => tag.name)])];
+								return [
+									...new Set([...a, ...(item?.meta?.tags ?? []).map((tag: any) => tag.name)])
+								];
 							}, [])
-							.map((tag) => ({
+							.map((tag: any) => ({
 								name: tag,
 								legacy: true,
 								type: 'collection',
 								description: 'Deprecated (legacy collection), please create a new knowledge base.',
 
 								collection_names: legacy_documents
-									.filter((item) => (item?.meta?.tags ?? []).map((tag) => tag.name).includes(tag))
+									.filter((item) =>
+										(item?.meta?.tags ?? []).map((tag: any) => tag.name).includes(tag)
+									)
 									.map((item) => item.id)
 							}))
 					]
@@ -75,7 +79,7 @@
 </script>
 
 <Dropdown
-	on:change={(e) => {
+	on:change={(e: any) => {
 		if (e.detail === false) {
 			onClose();
 			query = '';
@@ -90,7 +94,7 @@
 			sideOffset={8}
 			side="bottom"
 			align="start"
-			transition={flyAndScale}
+			{...{ transition: flyAndScale } as any}
 		>
 			<div class=" flex w-full space-x-2 py-0.5 px-2">
 				<div class="flex flex-1">
@@ -127,7 +131,7 @@
 					{#each filteredItems as item}
 						<DropdownMenu.Item
 							class="flex gap-2.5 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-							on:click={() => {
+							onclick={() => {
 								dispatch('select', item);
 							}}
 						>

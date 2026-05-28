@@ -7,7 +7,7 @@
 	import dayjs from 'dayjs';
 	import { createEventDispatcher } from 'svelte';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import { archiveChatById, deleteChatById, getArchivedChatList } from '$lib/apis/chats';
 
@@ -21,7 +21,7 @@
 
 	export let show = false;
 
-	let chats = [];
+	let chats: any[] = [];
 
 	let searchValue = '';
 	let showUnarchiveAllConfirmDialog = false;
@@ -29,9 +29,9 @@
 	let deleteChatId = null;
 	let deleteChatTitle = '';
 
-	let filteredChatList = [];
+	let filteredChatList: any[] = [];
 
-	const unarchiveChatHandler = async (chatId) => {
+	const unarchiveChatHandler = async (chatId: any) => {
 		const res = await archiveChatById(localStorage.token, chatId).catch((error) => {
 			toast.error(`${error}`);
 		});
@@ -43,7 +43,7 @@
 		dispatch('change');
 	};
 
-	const deleteChatHandler = async (chatId) => {
+	const deleteChatHandler = async (chatId: any) => {
 		const res = await deleteChatById(localStorage.token, chatId).catch((error) => {
 			toast.error(`${error}`);
 		});
@@ -54,7 +54,7 @@
 		chats = await getArchivedChatList(localStorage.token);
 	};
 
-	const confirmDeleteChat = (chat) => {
+	const confirmDeleteChat = (chat: any) => {
 		deleteChatId = chat.id;
 		deleteChatTitle = chat.title;
 		showDeleteConfirm = true;
@@ -190,7 +190,7 @@
 											>
 												<td class="px-3 py-1 w-2/3">
 													<Tooltip placement="top-start" content={chat.title}>
-														<a href="/c/{chat.id}" target="_blank">
+														<a href="/c/{chat.id}" target="_blank" aria-label="Link">
 															<div class=" underline line-clamp-1">
 																{chat.title}
 															</div>

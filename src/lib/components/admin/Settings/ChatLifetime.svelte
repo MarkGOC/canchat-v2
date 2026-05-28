@@ -4,7 +4,7 @@
 	import type { Writable } from 'svelte/store';
 	import type { i18n as i18nType } from 'i18next';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 	const i18n = getContext<Writable<i18nType>>('i18n');
 
 	import {
@@ -192,7 +192,7 @@
 					</div>
 					<Switch
 						state={config.enabled}
-						on:change={(e) => {
+						on:change={(e: any) => {
 							config.enabled = e.detail;
 						}}
 					/>
@@ -252,7 +252,7 @@
 						</div>
 						<Switch
 							state={config.preserve_pinned}
-							on:change={(e) => {
+							on:change={(e: any) => {
 								config.preserve_pinned = e.detail;
 							}}
 						/>
@@ -271,7 +271,7 @@
 						</div>
 						<Switch
 							state={config.preserve_archived}
-							on:change={(e) => {
+							on:change={(e: any) => {
 								config.preserve_archived = e.detail;
 							}}
 						/>
@@ -327,6 +327,7 @@
 									href={`https://crontab.guru/#${scheduleInfo.schedule_cron.replace(/\s+/g, '_')}`}
 									target="_blank"
 									rel="noopener noreferrer"
+									aria-label="Link"
 								>
 									{scheduleInfo.schedule_cron}
 								</a>
@@ -364,6 +365,7 @@
 						class="w-full px-3.5 py-1.5 text-sm font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 transition rounded-full disabled:opacity-50"
 						disabled={cleanupLoading}
 						on:click={confirmComprehensiveCleanup}
+						aria-label="Action"
 					>
 						{#if cleanupLoading}
 							<div class="flex items-center justify-center space-x-2">
@@ -394,6 +396,7 @@
 			class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full"
 			on:click={updateChatLifetimeConfigHandler}
 			disabled={loading}
+			aria-label="Action"
 		>
 			{loading ? $i18n.t('Saving...') : $i18n.t('Save')}
 		</button>

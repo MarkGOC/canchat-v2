@@ -35,7 +35,7 @@
 
 	// export let tagHandler: Function;
 
-	export let chat;
+	export let chat: any;
 	export let onClose: Function = () => {};
 
 	export let buttonClass = '';
@@ -45,7 +45,7 @@
 	const getChatAsText = async () => {
 		const history = chat.chat.history;
 		const messages = createMessagesList(history, history.currentId);
-		const chatText = messages.reduce((a, message, i, arr) => {
+		const chatText = messages.reduce((a: any, message: any, i: any, arr: any) => {
 			return `${a}### ${message.role.toUpperCase()}\n${message.content}\n\n`;
 		}, '');
 
@@ -88,7 +88,7 @@
 </script>
 
 <Dropdown
-	on:change={(e) => {
+	on:change={(e: any) => {
 		if (e.detail === false) {
 			onClose();
 		}
@@ -105,11 +105,11 @@
 			sideOffset={8}
 			side="bottom"
 			align="end"
-			transition={flyAndScale}
+			{...{ transition: flyAndScale } as any}
 		>
 			<!-- <DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer dark:hover:bg-gray-800 rounded-md"
-				on:click={async () => {
+				onclick={async () => {
 					await showSettings.set(!$showSettings);
 				}}
 			>
@@ -139,7 +139,7 @@
 				<DropdownMenu.Item
 					class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
 					id="chat-controls-button"
-					on:click={async () => {
+					onclick={async () => {
 						await showControls.set(true);
 						await showOverview.set(false);
 						await showArtifacts.set(false);
@@ -154,7 +154,7 @@
 				<DropdownMenu.Item
 					class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
 					id="chat-share-button"
-					on:click={async () => {
+					onclick={async () => {
 						await returnFocusButtonID.set(buttonID);
 						shareHandler();
 					}}
@@ -178,7 +178,7 @@
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
 				id="chat-overview-button"
-				on:click={async () => {
+				onclick={async () => {
 					await showControls.set(true);
 					await showOverview.set(true);
 					await showArtifacts.set(false);
@@ -191,7 +191,7 @@
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
 				id="chat-overview-button"
-				on:click={async () => {
+				onclick={async () => {
 					await showControls.set(true);
 					await showArtifacts.set(true);
 					await showOverview.set(false);
@@ -224,12 +224,12 @@
 				</DropdownMenu.SubTrigger>
 				<DropdownMenu.SubContent
 					class="w-full rounded-xl px-1 py-1.5 z-50 bg-white dark:bg-gray-850 dark:text-white shadow-lg"
-					transition={flyAndScale}
+					{...{ transition: flyAndScale } as any}
 					sideOffset={8}
 				>
 					<DropdownMenu.Item
 						class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-						on:click={() => {
+						onclick={() => {
 							downloadTxt();
 						}}
 					>
@@ -238,7 +238,7 @@
 
 					<DropdownMenu.Item
 						class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-						on:click={() => {
+						onclick={() => {
 							downloadPdf();
 						}}
 					>
@@ -250,8 +250,8 @@
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
 				id="chat-copy-button"
-				on:click={async () => {
-					const res = await copyToClipboard(await getChatAsText()).catch((e) => {
+				onclick={async () => {
+					const res = await copyToClipboard(await getChatAsText()).catch((e: any) => {
 						console.error(e);
 					});
 

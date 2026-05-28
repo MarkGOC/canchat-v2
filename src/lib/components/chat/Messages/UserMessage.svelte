@@ -19,12 +19,12 @@
 
 	const i18n = getI18n();
 
-	export let user;
+	export let user: any;
 
-	export let history;
-	export let messageId;
+	export let history: any;
+	export let messageId: any;
 
-	export let siblings;
+	export let siblings: any;
 
 	export let showPreviousMessage: Function;
 	export let showNextMessage: Function;
@@ -47,7 +47,7 @@
 		}
 	}
 
-	const copyToClipboard = async (text) => {
+	const copyToClipboard = async (text: any) => {
 		const res = await _copyToClipboard(text);
 		if (res) {
 			toast.success($i18n.t('Copying to clipboard was successful!'));
@@ -158,11 +158,11 @@
 							bind:this={messageEditTextAreaElement}
 							class=" bg-transparent outline-none w-full resize-none"
 							bind:value={editedContent}
-							on:input={(e) => {
+							on:input={(e: any) => {
 								e.target.style.height = '';
 								e.target.style.height = `${e.target.scrollHeight}px`;
 							}}
-							on:keydown={(e) => {
+							on:keydown={(e: any) => {
 								if (e.key === 'Escape') {
 									document.getElementById('close-edit-message-button')?.click();
 								}
@@ -238,6 +238,7 @@
 							{#if siblings.length > 1}
 								<div class="flex self-center">
 									<button
+										aria-label="Action"
 										class="self-center p-1 hover:bg-black/5 dark:hover:bg-white/5 dark:hover:text-white hover:text-black rounded-md transition"
 										on:click={() => {
 											showPreviousMessage(message);
@@ -264,6 +265,7 @@
 									</div>
 
 									<button
+										aria-label="Action"
 										class="self-center p-1 hover:bg-black/5 dark:hover:bg-white/5 dark:hover:text-white hover:text-black rounded-md transition"
 										on:click={() => {
 											showNextMessage(message);

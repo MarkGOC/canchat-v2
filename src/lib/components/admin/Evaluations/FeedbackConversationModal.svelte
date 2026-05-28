@@ -14,8 +14,14 @@
 	// Track if we're viewing the chat details
 	let viewingChat = false;
 
+	type SnapshotMessage = {
+		role?: string;
+		content?: string;
+		timestamp?: number;
+	};
+
 	// Create a synthesized snapshot if one doesn't exist
-	function ensureSnapshot(feedback) {
+	function ensureSnapshot(feedback: any) {
 		if (!feedback) return feedback;
 
 		if (!feedback.snapshot && feedback.meta?.chat_id) {
@@ -35,7 +41,7 @@
 	}
 
 	// Extract chat information from feedback with better title extraction
-	function extractChatInfo(feedback) {
+	function extractChatInfo(feedback: any) {
 		if (!feedback) return null;
 
 		// Ensure we have a snapshot
@@ -90,7 +96,7 @@
 	}
 
 	// Extract messages from chat snapshot with improved handling of nested structures
-	function extractConversation(feedback) {
+	function extractConversation(feedback: any) {
 		if (!feedback) return [];
 
 		// Ensure we have a snapshot
@@ -154,7 +160,7 @@
 				feedback.snapshot.chat.chat?.messages &&
 				Array.isArray(feedback.snapshot.chat.chat.messages)
 			) {
-				return feedback.snapshot.chat.chat.messages.map((msg) => ({
+				return feedback.snapshot.chat.chat.messages.map((msg: any) => ({
 					role: msg.role,
 					content: msg.content || '',
 					timestamp: msg.timestamp || 0
@@ -163,9 +169,12 @@
 
 			// Option 2: chat.chat.history.messages object
 			if (feedback.snapshot.chat.chat?.history?.messages) {
-				const messagesObj = feedback.snapshot.chat.chat.history.messages;
+				const messagesObj = feedback.snapshot.chat.chat.history.messages as Record<
+					string,
+					SnapshotMessage
+				>;
 				return Object.values(messagesObj)
-					.map((msg) => ({
+					.map((msg: SnapshotMessage) => ({
 						role: msg.role,
 						content: msg.content || '',
 						timestamp: msg.timestamp || 0
@@ -250,6 +259,7 @@
 		</div>
 
 		<button
+			aria-label="Action"
 			class="self-center"
 			on:click={() => {
 				show = false;
@@ -365,6 +375,7 @@
 									href="/s/{feedback.meta.chat_id}"
 									target="_blank"
 									class="underline text-blue-500 hover:text-blue-700 dark:text-blue-400"
+									aria-label="Link"
 								>
 									{$i18n.t('Open Chat Directly')}
 								</a>

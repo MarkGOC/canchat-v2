@@ -4,7 +4,7 @@
 	import { toast } from 'svelte-sonner';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { getLanguages } from '$lib/i18n';
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import { ariaMessage, settings, theme, user } from '$lib/stores';
 
@@ -106,14 +106,14 @@
 		}
 
 		themes
-			.filter((e) => e !== themeToApply)
-			.forEach((e) => {
-				e.split(' ').forEach((e) => {
+			.filter((e: any) => e !== themeToApply)
+			.forEach((e: any) => {
+				e.split(' ').forEach((e: any) => {
 					document.documentElement.classList.remove(e);
 				});
 			});
 
-		themeToApply.split(' ').forEach((e) => {
+		themeToApply.split(' ').forEach((e: any) => {
 			document.documentElement.classList.add(e);
 		});
 
@@ -301,7 +301,7 @@
 					params: {
 						stream_response: params.stream_response !== null ? params.stream_response : undefined,
 						seed: (params.seed !== null ? params.seed : undefined) ?? undefined,
-						stop: params.stop ? params.stop.split(',').filter((e) => e) : undefined,
+						stop: params.stop ? params.stop.split(',').filter((e: any) => e) : undefined,
 						temperature: params.temperature !== null ? params.temperature : undefined,
 						frequency_penalty:
 							params.frequency_penalty !== null ? params.frequency_penalty : undefined,

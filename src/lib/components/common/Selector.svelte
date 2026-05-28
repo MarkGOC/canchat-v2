@@ -8,7 +8,7 @@
 	import Check from '../icons/Check.svelte';
 	import Search from '../icons/Search.svelte';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	export let value = '';
 	export let placeholder = 'Select a model';
@@ -36,7 +36,7 @@
 		searchValue = '';
 	}}
 	selected={items.find((item) => item.value === value)}
-	onSelectedChange={(selectedItem) => {
+	onSelectedChange={(selectedItem: any) => {
 		value = selectedItem.value;
 	}}
 >
@@ -49,7 +49,7 @@
 	</Select.Trigger>
 	<Select.Content
 		class="w-full rounded-lg  bg-white dark:bg-gray-900 dark:text-white shadow-lg border border-gray-300/30 dark:border-gray-700/40  outline-none"
-		transition={flyAndScale}
+		{...{ transition: flyAndScale } as any}
 		sideOffset={4}
 	>
 		<slot>

@@ -3,7 +3,7 @@
 
 	import { onMount, createEventDispatcher } from 'svelte';
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import { showArtifacts, showControls } from '$lib/stores';
 	import XMark from '../icons/XMark.svelte';
@@ -14,8 +14,8 @@
 	import ArrowLeft from '../icons/ArrowLeft.svelte';
 
 	export let overlay = false;
-	export let history;
-	let messages = [];
+	export let history: any;
+	let messages: any[] = [];
 
 	let contents: Array<{ type: string; content: string }> = [];
 	let selectedContentIdx = 0;
@@ -36,10 +36,10 @@
 		messages.forEach((message) => {
 			if (message?.role !== 'user' && message?.content) {
 				const codeBlockContents = message.content.match(/```[\s\S]*?```/g);
-				let codeBlocks = [];
+				let codeBlocks: any[] = [];
 
 				if (codeBlockContents) {
-					codeBlockContents.forEach((block) => {
+					codeBlockContents.forEach((block: any) => {
 						const lang = block.split('\n')[0].replace('```', '').trim().toLowerCase();
 						const code = block.replace(/```[\s\S]*?\n/, '').replace(/```$/, '');
 						codeBlocks.push({ lang, code });
@@ -67,19 +67,19 @@
 				const inlineJs = message.content.match(/<script>[\s\S]*?<\/script>/gi);
 
 				if (inlineHtml) {
-					inlineHtml.forEach((block) => {
+					inlineHtml.forEach((block: any) => {
 						const content = block.replace(/<\/?html>/gi, ''); // Remove <html> tags
 						htmlContent += content + '\n';
 					});
 				}
 				if (inlineCss) {
-					inlineCss.forEach((block) => {
+					inlineCss.forEach((block: any) => {
 						const content = block.replace(/<\/?style>/gi, ''); // Remove <style> tags
 						cssContent += content + '\n';
 					});
 				}
 				if (inlineJs) {
-					inlineJs.forEach((block) => {
+					inlineJs.forEach((block: any) => {
 						const content = block.replace(/<\/?script>/gi, ''); // Remove <script> tags
 						jsContent += content + '\n';
 					});
@@ -161,7 +161,7 @@
 		// Cancel drag when hovering over iframe
 		iframeElement.contentWindow.addEventListener('mouseenter', function (e) {
 			e.preventDefault();
-			iframeElement.contentWindow.addEventListener('dragstart', (event) => {
+			iframeElement.contentWindow.addEventListener('dragstart', (event: any) => {
 				event.preventDefault();
 			});
 		});
@@ -244,6 +244,7 @@
 			<div class="flex items-center space-x-2">
 				<div class="flex items-center gap-0.5 self-center min-w-fit">
 					<button
+						aria-label="Action"
 						class="self-center p-1 hover:bg-black/5 dark:hover:bg-white/5 dark:hover:text-white hover:text-black rounded-md transition disabled:cursor-not-allowed"
 						on:click={() => navigateContent('prev')}
 						disabled={contents.length <= 1}
@@ -272,6 +273,7 @@
 					</div>
 
 					<button
+						aria-label="Action"
 						class="self-center p-1 hover:bg-black/5 dark:hover:bg-white/5 dark:hover:text-white hover:text-black rounded-md transition disabled:cursor-not-allowed"
 						on:click={() => navigateContent('next')}
 						disabled={contents.length <= 1}
@@ -308,6 +310,7 @@
 						<button
 							class=" bg-none border-none text-xs bg-gray-50 hover:bg-gray-100 dark:bg-gray-850 dark:hover:bg-gray-800 transition rounded-md p-0.5"
 							on:click={showFullScreen}
+							aria-label="Action"
 						>
 							<ArrowsPointingOut className="size-3.5" />
 						</button>

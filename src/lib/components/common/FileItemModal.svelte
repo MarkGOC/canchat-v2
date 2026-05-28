@@ -12,7 +12,7 @@
 	import Switch from './Switch.svelte';
 	import Tooltip from './Tooltip.svelte';
 
-	export let item;
+	export let item: any;
 	export let show = false;
 
 	export let edit = false;
@@ -36,6 +36,7 @@
 							href={item.url ? (item.type === 'file' ? `${item.url}/content` : `${item.url}`) : '#'}
 							target="_blank"
 							class="hover:underline line-clamp-1"
+							aria-label="Link"
 						>
 							{item?.name ?? 'File'}
 						</a>
@@ -93,7 +94,7 @@
 									{/if}
 									<Switch
 										bind:state={enableFullContent}
-										on:change={(e) => {
+										on:change={(e: any) => {
 											item.context = e.detail ? 'full' : undefined;
 										}}
 									/>

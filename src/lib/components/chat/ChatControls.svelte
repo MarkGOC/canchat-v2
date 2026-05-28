@@ -13,22 +13,22 @@
 	import Artifacts from './Artifacts.svelte';
 	import * as focusTrap from 'focus-trap';
 
-	export let history;
-	export let models = [];
+	export let history: any;
+	export let models: any[] = [];
 
 	export let chatId = null;
 
-	export let chatFiles = [];
-	export let params = {};
+	export let chatFiles: any[] = [];
+	export let params: Record<string, any> = {};
 
 	export let eventTarget: EventTarget;
 	export let submitPrompt: Function;
 	export let stopResponse: Function;
 	export let showMessage: Function;
-	export let files;
-	export let modelId;
+	export let files: any;
+	export let modelId: any;
 
-	export let pane;
+	export let pane: any;
 
 	let mediaQuery;
 	let largeScreen = false;
@@ -45,7 +45,7 @@
 		}
 	};
 
-	const handleMediaQuery = async (e) => {
+	const handleMediaQuery = async (e: any) => {
 		if (e.matches) {
 			largeScreen = true;
 
@@ -66,11 +66,11 @@
 		}
 	};
 
-	const onMouseDown = (event) => {
+	const onMouseDown = (event: any) => {
 		dragged = true;
 	};
 
-	const onMouseUp = (event) => {
+	const onMouseUp = (event: any) => {
 		dragged = false;
 	};
 
@@ -182,7 +182,7 @@
 					{:else if $showOverview}
 						<Overview
 							{history}
-							on:nodeclick={(e) => {
+							on:nodeclick={(e: any) => {
 								showMessage(e.detail.node.data.message);
 							}}
 							on:close={() => {
@@ -223,7 +223,7 @@
 		<Pane
 			bind:pane
 			defaultSize={0}
-			onResize={(size) => {
+			onResize={(size: any) => {
 				if ($showControls && pane.isExpanded()) {
 					if (size < minSize) {
 						pane.resize(minSize);
@@ -268,7 +268,7 @@
 						{:else if $showOverview}
 							<Overview
 								{history}
-								on:nodeclick={(e) => {
+								on:nodeclick={(e: any) => {
 									if (e.detail.node.data.message.favorite) {
 										history.messages[e.detail.node.data.message.id].favorite = true;
 									} else {

@@ -8,7 +8,7 @@
 	import fileSaver from 'file-saver';
 	const { saveAs } = fileSaver;
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import Dropdown from '$lib/components/common/Dropdown.svelte';
 	import GarbageBin from '$lib/components/icons/GarbageBin.svelte';
@@ -57,10 +57,10 @@
 		pinned = await getChatPinnedStatusById(localStorage.token, chatId);
 	};
 
-	const getChatAsText = async (chat) => {
+	const getChatAsText = async (chat: any) => {
 		const history = chat.chat.history;
 		const messages = createMessagesList(history, history.currentId);
-		const chatText = messages.reduce((a, message, i, arr) => {
+		const chatText = messages.reduce((a: any, message: any, i: any, arr: any) => {
 			return `${a}### ${message.role.toUpperCase()}\n${message.content}\n\n`;
 		}, '');
 
@@ -117,7 +117,7 @@
 
 <Dropdown
 	bind:show
-	on:change={(e) => {
+	on:change={(e: any) => {
 		if (e.detail === false) {
 			onClose();
 		}
@@ -134,11 +134,11 @@
 			sideOffset={-2}
 			side="bottom"
 			align="start"
-			transition={flyAndScale}
+			{...{ transition: flyAndScale } as any}
 		>
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-1.5 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					pinHandler();
 				}}
 			>
@@ -153,7 +153,7 @@
 
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-1.5 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					renameHandler();
 				}}
 			>
@@ -163,7 +163,7 @@
 
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-1.5 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					cloneChatHandler();
 				}}
 			>
@@ -173,7 +173,7 @@
 
 			<DropdownMenu.Item
 				class="flex gap-2 items-center px-3 py-1.5 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					archiveChatHandler();
 				}}
 			>
@@ -191,12 +191,12 @@
 				</DropdownMenu.SubTrigger>
 				<DropdownMenu.SubContent
 					class="w-full rounded-xl px-1 py-1.5 z-50 bg-white dark:bg-gray-850 dark:text-white shadow-lg"
-					transition={flyAndScale}
+					{...{ transition: flyAndScale } as any}
 					sideOffset={8}
 				>
 					<DropdownMenu.Item
 						class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-						on:click={() => {
+						onclick={() => {
 							downloadTxt();
 						}}
 					>
@@ -205,7 +205,7 @@
 
 					<DropdownMenu.Item
 						class="flex gap-2 items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-						on:click={() => {
+						onclick={() => {
 							downloadPdf();
 						}}
 					>
@@ -215,7 +215,7 @@
 			</DropdownMenu.Sub>
 			<DropdownMenu.Item
 				class="flex  gap-2  items-center px-3 py-1.5 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					deleteHandler();
 				}}
 			>
@@ -228,7 +228,7 @@
 			<div class="flex p-1">
 				<Tags
 					{chatId}
-					on:add={(e) => {
+					on:add={(e: any) => {
 						dispatch('tag', {
 							type: 'add',
 							name: e.detail.name
@@ -236,7 +236,7 @@
 
 						show = false;
 					}}
-					on:delete={(e) => {
+					on:delete={(e: any) => {
 						dispatch('tag', {
 							type: 'delete',
 							name: e.detail.name

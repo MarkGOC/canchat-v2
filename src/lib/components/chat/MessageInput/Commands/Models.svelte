@@ -10,12 +10,12 @@
 
 	const i18n = getI18n();
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	export let command = '';
 
 	let selectedIdx = 0;
-	let filteredItems = [];
+	let filteredItems: any[] = [];
 
 	let fuse = new Fuse(
 		$models
@@ -24,7 +24,7 @@
 				const _item = {
 					...model,
 					modelName: model?.name,
-					tags: model?.info?.meta?.tags?.map((tag) => tag.name).join(' '),
+					tags: model?.info?.meta?.tags?.map((tag: any) => tag.name).join(' '),
 					desc: model?.info?.meta?.description
 				};
 				return _item;
@@ -36,7 +36,7 @@
 	);
 
 	$: filteredItems = command.slice(1)
-		? fuse.search(command).map((e) => {
+		? fuse.search(command).map((e: any) => {
 				return e.item;
 			})
 		: $models.filter((model) => !model?.info?.meta?.hidden);
@@ -53,7 +53,7 @@
 		selectedIdx = Math.min(selectedIdx + 1, filteredItems.length - 1);
 	};
 
-	const confirmSelect = async (model) => {
+	const confirmSelect = async (model: any) => {
 		command = '';
 		dispatch('select', model);
 	};

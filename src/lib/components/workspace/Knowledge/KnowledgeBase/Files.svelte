@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import FileItem from '$lib/components/common/FileItem.svelte';
 
 	export let selectedFileId = null;
-	export let files = [];
+	export let files: any[] = [];
 
 	export let small = false;
 </script>

@@ -6,10 +6,10 @@
 	import Modal from '../../common/Modal.svelte';
 
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	export let show = false;
-	export let manifest = {};
+	export let manifest: Record<string, any> = {};
 </script>
 
 <Modal size="sm" bind:show>
@@ -17,6 +17,7 @@
 		<div class=" flex justify-between dark:text-gray-300 px-5 pt-4 pb-2">
 			<div class=" text-lg font-medium self-center">{$i18n.t('Show your support!')}</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;
@@ -62,7 +63,8 @@
 							<a
 								href={manifest.funding_url}
 								target="_blank"
-								class="underline text-blue-400 hover:text-blue-300">{manifest.funding_url}</a
+								class="underline text-blue-400 hover:text-blue-300"
+								aria-label="Link">{manifest.funding_url}</a
 							>
 						</div>
 					</div>
@@ -71,6 +73,7 @@
 						<button
 							class=" px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-gray-100 transition rounded-lg flex flex-row space-x-1 items-center"
 							type="submit"
+							aria-label="Action"
 						>
 							{$i18n.t('Done')}
 						</button>

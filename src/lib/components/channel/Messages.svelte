@@ -24,7 +24,7 @@
 
 	export let id = null;
 	export let channel = null;
-	export let messages = [];
+	export let messages: any[] = [];
 	export let top = false;
 	export let thread = false;
 
@@ -36,6 +36,7 @@
 	const loadMoreMessages = async () => {
 		// scroll slightly down to disable continuous loading
 		const element = document.getElementById('messages-container');
+		if (!element) return;
 		element.scrollTop = element.scrollTop + 100;
 
 		messagesLoading = true;
@@ -52,7 +53,7 @@
 	<div>
 		{#if !top}
 			<Loader
-				on:visible={(e) => {
+				on:visible={(e: any) => {
 					if (!messagesLoading) {
 						loadMoreMessages();
 					}
@@ -108,7 +109,7 @@
 						}
 					);
 				}}
-				onEdit={(content) => {
+				onEdit={(content: any) => {
 					messages = messages.map((m) => {
 						if (m.id === message.id) {
 							m.content = content;
@@ -123,26 +124,26 @@
 						return null;
 					});
 				}}
-				onThread={(id) => {
+				onThread={(id: any) => {
 					onThread(id);
 				}}
-				onReaction={(name) => {
+				onReaction={(name: any) => {
 					if (
 						(message?.reactions ?? [])
-							.find((reaction) => reaction.name === name)
+							.find((reaction: any) => reaction.name === name)
 							?.user_ids?.includes($user.id) ??
 						false
 					) {
 						messages = messages.map((m) => {
 							if (m.id === message.id) {
-								const reaction = m.reactions.find((reaction) => reaction.name === name);
+								const reaction = m.reactions.find((reaction: any) => reaction.name === name);
 
 								if (reaction) {
-									reaction.user_ids = reaction.user_ids.filter((id) => id !== $user.id);
+									reaction.user_ids = reaction.user_ids.filter((id: any) => id !== $user.id);
 									reaction.count = reaction.user_ids.length;
 
 									if (reaction.count === 0) {
-										m.reactions = m.reactions.filter((r) => r.name !== name);
+										m.reactions = m.reactions.filter((r: any) => r.name !== name);
 									}
 								}
 							}
@@ -162,7 +163,7 @@
 						messages = messages.map((m) => {
 							if (m.id === message.id) {
 								if (m.reactions) {
-									const reaction = m.reactions.find((reaction) => reaction.name === name);
+									const reaction = m.reactions.find((reaction: any) => reaction.name === name);
 
 									if (reaction) {
 										reaction.user_ids.push($user.id);

@@ -8,7 +8,7 @@
 	const i18n = getI18n();
 
 	export let show = false;
-	export let codeExecution = null;
+	export let codeExecution: any = null;
 </script>
 
 <Modal size="lg" bind:show>
@@ -44,6 +44,7 @@
 				</div>
 			</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;
@@ -107,7 +108,7 @@
 						<ul class="mt-1 list-disc pl-4 text-xs">
 							{#each codeExecution?.result?.files as file}
 								<li>
-									<a href={file.url} target="_blank">{file.name}</a>
+									<a href={file.url} target="_blank" aria-label="Link">{file.name}</a>
 								</li>
 							{/each}
 						</ul>

@@ -1,0 +1,23 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "route-typecheck",
+			"type": "shell",
+			"command": "export PATH=\"$HOME/.nvm/versions/node/v22.22.3/bin:$PATH\" && npm run check",
+			"isBackground": false
+		},
+		{
+			"label": "route-typecheck-2",
+			"type": "shell",
+			"command": "export PATH=\"$HOME/.nvm/versions/node/v22.22.3/bin:$PATH\" && npm run check",
+			"isBackground": false
+		},
+		{
+			"label": "route-typecheck-3",
+			"type": "shell",
+			"command": "export PATH=\"$HOME/.nvm/versions/node/v22.22.3/bin:$PATH\" && npm run check",
+			"isBackground": false
+		}
+	]
+}

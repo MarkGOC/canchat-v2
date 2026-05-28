@@ -9,7 +9,7 @@
 	import Tooltip from './Tooltip.svelte';
 
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	export let className = 'w-60';
 	export let colorClassName = 'bg-white dark:bg-gray-850 border border-gray-50 dark:border-white/5';
@@ -83,7 +83,7 @@
 	{#if !small}
 		<Tooltip content={name} placement="top-start">
 			<div class="flex flex-col justify-center -space-y-0.5 px-2.5 w-full">
-				<div class=" dark:text-gray-100 text-sm font-medium line-clamp-1 mb-1" tabindex="0">
+				<div class=" dark:text-gray-100 text-sm font-medium line-clamp-1 mb-1">
 					{name}
 				</div>
 

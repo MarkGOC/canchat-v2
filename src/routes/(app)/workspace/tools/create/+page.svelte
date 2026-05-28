@@ -14,6 +14,7 @@
 
 	let mounted = false;
 	let clone = false;
+	/** @type {any} */
 	let tool = null;
 
 	const saveHandler = async (data) => {
@@ -83,7 +84,7 @@
 			name={tool?.name ?? ''}
 			meta={tool?.meta ?? { description: '' }}
 			content={tool?.content ?? ''}
-			access_control={null}
+			accessControl={null}
 			{clone}
 			on:save={(e) => {
 				saveHandler(e.detail);

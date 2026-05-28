@@ -8,7 +8,7 @@
 	import { getVoices as _getVoices } from '$lib/apis/audio';
 
 	import Switch from '$lib/components/common/Switch.svelte';
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	const i18n = getI18n();
 
@@ -22,7 +22,7 @@
 
 	let STTEngine = '';
 
-	let voices = [];
+	let voices: any[] = [];
 	let voice = '';
 
 	// Audio speed control
@@ -40,7 +40,7 @@
 				}
 			}, 100);
 		} else {
-			const res = await _getVoices(localStorage.token).catch((e) => {
+			const res = await _getVoices(localStorage.token).catch((e: any) => {
 				toast.error(e);
 			});
 
@@ -243,6 +243,7 @@
 		<button
 			class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full"
 			type="submit"
+			aria-label="Action"
 		>
 			{$i18n.t('Save')}
 		</button>

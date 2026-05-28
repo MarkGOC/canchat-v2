@@ -4,7 +4,7 @@
 	import { toast } from 'svelte-sonner';
 	import { createEventDispatcher, onMount } from 'svelte';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import {
 		getMCPConfig,
@@ -277,7 +277,7 @@
 				: [];
 
 			// Parse env from JSON text
-			let env = {};
+			let env: Record<string, any> = {};
 			if (serverFormEnvText.trim()) {
 				try {
 					env = JSON.parse(serverFormEnvText);
@@ -872,6 +872,7 @@
 					type="button"
 					on:click={getMCPToolsHandler}
 					disabled={mcpToolsLoading}
+					aria-label="Action"
 				>
 					{$i18n.t('Refresh Tools')}
 				</button>
@@ -883,6 +884,7 @@
 		<button
 			class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full"
 			type="submit"
+			aria-label="Action"
 		>
 			{$i18n.t('Save')}
 		</button>
@@ -1107,6 +1109,7 @@
 					class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition"
 					type="button"
 					on:click={closeServerModal}
+					aria-label="Action"
 				>
 					{$i18n.t('Cancel')}
 				</button>
@@ -1114,6 +1117,7 @@
 					class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full"
 					type="button"
 					on:click={saveServerHandler}
+					aria-label="Action"
 				>
 					{editingServer ? $i18n.t('Update Server') : $i18n.t('Create Server')}
 				</button>

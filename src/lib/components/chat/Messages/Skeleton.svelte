@@ -5,7 +5,9 @@
 <div class="w-full mt-2 mb-2">
 	<div class="animate-pulse flex w-full">
 		<div class="{size === 'md' ? 'space-y-2' : 'space-y-1.5'} w-full">
-			<div class="{size === 'md' ? 'h-2' : 'h-1.5'} bg-gray-200 dark:bg-gray-600 rounded mr-14"></div>
+			<div
+				class="{size === 'md' ? 'h-2' : 'h-1.5'} bg-gray-200 dark:bg-gray-600 rounded mr-14"
+			></div>
 
 			<div class="grid grid-cols-3 gap-4">
 				<div

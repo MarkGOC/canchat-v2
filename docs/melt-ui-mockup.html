@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>CANChat Melt UI Mockup</title>
+		<style>
+			:root {
+				--bg: #f6f4ef;
+				--panel: #fcfbf8;
+				--panel-strong: #ffffff;
+				--ink: #1f1b16;
+				--muted: #6e645b;
+				--brand: #c4622d;
+				--brand-strong: #a64f25;
+				--accent: #1f7a6d;
+				--accent-weak: #d8efe9;
+				--border: #e3d9ce;
+				--shadow: 0 16px 40px rgba(31, 27, 22, 0.12);
+				--radius-xl: 20px;
+				--radius-lg: 14px;
+				--radius-md: 10px;
+				--radius-sm: 8px;
+				--focus: 0 0 0 3px rgba(31, 122, 109, 0.35);
+				--font-sans: 'Space Grotesk', 'IBM Plex Sans', 'Helvetica Neue', sans-serif;
+				--font-serif: 'Instrument Serif', 'Iowan Old Style', serif;
+			}
+
+			*,
+			*::before,
+			*::after {
+				box-sizing: border-box;
+			}
+
+			body {
+				margin: 0;
+				font-family: var(--font-sans);
+				color: var(--ink);
+				background:
+					radial-gradient(circle at 10% 10%, #fff7ea, transparent 45%),
+					radial-gradient(circle at 85% 15%, #f6eee6, transparent 50%),
+					linear-gradient(180deg, #f7f1ea 0%, #f2eee8 100%);
+				min-height: 100vh;
+			}
+
+			a {
+				color: inherit;
+				text-decoration: none;
+			}
+
+			button,
+			input,
+			textarea {
+				font: inherit;
+			}
+
+			.app {
+				display: grid;
+				grid-template-columns: 280px 1fr;
+				min-height: 100vh;
+				gap: 0;
+			}
+
+			.sidebar {
+				padding: 20px;
+				background: var(--panel);
+				border-right: 1px solid var(--border);
+			}
+
+			.brand {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				margin-bottom: 24px;
+			}
+
+			.brand-mark {
+				width: 36px;
+				height: 36px;
+				border-radius: 12px;
+				background: conic-gradient(from 120deg, #c4622d, #f0b37a, #1f7a6d, #c4622d);
+				box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.8);
+			}
+
+			.brand h1 {
+				font-family: var(--font-serif);
+				font-size: 22px;
+				margin: 0;
+			}
+
+			.section-label {
+				text-transform: uppercase;
+				letter-spacing: 0.14em;
+				font-size: 11px;
+				color: var(--muted);
+				margin: 18px 0 10px;
+			}
+
+			.nav-item {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				padding: 10px 12px;
+				border-radius: var(--radius-md);
+				color: var(--muted);
+				margin-bottom: 6px;
+				transition: all 0.2s ease;
+			}
+
+			.nav-item.active {
+				background: #fff2e4;
+				color: var(--brand-strong);
+				font-weight: 600;
+			}
+
+			.nav-item:hover {
+				background: #f6efe6;
+				color: var(--ink);
+			}
+
+			.chat-list {
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+			}
+
+			.chat-card {
+				padding: 12px 12px;
+				background: var(--panel-strong);
+				border-radius: var(--radius-lg);
+				border: 1px solid var(--border);
+			}
+
+			.chat-card strong {
+				display: block;
+				font-size: 14px;
+				margin-bottom: 4px;
+			}
+
+			.chat-card span {
+				font-size: 12px;
+				color: var(--muted);
+			}
+
+			.main {
+				display: grid;
+				grid-template-rows: auto 1fr auto;
+				padding: 24px 32px;
+				gap: 18px;
+			}
+
+			.topbar {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 16px;
+			}
+
+			.search {
+				flex: 1;
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				background: var(--panel-strong);
+				border: 1px solid var(--border);
+				padding: 10px 14px;
+				border-radius: 999px;
+			}
+
+			.search input {
+				border: none;
+				outline: none;
+				background: transparent;
+				width: 100%;
+			}
+
+			.search input:focus {
+				outline: none;
+			}
+
+			.button {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				border-radius: 999px;
+				padding: 10px 16px;
+				border: 1px solid transparent;
+				cursor: pointer;
+				background: var(--brand);
+				color: #fff;
+				font-weight: 600;
+				transition:
+					transform 0.2s ease,
+					box-shadow 0.2s ease;
+			}
+
+			.button.secondary {
+				background: transparent;
+				color: var(--ink);
+				border-color: var(--border);
+			}
+
+			.button:focus-visible {
+				outline: none;
+				box-shadow: var(--focus);
+			}
+
+			.workspace {
+				display: grid;
+				grid-template-columns: 240px 1fr 280px;
+				gap: 18px;
+			}
+
+			.card {
+				background: var(--panel-strong);
+				border-radius: var(--radius-xl);
+				border: 1px solid var(--border);
+				box-shadow: var(--shadow);
+				padding: 18px;
+			}
+
+			.card h2 {
+				font-size: 16px;
+				margin: 0 0 12px;
+			}
+
+			.pill {
+				display: inline-flex;
+				align-items: center;
+				gap: 6px;
+				padding: 6px 10px;
+				border-radius: 999px;
+				background: var(--accent-weak);
+				color: var(--accent);
+				font-size: 12px;
+				font-weight: 600;
+			}
+
+			.message-list {
+				display: flex;
+				flex-direction: column;
+				gap: 16px;
+				max-height: 52vh;
+				overflow: auto;
+				padding-right: 4px;
+			}
+
+			.message {
+				display: grid;
+				gap: 8px;
+				padding: 14px;
+				border-radius: var(--radius-lg);
+				border: 1px solid var(--border);
+				background: #fffaf3;
+			}
+
+			.message.assistant {
+				background: #f4fbf9;
+				border-color: #cfe6e1;
+			}
+
+			.message .meta {
+				display: flex;
+				justify-content: space-between;
+				font-size: 12px;
+				color: var(--muted);
+			}
+
+			.message p {
+				margin: 0;
+				line-height: 1.5;
+			}
+
+			.input-panel {
+				display: grid;
+				grid-template-columns: 1fr auto;
+				gap: 12px;
+				background: var(--panel-strong);
+				border: 1px solid var(--border);
+				padding: 14px;
+				border-radius: var(--radius-xl);
+			}
+
+			.input-panel textarea {
+				border: none;
+				background: transparent;
+				min-height: 80px;
+				resize: vertical;
+				outline: none;
+			}
+
+			.quick-actions {
+				display: flex;
+				gap: 10px;
+				flex-wrap: wrap;
+			}
+
+			.stat {
+				display: flex;
+				flex-direction: column;
+				gap: 6px;
+				background: #fff7ea;
+				padding: 12px;
+				border-radius: var(--radius-lg);
+				border: 1px dashed #e9cdb6;
+			}
+
+			.stat strong {
+				font-size: 18px;
+			}
+
+			.card ul {
+				padding-left: 18px;
+				margin: 0;
+				color: var(--muted);
+				font-size: 13px;
+			}
+
+			@media (max-width: 1100px) {
+				.app {
+					grid-template-columns: 1fr;
+				}
+
+				.sidebar {
+					display: none;
+				}
+
+				.workspace {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="app">
+			<aside class="sidebar">
+				<div class="brand">
+					<div class="brand-mark" aria-hidden="true"></div>
+					<h1>CANChat</h1>
+				</div>
+
+				<div class="section-label">Workspace</div>
+				<a class="nav-item active" href="#">Chat Overview</a>
+				<a class="nav-item" href="#">Knowledge Base</a>
+				<a class="nav-item" href="#">Models</a>
+				<a class="nav-item" href="#">Settings</a>
+
+				<div class="section-label">Pinned</div>
+				<div class="chat-list">
+					<div class="chat-card">
+						<strong>Policy Assistant</strong>
+						<span>Updated 2 hours ago</span>
+					</div>
+					<div class="chat-card">
+						<strong>Disability Support</strong>
+						<span>Updated yesterday</span>
+					</div>
+				</div>
+			</aside>
+
+			<main class="main">
+				<header class="topbar">
+					<div class="search" role="search">
+						<span aria-hidden="true">Search</span>
+						<input
+							type="text"
+							aria-label="Search conversations"
+							placeholder="Search chats, tags, people"
+						/>
+					</div>
+					<button class="button secondary" type="button">New chat</button>
+					<button class="button" type="button">Launch audit</button>
+				</header>
+
+				<section class="workspace">
+					<div class="card">
+						<div class="pill">Active model</div>
+						<h2>GC-Standard Reasoner</h2>
+						<ul>
+							<li>WCAG 2.2 aligned responses</li>
+							<li>English + French output</li>
+							<li>Secure data boundary</li>
+						</ul>
+						<div class="section-label">Quick actions</div>
+						<div class="quick-actions">
+							<button class="button secondary" type="button">Upload doc</button>
+							<button class="button secondary" type="button">Add memory</button>
+							<button class="button secondary" type="button">Run report</button>
+						</div>
+					</div>
+
+					<div class="card">
+						<h2>Conversation</h2>
+						<div class="message-list" aria-live="polite">
+							<div class="message">
+								<div class="meta">
+									<strong>You</strong>
+									<span>09:14</span>
+								</div>
+								<p>Summarize the accessibility gaps in our chat UI.</p>
+							</div>
+							<div class="message assistant">
+								<div class="meta">
+									<strong>Assistant</strong>
+									<span>09:14</span>
+								</div>
+								<p>
+									Top issues: non-semantic clickable elements, missing dialog roles, and weak focus
+									visibility. Recommend swapping modal, menu, and combobox primitives first.
+								</p>
+							</div>
+							<div class="message">
+								<div class="meta">
+									<strong>You</strong>
+									<span>09:16</span>
+								</div>
+								<p>Draft a phased plan and an audit checklist.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="card">
+						<h2>Live metrics</h2>
+						<div class="stat">
+							<span>Active sessions</span>
+							<strong>3,248</strong>
+						</div>
+						<div class="stat">
+							<span>Accessibility score</span>
+							<strong>92%</strong>
+						</div>
+						<div class="stat">
+							<span>Assistive tech mix</span>
+							<strong>12 profiles</strong>
+						</div>
+					</div>
+				</section>
+
+				<section class="input-panel" aria-label="Compose message">
+					<textarea
+						aria-label="Type your message"
+						placeholder="Ask a question or drop a policy draft"
+					></textarea>
+					<button class="button" type="button">Send</button>
+				</section>
+			</main>
+		</div>
+	</body>
+</html>

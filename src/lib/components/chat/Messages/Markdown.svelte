@@ -13,6 +13,7 @@
 
 	export let id;
 	export let content;
+	/** @type {import('$lib/apis').ModelConfig | null} */
 	export let model = null;
 	export let save = false;
 

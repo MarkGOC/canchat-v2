@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { toast } from 'svelte-sonner';
 	import { createEventDispatcher, onMount, getContext } from 'svelte';
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import { getBackendConfig } from '$lib/apis';
 	import {
@@ -50,7 +50,7 @@
 		if (TTS_ENGINE === '') {
 			models = [];
 		} else {
-			const res = await _getModels(localStorage.token).catch((e) => {
+			const res = await _getModels(localStorage.token).catch((e: any) => {
 				toast.error(e);
 			});
 
@@ -72,7 +72,7 @@
 				}
 			}, 100);
 		} else {
-			const res = await _getVoices(localStorage.token).catch((e) => {
+			const res = await _getVoices(localStorage.token).catch((e: any) => {
 				toast.error(e);
 			});
 
@@ -282,6 +282,7 @@
 								class=" hover:underline dark:text-gray-200 text-gray-800"
 								href="https://github.com/SYSTRAN/faster-whisper"
 								target="_blank"
+								aria-label="Link"
 							>
 								{$i18n.t(
 									`Click here to learn more about faster-whisper and see the available models.`
@@ -304,7 +305,7 @@
 							class=" dark:bg-gray-900 w-fit pr-8 cursor-pointer rounded px-2 p-1 text-xs bg-transparent outline-none text-right"
 							bind:value={TTS_ENGINE}
 							placeholder="Select a mode"
-							on:change={async (e) => {
+							on:change={async (e: any) => {
 								await updateConfigHandler();
 								await getVoices();
 								await getModels();
@@ -420,6 +421,7 @@
 								class=" hover:underline dark:text-gray-200 text-gray-800"
 								href="https://github.com/microsoft/SpeechT5"
 								target="_blank"
+								aria-label="Link"
 							>
 								{$i18n.t(`click here`, {
 									name: 'SpeechT5'
@@ -430,6 +432,7 @@
 								class=" hover:underline dark:text-gray-200 text-gray-800"
 								href="https://huggingface.co/datasets/Matthijs/cmu-arctic-xvectors"
 								target="_blank"
+								aria-label="Link"
 							>
 								{$i18n.t(`click here`)}.
 							</a>
@@ -544,6 +547,7 @@
 								<a
 									href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/rest-text-to-speech?tabs=streaming#audio-outputs"
 									target="_blank"
+									aria-label="Link"
 								>
 									<small>{$i18n.t('Available list')}</small>
 								</a>
@@ -592,6 +596,7 @@
 		<button
 			class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full"
 			type="submit"
+			aria-label="Action"
 		>
 			{$i18n.t('Save')}
 		</button>

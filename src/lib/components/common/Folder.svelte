@@ -4,7 +4,7 @@
 	import { createEventDispatcher, onMount, onDestroy } from 'svelte';
 
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import ChevronDown from '../icons/ChevronDown.svelte';
 	import ChevronRight from '../icons/ChevronRight.svelte';
@@ -25,17 +25,17 @@
 
 	export let className = '';
 
-	let folderElement;
+	let folderElement: HTMLElement;
 
 	let draggedOver = false;
 
-	const onDragOver = (e) => {
+	const onDragOver = (e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
 		draggedOver = true;
 	};
 
-	const onDrop = (e) => {
+	const onDrop = (e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
 
@@ -79,7 +79,7 @@
 		}
 	};
 
-	const onDragLeave = (e) => {
+	const onDragLeave = (e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
 
@@ -117,7 +117,7 @@
 			bind:open
 			className="w-full "
 			buttonClassName="w-full"
-			on:change={(e) => {
+			on:change={(e: any) => {
 				dispatch('change', e.detail);
 			}}
 		>
@@ -125,7 +125,10 @@
 			<div
 				class="w-full group rounded-md relative flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400 transition"
 			>
-				<button class="w-full py-1.5 pl-2 flex items-center gap-1.5 text-xs font-medium">
+				<button
+					class="w-full py-1.5 pl-2 flex items-center gap-1.5 text-xs font-medium"
+					aria-label="Action"
+				>
 					<div class="text-gray-700 dark:text-gray-400">
 						{#if open}
 							<ChevronDown className=" size-3" strokeWidth="2.5" />
@@ -148,15 +151,15 @@
 						<Tooltip content={onAddLabel}>
 							<button
 								class="absolute z-10 right-2 invisible group-hover:visible self-center flex items-center text-gray-700 dark:text-gray-300"
-								on:pointerup={(e) => {
+								on:pointerup={(e: any) => {
 									e.stopPropagation();
 								}}
-								on:click={(e) => {
+								on:click={(e: any) => {
 									e.stopPropagation();
 									onAdd();
 									open = true;
 								}}
-								on:keydown={(e) => {
+								on:keydown={(e: any) => {
 									if (e.key === 'Enter' || e.key === ' ') {
 										e.stopPropagation();
 									}

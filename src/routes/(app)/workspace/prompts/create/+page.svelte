@@ -12,7 +12,7 @@
 	import PromptEditor from '$lib/components/workspace/Prompts/PromptEditor.svelte';
 
 	let prompt = null;
-	const onSubmit = async (_prompt) => {
+	const onSubmit = async (_prompt: any) => {
 		const prompt = await createNewPrompt(localStorage.token, _prompt).catch((error) => {
 			toast.error(`${error}`);
 			return null;
@@ -27,7 +27,7 @@
 	};
 
 	onMount(async () => {
-		window.addEventListener('message', async (event) => {
+		window.addEventListener('message', async (event: any) => {
 			if (
 				!['https://openwebui.com', 'https://www.openwebui.com', 'http://localhost:5173'].includes(
 					event.origin

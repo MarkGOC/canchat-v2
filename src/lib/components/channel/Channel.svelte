@@ -23,12 +23,12 @@
 	let top = false;
 
 	let channel = null;
-	let messages = null;
+	let messages: any = null;
 
 	let threadId = null;
 
-	let typingUsers = [];
-	let typingUsersTimeout = {};
+	let typingUsers: any[] = [];
+	let typingUsersTimeout: Record<string, any> = {};
 
 	$: if (id) {
 		initHandler();
@@ -68,7 +68,7 @@
 		}
 	};
 
-	const channelEventHandler = async (event) => {
+	const channelEventHandler = async (event: any) => {
 		if (event.channel_id === id) {
 			const type = event?.data?.type ?? null;
 			const data = event?.data?.data ?? null;
@@ -87,21 +87,21 @@
 					}
 				}
 			} else if (type === 'message:update') {
-				const idx = messages.findIndex((message) => message.id === data.id);
+				const idx = messages.findIndex((message: any) => message.id === data.id);
 
 				if (idx !== -1) {
 					messages[idx] = data;
 				}
 			} else if (type === 'message:delete') {
-				messages = messages.filter((message) => message.id !== data.id);
+				messages = messages.filter((message: any) => message.id !== data.id);
 			} else if (type === 'message:reply') {
-				const idx = messages.findIndex((message) => message.id === data.id);
+				const idx = messages.findIndex((message: any) => message.id === data.id);
 
 				if (idx !== -1) {
 					messages[idx] = data;
 				}
 			} else if (type.includes('message:reaction')) {
-				const idx = messages.findIndex((message) => message.id === data.id);
+				const idx = messages.findIndex((message: any) => message.id === data.id);
 				if (idx !== -1) {
 					messages[idx] = data;
 				}
@@ -177,7 +177,7 @@
 
 		mediaQuery = window.matchMedia('(min-width: 1024px)');
 
-		const handleMediaQuery = async (e) => {
+		const handleMediaQuery = async (e: any) => {
 			if (e.matches) {
 				largeScreen = true;
 			} else {
@@ -214,7 +214,7 @@
 						class=" pb-2.5 max-w-full z-10 scrollbar-hidden w-full h-full pt-6 flex-1 flex flex-col-reverse overflow-auto"
 						id="messages-container"
 						bind:this={messagesContainerElement}
-						on:scroll={(e) => {
+						on:scroll={(e: any) => {
 							scrollEnd = Math.abs(messagesContainerElement.scrollTop) <= 50;
 						}}
 					>
@@ -223,7 +223,7 @@
 								{channel}
 								{messages}
 								{top}
-								onThread={(id) => {
+								onThread={(id: any) => {
 									threadId = id;
 								}}
 								onLoad={async () => {

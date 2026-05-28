@@ -11,11 +11,11 @@
 	import Modal from '$lib/components/common/Modal.svelte';
 
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	export let show = false;
-	export let selectedUser;
-	export let sessionUser;
+	export let selectedUser: any;
+	export let sessionUser: any;
 
 	let _user = {
 		id: '',
@@ -66,11 +66,12 @@
 	});
 </script>
 
-<Modal size="sm" bind:show returnfocusSelector="#edit-user">
+<Modal size="sm" bind:show returnFocusSelector="#edit-user">
 	<div>
 		<div class=" flex justify-between dark:text-gray-300 px-5 py-4">
 			<div class=" text-lg font-medium self-center">{$i18n.t('Edit User')}</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;
@@ -185,6 +186,7 @@
 						<button
 							class=" px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-gray-100 transition rounded-lg"
 							type="submit"
+							aria-label="Action"
 						>
 							{$i18n.t('Save')}
 						</button>

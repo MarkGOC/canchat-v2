@@ -10,14 +10,18 @@
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
 	import EllipsisVertical from '$lib/components/icons/EllipsisVertical.svelte';
 
-	export let modelIds = [];
+	export let modelIds: any[] = [];
 
-	let sortable = null;
-	let modelListElement = null;
+	let sortable: Sortable | null = null;
+	let modelListElement: HTMLElement | null = null;
 
 	const positionChangeHandler = () => {
+		if (!modelListElement) {
+			return;
+		}
+
 		const modelList = Array.from(modelListElement.children).map((child) =>
-			child.id.replace('model-item-', '')
+			(child as HTMLElement).id.replace('model-item-', '')
 		);
 
 		modelIds = modelList;
@@ -26,7 +30,7 @@
 	onMount(() => {
 		sortable = Sortable.create(modelListElement, {
 			animation: 150,
-			onUpdate: async (event) => {
+			onUpdate: async (event: any) => {
 				positionChangeHandler();
 			}
 		});

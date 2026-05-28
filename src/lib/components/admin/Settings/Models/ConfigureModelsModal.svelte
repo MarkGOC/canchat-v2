@@ -25,6 +25,7 @@
 
 	let selectedModelId = '';
 	let defaultModelIds = [];
+	/** @type {string[]} */
 	let modelIds = [];
 
 	let loading = false;
@@ -110,13 +111,14 @@
 	}}
 />
 
-<Modal size="sm" bind:show returnfocusSelector="#config-models">
+<Modal size="sm" bind:show returnFocusSelector="#config-models">
 	<div>
 		<div class=" flex justify-between dark:text-gray-100 px-5 pt-4 pb-2">
 			<div class=" text-lg font-medium self-center font-primary">
 				{$i18n.t('Settings')}
 			</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;
@@ -230,6 +232,7 @@
 									: ''}"
 								type="submit"
 								disabled={loading}
+								aria-label="Action"
 							>
 								{$i18n.t('Save')}
 

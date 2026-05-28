@@ -5,7 +5,7 @@
 	import dayjs from 'dayjs';
 	import { createEventDispatcher } from 'svelte';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import { getChatListByUserId, deleteChatById } from '$lib/apis/chats';
 
@@ -17,20 +17,20 @@
 	const i18n = getI18n();
 
 	export let show = false;
-	export let user;
+	export let user: any;
 
 	let chats = null;
 	let showDeleteConfirm = false;
 	let deleteChatId = null;
 	let deleteChatTitle = '';
 
-	const confirmDeleteChat = (chat) => {
+	const confirmDeleteChat = (chat: any) => {
 		deleteChatId = chat.id;
 		deleteChatTitle = chat.title;
 		showDeleteConfirm = true;
 	};
 
-	const deleteChatHandler = async (chatId) => {
+	const deleteChatHandler = async (chatId: any) => {
 		const res = await deleteChatById(localStorage.token, chatId).catch((error) => {
 			toast.error(`${error}`);
 		});
@@ -50,7 +50,7 @@
 
 	let sortKey = 'updated_at'; // default sort key
 	let sortOrder = 'desc'; // default sort order
-	function setSortKey(key) {
+	function setSortKey(key: any) {
 		if (sortKey === key) {
 			sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
 		} else {
@@ -66,6 +66,7 @@
 			{$i18n.t("{{user}}'s Chats", { user: user.name })}
 		</div>
 		<button
+			aria-label="Action"
 			class="self-center"
 			on:click={() => {
 				show = false;
@@ -123,7 +124,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									{#each chats.sort((a, b) => {
+									{#each chats.sort((a: any, b: any) => {
 										if (a[sortKey] < b[sortKey]) return sortOrder === 'asc' ? -1 : 1;
 										if (a[sortKey] > b[sortKey]) return sortOrder === 'asc' ? 1 : -1;
 										return 0;
@@ -133,7 +134,7 @@
 												'border-b'} dark:bg-gray-900 dark:border-gray-850 text-xs"
 										>
 											<td class="px-3 py-1">
-												<a href="/s/{chat.id}" target="_blank">
+												<a href="/s/{chat.id}" target="_blank" aria-label="Link">
 													<div class=" underline line-clamp-1 max-w-96">
 														{chat.title}
 													</div>
@@ -150,6 +151,7 @@
 												<div class="flex justify-end w-full">
 													<Tooltip content={$i18n.t('Delete Chat')}>
 														<button
+															aria-label="Action"
 															class="self-center w-fit text-sm px-2 py-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-xl"
 															on:click={async () => {
 																confirmDeleteChat(chat);

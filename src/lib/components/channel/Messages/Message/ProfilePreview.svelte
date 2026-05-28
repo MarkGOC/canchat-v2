@@ -12,13 +12,12 @@
 	export let user = null;
 	let show = false;
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 </script>
 
 <DropdownMenu.Root
 	bind:open={show}
-	closeFocus={false}
-	onOpenChange={(state) => {
+	onOpenChange={(state: any) => {
 		dispatch('change', state);
 	}}
 	typeahead={false}
@@ -31,9 +30,10 @@
 		<DropdownMenu.Content
 			class="max-w-full w-[240px] rounded-lg z-[9999] bg-white dark:bg-black dark:text-white shadow-lg"
 			sideOffset={8}
+			onCloseAutoFocus={(event: Event) => event.preventDefault()}
 			{side}
 			{align}
-			transition={flyAndScale}
+			{...{ transition: flyAndScale } as any}
 		>
 			{#if user}
 				<div class=" flex flex-col gap-2 w-full rounded-lg">

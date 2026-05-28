@@ -37,7 +37,7 @@
 	let role = 'user';
 	let message = '';
 
-	let messages = [];
+	let messages: any[] = [];
 
 	const scrollToBottom = () => {
 		const element = messagesContainerElement;
@@ -236,7 +236,10 @@
 						{/if}
 
 						<div class="flex-shrink-0">
-							<button class="p-1.5 bg-transparent hover:bg-white/5 transition rounded-lg">
+							<button
+								class="p-1.5 bg-transparent hover:bg-white/5 transition rounded-lg"
+								aria-label="Action"
+							>
 								{#if showSystem}
 									<ChevronUp className="size-3.5" />
 								{:else}
@@ -297,11 +300,11 @@
 							placeholder={$i18n.t(`Enter {{role}} message here`, {
 								role: role === 'user' ? $i18n.t('a user') : $i18n.t('an assistant')
 							})}
-							on:input={(e) => {
+							on:input={(e: any) => {
 								e.target.style.height = '';
 								e.target.style.height = Math.min(e.target.scrollHeight, 150) + 'px';
 							}}
-							on:focus={(e) => {
+							on:focus={(e: any) => {
 								e.target.style.height = '';
 								e.target.style.height = Math.min(e.target.scrollHeight, 150) + 'px';
 							}}

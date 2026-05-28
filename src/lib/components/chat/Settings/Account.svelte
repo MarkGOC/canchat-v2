@@ -86,10 +86,10 @@
 			type="file"
 			hidden
 			accept="image/*"
-			on:change={(e) => {
+			on:change={(e: any) => {
 				const files = profileImageInputElement.files ?? [];
 				let reader = new FileReader();
-				reader.onload = (event) => {
+				reader.onload = (event: any) => {
 					let originalImageUrl = `${event.target.result}`;
 
 					const img = new Image();

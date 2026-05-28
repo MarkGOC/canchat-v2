@@ -29,7 +29,7 @@
 	// Models
 	export let urlIdx: number | null = null;
 
-	let ollamaModels = [];
+	let ollamaModels: any[] = [];
 
 	let updateModelId = null;
 	let updateProgress = null;
@@ -242,6 +242,7 @@
 
 	const uploadModelHandler = async () => {
 		modelTransferring = true;
+		const urlIdxParam = urlIdx !== null ? String(urlIdx) : null;
 
 		let uploaded = false;
 		let fileResponse = null;
@@ -253,14 +254,14 @@
 			if (file) {
 				uploadMessage = 'Uploading...';
 
-				fileResponse = await uploadModel(localStorage.token, file, urlIdx).catch((error) => {
+				fileResponse = await uploadModel(localStorage.token, file, urlIdxParam).catch((error) => {
 					toast.error(`${error}`);
 					return null;
 				});
 			}
 		} else {
 			uploadProgress = 0;
-			fileResponse = await downloadModel(localStorage.token, modelFileUrl, urlIdx).catch(
+			fileResponse = await downloadModel(localStorage.token, modelFileUrl, urlIdxParam).catch(
 				(error) => {
 					toast.error(`${error}`);
 					return null;
@@ -385,7 +386,8 @@
 	};
 
 	const deleteModelHandler = async () => {
-		const res = await deleteModel(localStorage.token, deleteModelTag, urlIdx).catch((error) => {
+		const urlIdxParam = urlIdx !== null ? String(urlIdx) : null;
+		const res = await deleteModel(localStorage.token, deleteModelTag, urlIdxParam).catch((error) => {
 			toast.error(`${error}`);
 		});
 
@@ -417,7 +419,7 @@
 	const createModelHandler = async () => {
 		createModelLoading = true;
 
-		let modelObject = {};
+		let modelObject: Record<string, any> = {};
 		// parse createModelObject
 		try {
 			modelObject = JSON.parse(createModelObject);
@@ -433,7 +435,7 @@
 				model: createModelName,
 				...modelObject
 			},
-			urlIdx
+			urlIdx !== null ? String(urlIdx) : null
 		).catch((error) => {
 			toast.error(`${error}`);
 			return null;
@@ -538,6 +540,7 @@
 						<div>
 							<Tooltip content="Update All Models" placement="top">
 								<button
+									aria-label="Action"
 									class="flex gap-2 items-center bg-transparent rounded-lg transition"
 									on:click={() => {
 										updateModelsHandler();
@@ -630,7 +633,8 @@
 						<a
 							class=" text-gray-500 dark:text-gray-300 font-medium underline"
 							href="https://ollama.com/library"
-							target="_blank">{$i18n.t('click here.')}</a
+							target="_blank"
+							aria-label="Link">{$i18n.t('click here.')}</a
 						>
 					</div>
 
@@ -661,6 +665,7 @@
 
 											<Tooltip content={$i18n.t('Cancel')}>
 												<button
+													aria-label="Action"
 													class="text-gray-800 dark:text-gray-100"
 													on:click={() => {
 														cancelModelPullHandler(model);
@@ -720,6 +725,7 @@
 							</select>
 						</div>
 						<button
+							aria-label="Action"
 							class="px-2.5 bg-gray-50 hover:bg-gray-200 text-gray-800 dark:bg-gray-850 dark:hover:bg-gray-800 dark:text-gray-100 rounded-lg transition"
 							on:click={() => {
 								showModelDeleteConfirm = true;
@@ -765,6 +771,7 @@
 
 						<div class="flex self-start">
 							<button
+								aria-label="Action"
 								class="px-2.5 py-2.5 bg-gray-50 hover:bg-gray-200 text-gray-800 dark:bg-gray-850 dark:hover:bg-gray-800 dark:text-gray-100 rounded-lg transition disabled:cursor-not-allowed"
 								on:click={() => {
 									createModelHandler();
@@ -903,6 +910,7 @@
 									class="px-2.5 bg-gray-50 hover:bg-gray-200 text-gray-800 dark:bg-gray-850 dark:hover:bg-gray-800 dark:text-gray-100 rounded-lg disabled:cursor-not-allowed transition"
 									type="submit"
 									disabled={modelTransferring}
+									aria-label="Action"
 								>
 									{#if modelTransferring}
 										<div class="self-center">
@@ -972,7 +980,8 @@
 							<a
 								class=" text-gray-500 dark:text-gray-300 font-medium underline"
 								href="https://huggingface.co/models?search=gguf"
-								target="_blank">{$i18n.t('click here.')}</a
+								target="_blank"
+								aria-label="Link">{$i18n.t('click here.')}</a
 							>
 						</div>
 

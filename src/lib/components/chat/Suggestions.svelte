@@ -6,15 +6,15 @@
 	import { suggestionCycle } from '$lib/stores/index';
 
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
-	export let suggestionPrompts = [];
+	export let suggestionPrompts: any[] = [];
 	export let className = '';
 
-	let prompts = [];
+	let prompts: any[] = [];
 
 	// Single function to handle shuffling
-	const shuffleSuggestions = (suggestions) => {
+	const shuffleSuggestions = (suggestions: any) => {
 		return [...(suggestions ?? [])]
 			.flat() // Replace reduce/spread with flat()
 			.sort(() => Math.random() - 0.5);

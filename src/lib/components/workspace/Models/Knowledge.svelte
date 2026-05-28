@@ -4,8 +4,8 @@
 	import Selector from './Knowledge/Selector.svelte';
 	import FileItem from '$lib/components/common/FileItem.svelte';
 
-	export let selectedKnowledge = [];
-	export let collections = [];
+	export let selectedKnowledge: any[] = [];
+	export let collections: any[] = [];
 
 	const i18n = getI18n();
 </script>
@@ -30,7 +30,7 @@
 							? `Legacy${file.type ? ` ${file.type}` : ''}`
 							: (file?.type ?? 'Collection')}
 						dismissible
-						on:dismiss={(e) => {
+						on:dismiss={(e: any) => {
 							selectedKnowledge = selectedKnowledge.filter((_, idx) => idx !== fileIdx);
 						}}
 					/>
@@ -40,7 +40,7 @@
 
 		<div class="flex flex-wrap text-sm font-medium gap-1.5 mt-2">
 			<Selector
-				on:select={(e) => {
+				on:select={(e: any) => {
 					const item = e.detail;
 
 					if (!selectedKnowledge.find((k) => k.id === item.id)) {
@@ -55,7 +55,8 @@
 			>
 				<button
 					class=" px-3.5 py-1.5 font-medium hover:bg-black/5 dark:hover:bg-white/5 outline outline-1 outline-gray-100 dark:outline-gray-850 rounded-3xl"
-					type="button">{$i18n.t('Select Knowledge')}</button
+					type="button"
+					aria-label="Action">{$i18n.t('Select Knowledge')}</button
 				>
 			</Selector>
 		</div>

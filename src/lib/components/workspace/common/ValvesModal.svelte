@@ -15,7 +15,7 @@
 	import Valves from '$lib/components/common/Valves.svelte';
 
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	export let show = false;
 
@@ -26,7 +26,7 @@
 	let loading = false;
 
 	let valvesSpec = null;
-	let valves = {};
+	let valves: Record<string, any> = {};
 
 	const submitHandler = async () => {
 		saving = true;
@@ -35,7 +35,10 @@
 			// Convert string to array
 			for (const property in valvesSpec.properties) {
 				if (valvesSpec.properties[property]?.type === 'array') {
-					valves[property] = (valves[property] ?? '').split(',').map((v) => v.trim());
+					valves[property] = (valves[property] ?? '')
+						.toString()
+						.split(',')
+						.map((v: any) => v.trim());
 				}
 			}
 
@@ -81,7 +84,9 @@
 			// Convert array to string
 			for (const property in valvesSpec.properties) {
 				if (valvesSpec.properties[property]?.type === 'array') {
-					valves[property] = (valves[property] ?? []).join(',');
+					valves[property] = Array.isArray(valves[property])
+						? valves[property].join(',')
+						: (valves[property] ?? '').toString();
 				}
 			}
 		}
@@ -99,6 +104,7 @@
 		<div class=" flex justify-between dark:text-gray-300 px-5 pt-4 pb-2">
 			<div class=" text-lg font-medium self-center">{$i18n.t('Valves')}</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;
@@ -140,6 +146,7 @@
 								: ''}"
 							type="submit"
 							disabled={saving}
+							aria-label="Action"
 						>
 							{$i18n.t('Save')}
 

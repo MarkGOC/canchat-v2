@@ -23,20 +23,20 @@
 	let loaded = false;
 
 	let autoScroll = true;
-	let processing = '';
+	let prompt = '';
 	let messagesContainerElement: HTMLDivElement;
 
 	// let chatId = $page.params.id;
 	let showModelSelector = false;
 	let selectedModels = [''];
 
-	let chat = null;
+	let chat: any = null;
 	let user = null;
 
 	let title = '';
-	let files = [];
+	let files: any[] = [];
 
-	let messages = [];
+	let messages: any[] = [];
 	let history = {
 		messages: {},
 		currentId: null
@@ -151,14 +151,15 @@
 							chatId={$chatId}
 							readOnly={true}
 							{selectedModels}
-							{processing}
+							{prompt}
 							bind:history
-							bind:messages
 							bind:autoScroll
 							bottomPadding={files.length > 0}
 							sendPrompt={() => {}}
 							continueResponse={() => {}}
 							regenerateResponse={() => {}}
+							mergeResponses={() => {}}
+							chatActionHandler={() => {}}
 						/>
 					</div>
 				</div>
@@ -171,6 +172,7 @@
 					<button
 						class="px-4 py-2 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full"
 						on:click={cloneSharedChat}
+						aria-label="Action"
 					>
 						{$i18n.t('Clone Chat')}
 					</button>

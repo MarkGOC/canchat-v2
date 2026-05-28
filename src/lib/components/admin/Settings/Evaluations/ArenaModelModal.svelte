@@ -13,9 +13,15 @@
 	import { toast } from 'svelte-sonner';
 	import AccessControl from '$lib/components/workspace/common/AccessControl.svelte';
 
+	const createDefaultAccessControl = () => ({
+		read: { group_ids: [], user_ids: [] },
+		write: { group_ids: [], user_ids: [] }
+	});
+
 	export let show = false;
 	export let edit = false;
 
+	/** @type {import('$lib/apis').ModelConfig | null} */
 	export let model = null;
 
 	let name = '';
@@ -39,10 +45,12 @@
 	let description = '';
 
 	let selectedModelId = '';
+	/** @type {string[]} */
 	let modelIds = [];
 	let filterMode = 'include';
 
-	let accessControl = {};
+	/** @type {{ read: { group_ids: string[]; user_ids: string[] }; write: { group_ids: string[]; user_ids: string[] } } | null} */
+	let accessControl = createDefaultAccessControl();
 
 	let imageInputElement;
 	let loading = false;
@@ -100,11 +108,12 @@
 		if (model) {
 			name = model.name;
 			id = model.id;
-			profileImageUrl = model.meta.profile_image_url;
-			description = model.meta.description;
-			modelIds = model.meta.model_ids || [];
-			filterMode = model.meta?.filter_mode ?? 'include';
-			accessControl = 'access_control' in model.meta ? model.meta.access_control : {};
+			const modelMeta = model.meta ?? {};
+			profileImageUrl = modelMeta.profile_image_url ?? '/favicon.png';
+			description = modelMeta.description ?? '';
+			modelIds = Array.isArray(modelMeta.model_ids) ? modelMeta.model_ids : [];
+			filterMode = modelMeta.filter_mode ?? 'include';
+			accessControl = modelMeta.access_control ?? createDefaultAccessControl();
 		}
 	};
 
@@ -128,6 +137,7 @@
 				{/if}
 			</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;
@@ -394,6 +404,7 @@
 								: ''}"
 							type="submit"
 							disabled={loading}
+							aria-label="Action"
 						>
 							{$i18n.t('Save')}
 

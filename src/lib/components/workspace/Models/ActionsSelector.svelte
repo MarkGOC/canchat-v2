@@ -7,10 +7,10 @@
 
 	const i18n = getI18n();
 
-	export let actions = [];
-	export let selectedActionIds = [];
+	export let actions: any[] = [];
+	export let selectedActionIds: any[] = [];
 
-	let _actions = {};
+	let _actions: Record<string, any> = {};
 
 	onMount(() => {
 		_actions = actions.reduce((acc, action) => {
@@ -41,7 +41,7 @@
 						<div class="self-center flex items-center">
 							<Checkbox
 								state={_actions[action].selected ? 'checked' : 'unchecked'}
-								on:change={(e) => {
+								on:change={(e: any) => {
 									_actions[action].selected = e.detail === 'checked';
 									selectedActionIds = Object.keys(_actions).filter((t) => _actions[t].selected);
 								}}

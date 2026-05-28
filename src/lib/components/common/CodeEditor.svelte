@@ -18,7 +18,7 @@
 	import { formatPythonCode } from '$lib/apis/utils';
 	import { toast } from 'svelte-sonner';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 	const i18n = getI18n();
 
 	export let boilerplate = '';
@@ -93,7 +93,7 @@
 		keymap.of([{ key: 'Tab', run: acceptCompletion }, indentWithTab]),
 		indentUnit.of('    '),
 		placeholder('Enter your code here...'),
-		EditorView.updateListener.of((e) => {
+		EditorView.updateListener.of((e: any) => {
 			if (e.docChanged) {
 				_value = e.state.doc.toString();
 				dispatch('change', { value: _value });
@@ -168,7 +168,7 @@
 			attributeFilter: ['class']
 		});
 
-		const keydownHandler = async (e) => {
+		const keydownHandler = async (e: any) => {
 			if ((e.ctrlKey || e.metaKey) && e.key === 's') {
 				e.preventDefault();
 				dispatch('save');

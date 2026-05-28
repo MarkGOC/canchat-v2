@@ -7,7 +7,7 @@
 
 	const i18n = getI18n();
 
-	let dbDomains = [];
+	let dbDomains: any[] = [];
 	let newDomainInput = '';
 	let newDepartmentInput = '';
 	let showAddDomainForm = false;
@@ -35,7 +35,7 @@
 	};
 
 	// Get domain info from database
-	const getDomainInfo = (domain) => {
+	const getDomainInfo = (domain: any) => {
 		return dbDomains.find((d) => d.domain === domain);
 	};
 
@@ -94,7 +94,7 @@
 	};
 
 	// Delete a domain from database
-	const deleteDomain = async (domain) => {
+	const deleteDomain = async (domain: any) => {
 		const domainInfo = getDomainInfo(domain);
 		if (!domainInfo) return;
 
@@ -113,7 +113,7 @@
 	};
 
 	// Start editing a domain
-	const startEditDomain = (domain) => {
+	const startEditDomain = (domain: any) => {
 		const domainInfo = getDomainInfo(domain);
 		if (!domainInfo) return;
 
@@ -221,7 +221,7 @@
 							placeholder={$i18n.t('department.gc.ca')}
 							bind:value={newDomainInput}
 							class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-							on:keydown={(e) => e.key === 'Enter' && e.shiftKey === false && addDomain()}
+							on:keydown={(e: any) => e.key === 'Enter' && e.shiftKey === false && addDomain()}
 						/>
 					</div>
 					<div class="min-w-0">
@@ -237,7 +237,7 @@
 							placeholder={$i18n.t('Department of Example Services')}
 							bind:value={newDepartmentInput}
 							class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-							on:keydown={(e) => e.key === 'Enter' && e.shiftKey === false && addDomain()}
+							on:keydown={(e: any) => e.key === 'Enter' && e.shiftKey === false && addDomain()}
 						/>
 					</div>
 				</div>
@@ -246,6 +246,7 @@
 						type="button"
 						class="px-4 py-2 border border-gray-300 dark:border-gray-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200 text-sm font-medium rounded-lg"
 						on:click={addDomain}
+						aria-label="Action"
 					>
 						{$i18n.t('Add Domain')}
 					</button>
@@ -317,6 +318,7 @@
 											type="button"
 											class="px-3 py-1 border border-gray-300 dark:border-gray-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200 text-sm rounded-lg"
 											on:click={saveEditDomain}
+											aria-label="Action"
 										>
 											{$i18n.t('Save')}
 										</button>
@@ -324,6 +326,7 @@
 											type="button"
 											class="px-3 py-1 border border-gray-300 dark:border-gray-600 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200 text-sm rounded-lg"
 											on:click={cancelEdit}
+											aria-label="Action"
 										>
 											{$i18n.t('Cancel')}
 										</button>

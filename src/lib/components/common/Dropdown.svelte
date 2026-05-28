@@ -10,13 +10,12 @@
 	export let align: 'start' | 'center' | 'end' = 'start';
 	export let ariaLabel: string | undefined = undefined;
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 </script>
 
 <DropdownMenu.Root
 	bind:open={show}
-	closeFocus={false}
-	onOpenChange={(state) => {
+	onOpenChange={(state: any) => {
 		dispatch('change', state);
 	}}
 	typeahead={false}
@@ -29,9 +28,10 @@
 		<DropdownMenu.Content
 			class="w-full max-w-[130px] rounded-lg px-1 py-1.5 border border-gray-900 z-50 bg-gray-850 text-white"
 			sideOffset={8}
+			onCloseAutoFocus={(event: Event) => event.preventDefault()}
 			{side}
 			{align}
-			transition={flyAndScale}
+			{...{ transition: flyAndScale } as any}
 		>
 			<DropdownMenu.Item class="flex items-center px-3 py-2 text-sm  font-medium">
 				<div class="flex items-center">Profile</div>

@@ -14,7 +14,7 @@
 	export let onUpdate: Function = () => {};
 
 	export let className = '';
-	export let channel;
+	export let channel: any;
 
 	let showEditChannelModal = false;
 
@@ -82,7 +82,7 @@
 	{#if $user?.role === 'admin'}
 		<button
 			class="absolute z-10 right-2 invisible group-hover:visible self-center flex items-center dark:text-gray-300"
-			on:click={(e) => {
+			on:click={(e: any) => {
 				e.stopPropagation();
 				showEditChannelModal = true;
 			}}

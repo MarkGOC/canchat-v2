@@ -4,7 +4,7 @@
 	import { DropdownMenu } from 'bits-ui';
 	import { flyAndScale } from '$lib/utils/transitions';
 	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import Dropdown from '$lib/components/common/Dropdown.svelte';
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
@@ -22,7 +22,7 @@
 
 <Dropdown
 	bind:show
-	on:change={(e) => {
+	on:change={(e: any) => {
 		if (e.detail === false) {
 			onClose();
 		}
@@ -31,8 +31,9 @@
 >
 	<Tooltip content={$i18n.t('Add Content')}>
 		<button
+			aria-label="Action"
 			class=" p-1.5 rounded-xl hover:bg-gray-100 dark:bg-gray-850 dark:hover:bg-gray-800 transition font-medium text-sm flex items-center space-x-1"
-			on:click={(e) => {
+			onclick={(e: any) => {
 				e.stopPropagation();
 				show = true;
 			}}
@@ -56,11 +57,11 @@
 			sideOffset={4}
 			side="bottom"
 			align="end"
-			transition={flyAndScale}
+			{...{ transition: flyAndScale } as any}
 		>
 			<DropdownMenu.Item
 				class="flex  gap-2  items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					dispatch('upload', { type: 'files' });
 				}}
 			>
@@ -70,7 +71,7 @@
 
 			<DropdownMenu.Item
 				class="flex  gap-2  items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					dispatch('upload', { type: 'directory' });
 				}}
 			>
@@ -86,7 +87,7 @@
 			>
 				<DropdownMenu.Item
 					class="flex  gap-2  items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-					on:click={() => {
+					onclick={() => {
 						dispatch('sync', { type: 'directory' });
 					}}
 				>
@@ -97,7 +98,7 @@
 
 			<DropdownMenu.Item
 				class="flex  gap-2  items-center px-3 py-2 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
-				on:click={() => {
+				onclick={() => {
 					dispatch('upload', { type: 'text' });
 				}}
 			>

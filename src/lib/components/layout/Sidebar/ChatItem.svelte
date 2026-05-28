@@ -9,7 +9,7 @@
 
 	const i18n: Writable<i18nType> = getI18n();
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	import {
 		archiveChatById,
@@ -43,14 +43,14 @@
 
 	export let className = '';
 
-	export let id;
-	export let title;
+	export let id: any;
+	export let title: any;
 
 	export let selected = false;
 	export let isCurrentChat = false;
 	export let inSelectionMode = false;
 
-	let chat = null;
+	let chat: any = null;
 
 	let mouseOver = false;
 	let draggable = false;
@@ -74,7 +74,7 @@
 
 	let chatTitle = title;
 
-	const editChatTitle = async (id, title) => {
+	const editChatTitle = async (id: any, title: any) => {
 		if (title === '') {
 			toast.error($i18n.t('Title cannot be an empty string.'));
 			return;
@@ -93,7 +93,7 @@
 		await pinnedChats.set(await getPinnedChatList(localStorage.token));
 	};
 
-	const cloneChatHandler = async (id) => {
+	const cloneChatHandler = async (id: any) => {
 		const res = await cloneChatById(
 			localStorage.token,
 			id,
@@ -115,7 +115,7 @@
 		}
 	};
 
-	const deleteChatHandler = async (id) => {
+	const deleteChatHandler = async (id: any) => {
 		const res = await deleteChatById(localStorage.token, id).catch((error) => {
 			toast.error(`${error}`);
 			return null;
@@ -142,7 +142,7 @@
 		}
 	};
 
-	const archiveChatHandler = async (id) => {
+	const archiveChatHandler = async (id: any) => {
 		await archiveChatById(localStorage.token, id);
 		dispatch('change', { buttonID: null });
 		toast.success($i18n.t('Chat archived successfully'));
@@ -162,7 +162,7 @@
 	dragImage.src =
 		'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 
-	const onDragStart = (event) => {
+	const onDragStart = (event: any) => {
 		event.stopPropagation();
 
 		event.dataTransfer.setDragImage(dragImage, 0, 0);
@@ -181,14 +181,14 @@
 		itemElement.style.opacity = '0.5'; // Optional: Visual cue to show it's being dragged
 	};
 
-	const onDrag = (event) => {
+	const onDrag = (event: any) => {
 		event.stopPropagation();
 
 		x = event.clientX;
 		y = event.clientY;
 	};
 
-	const onDragEnd = (event) => {
+	const onDragEnd = (event: any) => {
 		event.stopPropagation();
 
 		itemElement.style.opacity = '1'; // Reset visual cue after drag
@@ -259,7 +259,7 @@
 				bind:value={chatTitle}
 				id="chat-title-input-{id}"
 				class="bg-transparent w-full outline-none mr-10"
-				on:keydown={async (e) => {
+				on:keydown={async (e: any) => {
 					if (e.key === 'Enter') {
 						await editChatTitle(id, chatTitle);
 						confirmEdit = false;
@@ -291,7 +291,7 @@
 						? 'bg-gray-100 dark:bg-gray-800'
 						: 'group-hover:bg-gray-100 dark:group-hover:bg-gray-950'} whitespace-nowrap text-ellipsis"
 				href="/c/{id}"
-				on:click={(e) => {
+				on:click={(e: any) => {
 					// Check if the click was on the checkbox area, bulk actions, or chat menu
 					const target = e.target;
 					const clickedCheckbox = target && target.closest && target.closest('.checkbox-area');
@@ -326,13 +326,13 @@
 					chatTitle = title;
 					confirmEdit = true;
 				}}
-				on:mouseenter={(e) => {
+				on:mouseenter={(e: any) => {
 					mouseOver = true;
 				}}
-				on:mouseleave={(e) => {
+				on:mouseleave={(e: any) => {
 					mouseOver = false;
 				}}
-				on:focus={(e) => {}}
+				on:focus={(e: any) => {}}
 				draggable="false"
 			>
 				<div class=" flex self-center flex-1 w-full">
@@ -347,7 +347,7 @@
 									dispatch('select');
 								}
 							}}
-							on:keydown={(e) => {
+							on:keydown={(e: any) => {
 								if (e.key === 'Enter' || e.key === ' ') {
 									e.stopPropagation();
 									e.preventDefault();
@@ -418,10 +418,10 @@
 			? 'right-[8px]'
 			: 'right-0'}  top-[4px] py-1 pr-0.5 mr-1.5 pl-5 bg-gradient-to-l from-80%
             to-transparent"
-		on:mouseenter={(e) => {
+		on:mouseenter={(e: any) => {
 			mouseOver = true;
 		}}
-		on:mouseleave={(e) => {
+		on:mouseleave={(e: any) => {
 			mouseOver = false;
 		}}
 	>
@@ -490,10 +490,10 @@
 						onClose={() => {
 							// Do nothing - menu closing should not affect selection
 						}}
-						on:change={async (e) => {
+						on:change={async (e: any) => {
 							dispatch('change', e.detail);
 						}}
-						on:tag={(e) => {
+						on:tag={(e: any) => {
 							dispatch('tag', e.detail);
 						}}
 					>
@@ -512,6 +512,7 @@
 				{#if id === $chatId}
 					<!-- Shortcut support using "delete-chat-button" id -->
 					<button
+						aria-label="Action"
 						id="delete-chat-button"
 						class="hidden"
 						on:click={() => {

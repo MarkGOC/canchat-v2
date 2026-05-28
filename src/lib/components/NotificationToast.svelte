@@ -5,7 +5,7 @@
 	import { marked } from 'marked';
 	import { createEventDispatcher, onMount } from 'svelte';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	export let onClick: Function = () => {};
 	export let title: string = 'HI';

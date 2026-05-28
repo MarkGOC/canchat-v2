@@ -85,7 +85,7 @@
 	let chatListLoading = false;
 	let allChatsLoaded = false;
 
-	let folders = {};
+	let folders: Record<string, any> = {};
 
 	const initFolders = async () => {
 		const folderList = await getFolders(localStorage.token).catch((error) => {
@@ -115,7 +115,7 @@
 					: [folder.id];
 
 				// Sort the children by updated_at field
-				folders[folder.parent_id].childrenIds.sort((a, b) => {
+				folders[folder.parent_id].childrenIds.sort((a: any, b: any) => {
 					return folders[b].updated_at - folders[a].updated_at;
 				});
 			}
@@ -191,7 +191,7 @@
 
 		currentChatPage.set($currentChatPage + 1);
 
-		let newChatList = [];
+		let newChatList: any[] = [];
 
 		if (search) {
 			newChatList = await getChatListBySearchText(localStorage.token, search, $currentChatPage);
@@ -246,7 +246,7 @@
 		}
 	};
 
-	const importChatHandler = async (items, pinned = false, folderId = null) => {
+	const importChatHandler = async (items: any, pinned = false, folderId = null) => {
 		for (const item of items) {
 			if (item.chat) {
 				await importChat(localStorage.token, item.chat, item?.meta ?? {}, pinned, folderId);
@@ -256,10 +256,10 @@
 		initChatList();
 	};
 
-	const inputFilesHandler = async (files) => {
+	const inputFilesHandler = async (files: any) => {
 		for (const file of files) {
 			const reader = new FileReader();
-			reader.onload = async (e) => {
+			reader.onload = async (e: any) => {
 				const content = e.target.result;
 
 				try {
@@ -274,7 +274,7 @@
 		}
 	};
 
-	const tagEventHandler = async (type, tagName, chatId) => {
+	const tagEventHandler = async (type: any, tagName: any, chatId: any) => {
 		if (type === 'delete') {
 			initChatList();
 		} else if (type === 'add') {
@@ -282,7 +282,7 @@
 		}
 	};
 
-	const toggleChatSelection = (chatId) => {
+	const toggleChatSelection = (chatId: any) => {
 		const index = selectedChatIds.indexOf(chatId);
 		if (index >= 0) {
 			// Remove from selection
@@ -299,7 +299,7 @@
 
 	const selectAllChats = () => {
 		const folderChatIds = Object.values(folders).flatMap((folder) =>
-			(folder.items?.chats ?? []).map((chat) => chat.id)
+			(folder.items?.chats ?? []).map((chat: any) => chat.id)
 		);
 		const allChatIds = [
 			...new Set([
@@ -383,7 +383,7 @@
 
 	let draggedOver = false;
 
-	const onDragOver = (e) => {
+	const onDragOver = (e: any) => {
 		e.preventDefault();
 
 		// Check if a file is being draggedOver.
@@ -398,7 +398,7 @@
 		draggedOver = false;
 	};
 
-	const onDrop = async (e) => {
+	const onDrop = async (e: any) => {
 		e.preventDefault();
 		// Perform file drop check and handle it accordingly
 		if (e.dataTransfer?.files) {
@@ -428,22 +428,22 @@
 		}
 	}
 
-	const onTouchStart = (e) => {
+	const onTouchStart = (e: any) => {
 		touchstart = e.changedTouches[0];
 	};
 
-	const onTouchEnd = (e) => {
+	const onTouchEnd = (e: any) => {
 		touchend = e.changedTouches[0];
 		checkDirection();
 	};
 
-	const onKeyDown = (e) => {
+	const onKeyDown = (e: any) => {
 		if (e.key === 'Shift') {
 			shiftKey = true;
 		}
 	};
 
-	const onKeyUp = (e) => {
+	const onKeyUp = (e: any) => {
 		if (e.key === 'Shift') {
 			shiftKey = false;
 		}
@@ -456,7 +456,7 @@
 		clearSelection();
 	};
 
-	const changeFocus = async (elementId) => {
+	const changeFocus = async (elementId: any) => {
 		requestAnimationFrame(() => {
 			const element = document.getElementById(elementId);
 			if (element) {
@@ -804,10 +804,10 @@
 					createFolder($i18n.t('Untitled'));
 				}}
 				onAddLabel={$i18n.t('New Folder')}
-				on:import={(e) => {
+				on:import={(e: any) => {
 					importChatHandler(e.detail);
 				}}
-				on:drop={async (e) => {
+				on:drop={async (e: any) => {
 					const { type, id, item } = e.detail;
 
 					if (type === 'chat') {
@@ -861,13 +861,13 @@
 						<Folder
 							className=""
 							bind:open={showPinnedChat}
-							on:change={(e) => {
+							on:change={(e: any) => {
 								localStorage.setItem('showPinnedChat', e.detail);
 							}}
-							on:import={(e) => {
+							on:import={(e: any) => {
 								importChatHandler(e.detail, true);
 							}}
-							on:drop={async (e) => {
+							on:drop={async (e: any) => {
 								const { type, id, item } = e.detail;
 
 								if (type === 'chat') {
@@ -921,13 +921,13 @@
 											// Clear multi-selection on regular navigation
 											clearMultiSelection();
 										}}
-										on:change={async (e) => {
+										on:change={async (e: any) => {
 											const { buttonID } = e.detail;
 											await initChatList();
 											await tick();
 											changeFocus(buttonID);
 										}}
-										on:tag={(e) => {
+										on:tag={(e: any) => {
 											const { type, name } = e.detail;
 											tagEventHandler(type, name, chat.id);
 										}}
@@ -943,23 +943,23 @@
 						{folders}
 						{selectedChatIds}
 						showBulkActions={selectedChatIds.length > 0}
-						on:import={(e) => {
+						on:import={(e: any) => {
 							const { folderId, items } = e.detail;
 							importChatHandler(items, false, folderId);
 						}}
-						on:update={async (e) => {
+						on:update={async (e: any) => {
 							initChatList();
 						}}
 						on:change={async () => {
 							initChatList();
 						}}
-						on:select={(e) => {
+						on:select={(e: any) => {
 							toggleChatSelection(e.detail);
 						}}
-						on:unselect={(e) => {
+						on:unselect={(e: any) => {
 							toggleChatSelection(e.detail);
 						}}
-						on:tag={(e) => {
+						on:tag={(e: any) => {
 							const { type, name, chatId } = e.detail;
 							tagEventHandler(type, name, chatId);
 						}}
@@ -1012,13 +1012,13 @@
 									on:unselect={() => {
 										toggleChatSelection(chat.id);
 									}}
-									on:change={async (e) => {
+									on:change={async (e: any) => {
 										const { buttonID } = e.detail;
 										await initChatList();
 										await tick();
 										changeFocus(buttonID);
 									}}
-									on:tag={(e) => {
+									on:tag={(e: any) => {
 										const { type, name } = e.detail;
 										tagEventHandler(type, name, chat.id);
 									}}
@@ -1031,7 +1031,7 @@
 
 							{#if $scrollPaginationEnabled && !allChatsLoaded}
 								<Loader
-									on:visible={(e) => {
+									on:visible={(e: any) => {
 										if (!chatListLoading) {
 											loadMoreChats();
 										}
@@ -1069,7 +1069,7 @@
 							role={$user?.role}
 							buttonID="sidebar-user-menu"
 							buttonClass="self-center font-medium select-none flex items-center rounded-xl py-2.5 px-2.5 w-full hover:bg-gray-100 dark:hover:bg-gray-900 transition"
-							on:show={(e) => {
+							on:show={(e: any) => {
 								if (e.detail === 'archived-chat') {
 									showArchivedChats.set(true);
 								}

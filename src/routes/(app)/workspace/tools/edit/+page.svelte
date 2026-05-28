@@ -14,6 +14,7 @@
 
 	const i18n = getI18n();
 
+	/** @type {any} */
 	let tool = null;
 
 	const saveHandler = async (data) => {

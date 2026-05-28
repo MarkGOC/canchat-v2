@@ -51,6 +51,7 @@
 											target="_blank"
 											rel="noopener noreferrer"
 											class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+											aria-label="Link"
 										>
 											{source.title}
 										</a>

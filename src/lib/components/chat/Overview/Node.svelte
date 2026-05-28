@@ -6,7 +6,7 @@
 	import Heart from '$lib/components/icons/Heart.svelte';
 
 	type $$Props = NodeProps;
-	export let data: $$Props['data'];
+	export let data: any;
 </script>
 
 <div

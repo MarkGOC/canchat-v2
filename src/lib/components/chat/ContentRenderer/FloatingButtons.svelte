@@ -14,8 +14,8 @@
 	import Skeleton from '../Messages/Skeleton.svelte';
 
 	export let id = '';
-	export let model = null;
-	export let messages = [];
+	export let model: any = null;
+	export let messages: any[] = [];
 	export let onAdd = () => {};
 
 	let floatingInput = false;
@@ -269,7 +269,7 @@
 					class="ml-5 bg-transparent outline-none w-full flex-1 text-sm"
 					placeholder={$i18n.t('Ask a question')}
 					bind:value={floatingInputValue}
-					on:keydown={(e) => {
+					on:keydown={(e: any) => {
 						if (e.key === 'Enter') {
 							askHandler();
 						}
@@ -278,6 +278,7 @@
 
 				<div class="ml-1 mr-2">
 					<button
+						aria-label="Action"
 						class="{floatingInputValue !== ''
 							? 'bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-100 '
 							: 'text-white bg-gray-200 dark:text-gray-900 dark:bg-gray-700 disabled'} transition rounded-full p-1.5 m-0.5 self-center"
@@ -326,6 +327,7 @@
 							<button
 								class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full"
 								on:click={addHandler}
+								aria-label="Action"
 							>
 								{$i18n.t('Add')}
 							</button>

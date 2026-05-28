@@ -16,7 +16,7 @@
 	export let onSubmit: Function = () => {};
 	export let onUpdate: Function = () => {};
 
-	export let channel = null;
+	export let channel: any = null;
 	export let edit = false;
 
 	let name = '';
@@ -80,6 +80,7 @@
 				{/if}
 			</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;
@@ -149,6 +150,7 @@
 								: ''}"
 							type="submit"
 							disabled={loading}
+							aria-label="Action"
 						>
 							{#if edit}
 								{$i18n.t('Update')}

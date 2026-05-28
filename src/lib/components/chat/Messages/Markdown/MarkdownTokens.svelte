@@ -20,7 +20,13 @@
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
 	import ArrowDownTray from '$lib/components/icons/ArrowDownTray.svelte';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
+
+	type TokenWithNestedTokens = Token & { tokens: Token[] };
+
+	const hasNestedTokens = (value: Token): value is TokenWithNestedTokens => {
+		return Array.isArray((value as { tokens?: unknown }).tokens);
+	};
 
 	export let id: string;
 	export let tokens: Token[];
@@ -33,15 +39,17 @@
 		return 'h' + depth;
 	};
 
-	const exportTableToCSVHandler = (token, tokenIdx = 0) => {
+	const exportTableToCSVHandler = (token: any, tokenIdx = 0) => {
 		// Extract header row text and escape for CSV.
-		const header = token.header.map((headerCell) => `"${headerCell.text.replace(/"/g, '""')}"`);
+		const header = token.header.map(
+			(headerCell: any) => `"${headerCell.text.replace(/"/g, '""')}"`
+		);
 
 		// Create an array for rows that will hold the mapped cell text.
-		const rows = token.rows.map((row) =>
-			row.map((cell) => {
+		const rows = token.rows.map((row: any) =>
+			row.map((cell: any) => {
 				// Map tokens into a single text
-				const cellContent = cell.tokens.map((token) => token.text).join('');
+				const cellContent = cell.tokens.map((token: any) => token.text).join('');
 				// Escape double quotes and wrap the content in double quotes
 				return `"${cellContent.replace(/"/g, '""')}"`;
 			})
@@ -88,10 +96,10 @@
 				lang={token?.lang ?? ''}
 				code={token?.text ?? ''}
 				{save}
-				on:code={(e) => {
+				on:code={(e: any) => {
 					dispatch('code', e.detail);
 				}}
-				on:save={(e) => {
+				on:save={(e: any) => {
 					dispatch('update', {
 						raw: token.raw,
 						oldContent: token.text,
@@ -158,7 +166,7 @@
 				<Tooltip content={$i18n.t('Export to CSV')}>
 					<button
 						class="p-1 rounded-lg bg-transparent transition"
-						onclick={(e) => {
+						onclick={(e: any) => {
 							e.stopPropagation();
 							exportTableToCSVHandler(token, tokenIdx);
 						}}
@@ -230,18 +238,19 @@
 			/>
 		</p>
 	{:else if token.type === 'text'}
+		{@const textToken = hasNestedTokens(token) ? token : null}
 		{#if top}
 			<p>
-				{#if token.tokens}
-					<MarkdownInlineTokens id={`${id}-${tokenIdx}-t`} tokens={token.tokens} {onSourceClick} />
+				{#if textToken}
+					<MarkdownInlineTokens id={`${id}-${tokenIdx}-t`} tokens={textToken.tokens} {onSourceClick} />
 				{:else}
 					{unescapeHtml(token.text)}
 				{/if}
 			</p>
-		{:else if token.tokens}
+		{:else if textToken}
 			<MarkdownInlineTokens
 				id={`${id}-${tokenIdx}-p`}
-				tokens={token.tokens ?? []}
+				tokens={textToken.tokens}
 				{onSourceClick}
 			/>
 		{:else}

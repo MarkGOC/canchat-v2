@@ -33,7 +33,7 @@
 	import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 	// Replace date-fns with native date formatting
-	function formatDate(date) {
+	function formatDate(date: any) {
 		return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD format
 	}
 
@@ -42,7 +42,7 @@
 	}
 
 	// Helper function to get minimum end date (at least one day after start date)
-	function getMinEndDate(startDateStr) {
+	function getMinEndDate(startDateStr: any) {
 		if (!startDateStr) return '';
 		const startDate = new Date(startDateStr);
 		const minEndDate = new Date(startDate.getTime() + 24 * 60 * 60 * 1000); // Add one day
@@ -50,7 +50,7 @@
 	}
 
 	// Handler for start date changes - ensures end date is always after start date
-	function handleStartDateChange(event) {
+	function handleStartDateChange(event: any) {
 		const newStartDate = event.target.value;
 		startDate = newStartDate;
 
@@ -227,7 +227,7 @@
 				labels: {
 					color: document.documentElement.classList.contains('dark') ? '#e5e7eb' : '#1f2937',
 					font: { size: 14 },
-					generateLabels: (c) => {
+					generateLabels: (c: any) => {
 						const items = Chart.defaults.plugins.legend.labels.generateLabels(c);
 						return items.map((i) => {
 							i.text = `${i.text} ${i.text === $i18n.t('Last Active Users') ? $i18n.t('(Users whose last recorded activity was during the selected period)') : i.text === $i18n.t('Active Users') ? $i18n.t('(Users who prompted during selected period)') : $i18n.t('(All enrolled users to date)')}`;
@@ -249,7 +249,7 @@
 				anchor: 'end' as const,
 				align: 'right' as const,
 				offset: 6,
-				formatter: (value) => (value === 0 ? null : value),
+				formatter: (value: any) => (value === 0 ? null : value),
 				font: {
 					weight: 'bold' as const,
 					size: 14
@@ -278,7 +278,7 @@
 				position: 'top' as const,
 				offset: false,
 				beginAtZero: true,
-				afterBuildTicks: (axis) => {
+				afterBuildTicks: (axis: any) => {
 					const bottomAxis = axis.chart?.scales?.x;
 					if (!bottomAxis) return;
 					axis.min = bottomAxis.min;
@@ -298,7 +298,7 @@
 			},
 			y: {
 				beginAtZero: true,
-				afterFit: (scale) => {
+				afterFit: (scale: any) => {
 					scale.width = 330;
 				},
 				ticks: {
@@ -453,7 +453,7 @@
 	let activeTab = 'users'; // Changed from 'business' to 'users'
 
 	// Helper function to calculate days between dates
-	function calculateDaysFromDateRange(start, end) {
+	function calculateDaysFromDateRange(start: any, end: any) {
 		if (start && end) {
 			const startDate = new Date(start);
 			const endDate = new Date(end);
@@ -599,7 +599,7 @@
 		if (activeTab === 'users' && dailyActiveUsersData.length > 0 && enrolledUsersData.length > 0) {
 			// Enrolled Users Chart
 			const enrolledChartId = 'userEnrollmentsOverTimeChart';
-			const enrolledCanvas = document.getElementById(enrolledChartId);
+			const enrolledCanvas = document.getElementById(enrolledChartId) as HTMLCanvasElement | null;
 			const enrolledCtx = enrolledCanvas?.getContext('2d');
 			if (enrolledCtx) {
 				if (enrolledUsersChart) {
@@ -630,7 +630,7 @@
 
 			// Daily Active Users Chart
 			const dailyChartId = 'usersOverTimeChart';
-			const dailyCanvas = document.getElementById(dailyChartId);
+			const dailyCanvas = document.getElementById(dailyChartId) as HTMLCanvasElement | null;
 			const dailyCtx = dailyCanvas?.getContext('2d');
 			if (dailyCtx) {
 				if (dailyActiveUsersChart) {
@@ -662,7 +662,7 @@
 
 		// Department usage chart
 		const departmentChartId = 'departmentUsageChart';
-		const departmentCanvas = document.getElementById(departmentChartId);
+		const departmentCanvas = document.getElementById(departmentChartId) as HTMLCanvasElement | null;
 		const departmentCtx = departmentCanvas?.getContext('2d');
 		if (departmentCtx) {
 			if (userByDepartmentChart) {
@@ -712,7 +712,7 @@
 		// Prompts chart - for both overview and prompts tabs
 		if ((activeTab === 'prompts' || activeTab === 'overview') && dailyPromptsData.length > 0) {
 			const chartId = activeTab === 'overview' ? 'dailyPromptsChart' : 'promptsOverTimeChart';
-			const canvas = document.getElementById(chartId);
+			const canvas = document.getElementById(chartId) as HTMLCanvasElement | null;
 			const ctx = canvas?.getContext('2d');
 			if (ctx) {
 				if (dailyPromptsChart) {
@@ -744,7 +744,7 @@
 
 		// Tokens chart - for tokens tab
 		if (activeTab === 'tokens' && dailyTokensData.length > 0) {
-			const canvas = document.getElementById('tokensOverTimeChart');
+			const canvas = document.getElementById('tokensOverTimeChart') as HTMLCanvasElement | null;
 			const ctx = canvas?.getContext('2d');
 			if (ctx) {
 				if (dailyTokensChart) {
@@ -776,7 +776,7 @@
 
 		// Model chart - for models tab
 		if (activeTab === 'models' && selectedModel && modelPromptsData.length > 0) {
-			const canvas = document.getElementById('modelOverTimeChart');
+			const canvas = document.getElementById('modelOverTimeChart') as HTMLCanvasElement | null;
 			const ctx = canvas?.getContext('2d');
 			if (ctx) {
 				if (modelPromptsChart) {
@@ -808,7 +808,7 @@
 
 		// Inter-prompt latency histogram - for behavior tab
 		if (activeTab === 'behavior' && interPromptLatencyData.counts.length > 0) {
-			const canvas = document.getElementById('interPromptLatencyChart');
+			const canvas = document.getElementById('interPromptLatencyChart') as HTMLCanvasElement | null;
 			const ctx = canvas?.getContext('2d');
 			if (ctx) {
 				if (interPromptLatencyChart) {
@@ -911,7 +911,7 @@
 		}
 	}
 
-	function handleDateRangeChange(event) {
+	function handleDateRangeChange(event: any) {
 		const range = event.target.value;
 		selectedDateRange = range;
 
@@ -1053,14 +1053,14 @@
 	});
 
 	// Update domain change handler to simplify
-	function handleDomainChange(event) {
+	function handleDomainChange(event: any) {
 		const newDomain = event.target.value || null;
 		selectedDomain = newDomain;
 		updateCharts(selectedDomain, selectedModel);
 	}
 
 	// Handler for model selection changes
-	function handleModelChange(event) {
+	function handleModelChange(event: any) {
 		const newModel = event.target.value || null;
 		selectedModel = newModel;
 		updateCharts(selectedDomain, selectedModel);
@@ -1245,7 +1245,7 @@
 							<select
 								id="domain-select"
 								bind:value={selectedDomain}
-								on:change={(e) => {
+								on:change={(e: any) => {
 									handleDomainChange(e);
 									updateRangeMetrics();
 								}}
@@ -1272,7 +1272,7 @@
 							<select
 								id="model-select"
 								bind:value={selectedModel}
-								on:change={(e) => {
+								on:change={(e: any) => {
 									handleModelChange(e);
 									updateRangeMetrics();
 								}}
@@ -1358,6 +1358,7 @@
 									<button
 										on:click={openExportLogs}
 										class="px-3 py-2 bg-gray-600 hover:bg-gray-700 text-white text-sm font-medium rounded-md transition-colors duration-200 flex items-center gap-2"
+										aria-label="Action"
 									>
 										<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 											<path
@@ -1854,6 +1855,7 @@
 					<button
 						on:click={closeExportLogs}
 						class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+						aria-label="Action"
 					>
 						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path

@@ -26,9 +26,9 @@
 	export let ariaLabel = '';
 	export let buttonID = '';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
-	const changeFocus = async (elementId) => {
+	const changeFocus = async (elementId: any) => {
 		setTimeout(() => {
 			document.getElementById(elementId)?.focus();
 		}, 10);
@@ -43,7 +43,7 @@
 
 <DropdownMenu.Root
 	bind:open={show}
-	onOpenChange={async (state) => {
+	onOpenChange={async (state: any) => {
 		dispatch('change', state);
 		changeFocus(buttonID);
 
@@ -66,12 +66,12 @@
 			sideOffset={8}
 			side="bottom"
 			align="start"
-			transition={(e) => fade(e, { duration: 100 })}
+			{...{ transition: (e: any) => fade(e, { duration: 100 }) } as any}
 		>
 			<DropdownMenu.Item
 				class="flex rounded-md py-2 px-3 w-full hover:bg-gray-50 dark:hover:bg-gray-800 transition"
 				id="open-settings-button"
-				on:click={async () => {
+				onclick={async () => {
 					await showSettings.set(true);
 					await returnFocusButtonID.set(buttonID);
 					show = false;
@@ -106,7 +106,7 @@
 			</DropdownMenu.Item>
 			<DropdownMenu.Item
 				class="flex rounded-md py-2 px-3 w-full hover:bg-gray-50 dark:hover:bg-gray-800 transition"
-				on:click={async () => {
+				onclick={async () => {
 					await returnFocusButtonID.set(buttonID);
 					dispatch('show', 'archived-chat');
 					show = false;
@@ -126,7 +126,7 @@
 				<DropdownMenu.Item
 					class="flex rounded-md py-2 px-3 w-full hover:bg-gray-50 dark:hover:bg-gray-800 transition"
 					href="/playground"
-					on:click={() => {
+					onclick={() => {
 						show = false;
 
 						if ($mobile) {
@@ -155,7 +155,7 @@
 				<DropdownMenu.Item
 					class="flex rounded-md py-2 px-3 w-full hover:bg-gray-50 dark:hover:bg-gray-800 transition"
 					href="/admin"
-					on:click={() => {
+					onclick={() => {
 						show = false;
 
 						if ($mobile) {
@@ -187,7 +187,7 @@
 
 			<DropdownMenu.Item
 				class="flex rounded-md py-2 px-3 w-full hover:bg-gray-50 dark:hover:bg-gray-800 transition"
-				on:click={async () => {
+				onclick={async () => {
 					await userSignOut();
 					localStorage.removeItem('token');
 					location.href = '/auth';

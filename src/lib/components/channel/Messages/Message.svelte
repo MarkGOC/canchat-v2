@@ -32,7 +32,7 @@
 	import ChevronRight from '$lib/components/icons/ChevronRight.svelte';
 	import { formatDate } from '$lib/utils';
 
-	export let message;
+	export let message: any;
 	export let showUserProfile = true;
 	export let thread = false;
 
@@ -204,7 +204,7 @@
 						<Textarea
 							className=" bg-transparent outline-none w-full resize-none"
 							bind:value={editedContent}
-							onKeydown={(e) => {
+							onKeydown={(e: any) => {
 								if (e.key === 'Escape') {
 									document.getElementById('close-edit-message-button')?.click();
 								}

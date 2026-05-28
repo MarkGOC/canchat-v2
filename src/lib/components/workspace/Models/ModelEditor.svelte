@@ -20,10 +20,37 @@
 
 	const i18n = getI18n();
 
-	export let onSubmit: Function;
-	export let onBack: null | Function = null;
+	type AccessControlState = {
+		read: { group_ids: string[]; user_ids: string[] };
+		write: { group_ids: string[]; user_ids: string[] };
+	};
 
-	export let model = null;
+	type ModelFormMeta = {
+		profile_image_url: string;
+		description: string;
+		description_fr: string;
+		suggestion_prompts: Array<{ content: string }> | null;
+		tags: Array<{ name: string }>;
+		capabilities?: Record<string, any>;
+		knowledge?: any[];
+		toolIds?: any[];
+		filterIds?: any[];
+		actionIds?: any[];
+	};
+
+	type ModelFormInfo = {
+		id: string;
+		base_model_id: string | null;
+		name: string;
+		meta: ModelFormMeta;
+		params: Record<string, any>;
+		access_control?: AccessControlState;
+	};
+
+	export let onSubmit: (info: ModelFormInfo) => Promise<void>;
+	export let onBack: null | (() => void) = null;
+
+	export let model: Record<string, any> | null = null;
 	export let edit = false;
 
 	export let preset = true;
@@ -31,8 +58,8 @@
 	let loading = false;
 	let success = false;
 
-	let filesInputElement;
-	let inputFiles;
+	let filesInputElement: HTMLInputElement;
+	let inputFiles: FileList | null = null;
 
 	let showAdvanced = false;
 	let showPreview = false;
@@ -51,7 +78,7 @@
 		}
 	}
 
-	let info = {
+	let info: ModelFormInfo = {
 		id: '',
 		base_model_id: null,
 		name: '',
@@ -67,7 +94,7 @@
 		}
 	};
 
-	let params = {
+	let params: Record<string, any> = {
 		system: ''
 	};
 	let capabilities = {
@@ -76,19 +103,22 @@
 		citations: true
 	};
 
-	let knowledge = [];
-	let toolIds = [];
-	let filterIds = [];
-	let actionIds = [];
+	let knowledge: any[] = [];
+	let toolIds: any[] = [];
+	let filterIds: any[] = [];
+	let actionIds: any[] = [];
 
-	let accessControl = {};
+	let accessControl: AccessControlState = {
+		read: { group_ids: [], user_ids: [] },
+		write: { group_ids: [], user_ids: [] }
+	};
 
-	const addUsage = (base_model_id) => {
+	const addUsage = (base_model_id: string | null) => {
 		const baseModel = $models.find((m) => m.id === base_model_id);
 
 		if (baseModel) {
-			if (baseModel.owned_by === 'openai') {
-				capabilities.usage = baseModel?.meta?.capabilities?.usage ?? false;
+			if ((baseModel as any).owned_by === 'openai') {
+				capabilities.usage = (baseModel as any)?.meta?.capabilities?.usage ?? false;
 			} else {
 				delete capabilities.usage;
 			}
@@ -164,7 +194,7 @@
 			}
 		}
 
-		info.params.stop = params.stop ? params.stop.split(',').filter((s) => s.trim()) : null;
+		info.params.stop = params.stop ? params.stop.split(',').filter((s: any) => s.trim()) : null;
 		Object.keys(info.params).forEach((key) => {
 			if (info.params[key] === '' || info.params[key] === null) {
 				delete info.params[key];
@@ -196,7 +226,7 @@
 
 			if (model.base_model_id) {
 				const base_model = $models
-					.filter((m) => !m?.preset && !(m?.arena ?? false))
+					.filter((m) => !(m as any)?.preset && !((m as any)?.arena ?? false))
 					.find((m) => [model.base_model_id, `${model.base_model_id}:latest`].includes(m.id));
 
 				if (base_model) {
@@ -216,7 +246,7 @@
 			toolIds = model?.meta?.toolIds ?? [];
 			filterIds = model?.meta?.filterIds ?? [];
 			actionIds = model?.meta?.actionIds ?? [];
-			knowledge = (model?.meta?.knowledge ?? []).map((item) => {
+			knowledge = (model?.meta?.knowledge ?? []).map((item: any) => {
 				if (item?.collection_name) {
 					return {
 						id: item.collection_name,
@@ -237,9 +267,12 @@
 			capabilities = { ...capabilities, ...(model?.meta?.capabilities ?? {}) };
 
 			if ('access_control' in model) {
-				accessControl = model.access_control;
+				accessControl = model.access_control as AccessControlState;
 			} else {
-				accessControl = {};
+				accessControl = {
+					read: { group_ids: [], user_ids: [] },
+					write: { group_ids: [], user_ids: [] }
+				};
 			}
 
 			info = {
@@ -296,7 +329,7 @@
 			accept="image/*"
 			on:change={() => {
 				let reader = new FileReader();
-				reader.onload = (event) => {
+				reader.onload = (event: any) => {
 					let originalImageUrl = `${event.target.result}`;
 
 					const img = new Image();
@@ -305,6 +338,9 @@
 					img.onload = function () {
 						const canvas = document.createElement('canvas');
 						const ctx = canvas.getContext('2d');
+						if (!ctx) {
+							return;
+						}
 
 						// Calculate the aspect ratio of the image
 						const aspectRatio = img.width / img.height;
@@ -463,7 +499,7 @@
 									class="text-sm w-full bg-transparent outline-none"
 									placeholder="Select a base model (e.g. llama3, gpt-4o)"
 									bind:value={info.base_model_id}
-									on:change={(e) => {
+									on:change={(e: any) => {
 										addUsage(e.target.value);
 									}}
 									required
@@ -473,8 +509,9 @@
 									>
 									{#each $models
 										.sort((a, b) => a.name.localeCompare(b.name))
-										.filter((m) => (model ? m.id !== model.id : true) && !m?.preset && m?.owned_by !== 'arena') as model}
-										<option value={model.id} class=" text-gray-900">{model.name}</option>
+										.filter((m) => (model ? m.id !== model.id : true) && !(m as any)?.preset && m?.owned_by !== 'arena') as listedModel}
+										<option value={listedModel.id} class=" text-gray-900">{listedModel.name}</option
+										>
 									{/each}
 								</select>
 							</div>
@@ -491,7 +528,6 @@
 								bind:value={info.meta.description}
 								placeholder={$i18n.t('Enter English description')}
 								className="text-sm w-full bg-transparent outline-none resize-none overflow-y-hidden"
-								required
 							/>
 						</div>
 						<div class="mt-2">
@@ -499,7 +535,6 @@
 								bind:value={info.meta.description_fr}
 								placeholder={$i18n.t('Enter French description')}
 								className="text-sm w-full bg-transparent outline-none resize-none overflow-y-hidden"
-								required
 							/>
 						</div>
 					</div>
@@ -508,11 +543,11 @@
 						<div class="">
 							<Tags
 								tags={info?.meta?.tags ?? []}
-								on:delete={(e) => {
+								on:delete={(e: any) => {
 									const tagName = e.detail;
 									info.meta.tags = info.meta.tags.filter((tag) => tag.name !== tagName);
 								}}
-								on:add={(e) => {
+								on:add={(e: any) => {
 									const tagName = e.detail;
 									if (!(info?.meta?.tags ?? null)) {
 										info.meta.tags = [{ name: tagName }];
@@ -544,7 +579,6 @@
 									<Textarea
 										className=" text-sm w-full bg-transparent outline-none resize-none overflow-y-hidden "
 										placeholder={$i18n.t('Write your model system prompt content here')}
-										rows={4}
 										bind:value={info.params.system}
 									/>
 								</div>
@@ -575,7 +609,7 @@
 									<AdvancedParams
 										admin={true}
 										bind:params
-										on:change={(e) => {
+										on:change={(e: any) => {
 											info.params = { ...info.params, ...params };
 										}}
 									/>
@@ -685,7 +719,10 @@
 					<hr class=" border-gray-50 dark:border-gray-850 my-1.5" />
 
 					<div class="my-2">
-						<Knowledge bind:selectedKnowledge={knowledge} collections={$knowledgeCollections} />
+						<Knowledge
+							bind:selectedKnowledge={knowledge}
+							collections={$knowledgeCollections ?? []}
+						/>
 					</div>
 
 					<div class="my-2">
@@ -695,14 +732,14 @@
 					<div class="my-2">
 						<FiltersSelector
 							bind:selectedFilterIds={filterIds}
-							filters={$functions.filter((func) => func.type === 'filter')}
+							filters={($functions ?? []).filter((func) => func.type === 'filter')}
 						/>
 					</div>
 
 					<div class="my-2">
 						<ActionsSelector
 							bind:selectedActionIds={actionIds}
-							actions={$functions.filter((func) => func.type === 'action')}
+							actions={($functions ?? []).filter((func) => func.type === 'action')}
 						/>
 					</div>
 
@@ -749,6 +786,7 @@
 								: 'bg-black hover:bg-gray-900 text-white dark:bg-white dark:hover:bg-gray-100 dark:text-black'} flex w-full justify-center"
 							type="submit"
 							disabled={loading}
+							aria-label="Action"
 						>
 							<div class=" self-center font-medium">
 								{#if edit}

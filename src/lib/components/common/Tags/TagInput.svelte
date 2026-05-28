@@ -4,7 +4,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { tags } from '$lib/stores';
 	import { toast } from 'svelte-sonner';
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	const i18n = getI18n();
 
@@ -32,7 +32,7 @@
 				class=" px-2 cursor-pointer self-center text-xs h-fit bg-transparent outline-none line-clamp-1 w-[6.5rem]"
 				placeholder={$i18n.t('Add a tag')}
 				list="tagOptions"
-				on:keydown={(event) => {
+				on:keydown={(event: any) => {
 					if (event.key === 'Enter') {
 						addTagHandler();
 					}

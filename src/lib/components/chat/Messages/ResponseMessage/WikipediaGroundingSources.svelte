@@ -51,6 +51,7 @@
 					class="flex w-full items-start p-3 px-4 {idx === sources.length - 1
 						? ''
 						: 'border-b border-gray-300/30 dark:border-gray-700/50'} group/item justify-between font-normal text-gray-800 dark:text-gray-300"
+					aria-label="Link"
 				>
 					<div class="flex-1 min-w-0">
 						<h4 class="font-medium text-gray-900 dark:text-gray-100 text-sm mb-1 line-clamp-2">

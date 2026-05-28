@@ -24,7 +24,7 @@
 	import { goto } from '$app/navigation';
 
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	export let id = '';
 	export let value = '';
@@ -59,7 +59,7 @@
 			const _item = {
 				...item,
 				modelName: item.model?.name,
-				tags: item.model?.info?.meta?.tags?.map((tag) => tag.name).join(' '),
+				tags: item.model?.info?.meta?.tags?.map((tag: any) => tag.name).join(' '),
 				desc: item.model?.info?.meta?.description
 			};
 			return _item;
@@ -71,7 +71,7 @@
 	);
 
 	$: filteredItems = searchValue
-		? fuse.search(searchValue).map((e) => {
+		? fuse.search(searchValue).map((e: any) => {
 				return e.item;
 			})
 		: items;
@@ -226,7 +226,7 @@
 		};
 	});
 
-	function getModelDesc(itemId) {
+	function getModelDesc(itemId: any) {
 		return descriptions.find((d) => d.id === itemId)?.desc || '';
 	}
 </script>
@@ -238,7 +238,6 @@
 		selectedModelIdx = 0;
 		window.setTimeout(() => document.getElementById('model-search-input')?.focus(), 0);
 	}}
-	closeFocus={false}
 >
 	<DropdownMenu.Trigger
 		class="relative w-full font-primary"
@@ -267,7 +266,8 @@
 		class=" z-40 {$mobile
 			? `w-full`
 			: `${className}`} max-w-[calc(100vw-1rem)] justify-start rounded-xl  bg-white dark:bg-gray-850 dark:text-white shadow-lg  outline-none"
-		transition={flyAndScale}
+		onCloseAutoFocus={(event: Event) => event.preventDefault()}
+		{...{ transition: flyAndScale } as any}
 		side={$mobile ? 'bottom' : 'bottom-start'}
 		sideOffset={3}
 	>
@@ -282,7 +282,7 @@
 						class="w-full text-sm bg-transparent outline-none"
 						placeholder={$i18n.t('Search a model')}
 						autocomplete="off"
-						on:keydown={(e) => {
+						on:keydown={(e: any) => {
 							if (e.code === 'Enter' && filteredItems.length > 0) {
 								value = filteredItems[selectedModelIdx].value;
 								show = false;
@@ -529,6 +529,7 @@
 						<div class="mr-2 ml-1 translate-y-0.5">
 							<Tooltip content={$i18n.t('Cancel')}>
 								<button
+									aria-label="Action"
 									class="text-gray-800 dark:text-gray-100"
 									on:click={() => {
 										cancelModelPullHandler(model);

@@ -16,10 +16,10 @@
 
 	const i18n = getI18n();
 
-	export let modelIds = [];
-	export let models = [];
+	export let modelIds: any[] = [];
+	export let models: any[] = [];
 
-	export let submitPrompt;
+	export let submitPrompt: any;
 
 	let mounted = false;
 	let selectedModelIdx = 0;
@@ -108,6 +108,7 @@
 									<a
 										href="https://openwebui.com/m/{models[selectedModelIdx]?.info?.meta?.user
 											.username}"
+										aria-label="Link"
 										>{models[selectedModelIdx]?.info?.meta?.user.name
 											? models[selectedModelIdx]?.info?.meta?.user.name
 											: `@${models[selectedModelIdx]?.info?.meta?.user.username}`}</a
@@ -132,7 +133,7 @@
 				suggestionPrompts={models[selectedModelIdx]?.info?.meta?.suggestion_prompts ??
 					$config?.default_prompt_suggestions ??
 					[]}
-				on:select={(e) => {
+				on:select={(e: any) => {
 					submitPrompt(e.detail);
 				}}
 			/>

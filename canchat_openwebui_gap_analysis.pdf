@@ -1,0 +1,166 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 4283 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+50 760 Td
+(CANChat ? Open WebUI Gap Analysis) Tj
+T*
+() Tj
+T*
+(How Far Behind) Tj
+T*
+(- **Commit gap:** `origin/main` has ~1,177 commits not in `upstream/main`; upstream has ) Tj
+T*
+(~6,237 not in CANChat. Divergence is substantial.) Tj
+T*
+(- **Diff surface:** Large churn across backend core \(config/env, routers, ) Tj
+T*
+(models/migrations, retrieval/vector stack, utils\), frontend Svelte UI \(`src` apps, ) Tj
+T*
+(admin/chat/layout/workspace\), and translations. Infra deltas are smaller \(Docker/compose\).) Tj
+T*
+(- **Merge test:** A trial merge surfaced conflicts in most backend files, many Svelte ) Tj
+T*
+(components, i18n locales, lockfiles, and Dockerfile; CI workflows and LICENSE/README also ) Tj
+T*
+(conflicted.) Tj
+T*
+() Tj
+T*
+(CANChat Customizations \(patterns from CANChat-only commits\)) Tj
+T*
+(- **Core product / business logic \(majority\):**) Tj
+T*
+(  - Retrieval improvements \(async/hybrid search, weighted interleaving, concurrency ) Tj
+T*
+(settings\).) Tj
+T*
+(  - Metrics recording refinements \(non-streaming responses, missing metric handling\).) Tj
+T*
+(  - Chat lifecycle tweaks \(cleanup, preservation for pinned/archived, logging\).) Tj
+T*
+(  - Reasoning filter for title/tag generation.) Tj
+T*
+(  - UX logic for metrics date validation and cleanup settings.) Tj
+T*
+(- **Config / infra:**) Tj
+T*
+(  - Scheduler version/logging tweaks; occasional release bumps; minimal docker/compose ) Tj
+T*
+(drift.) Tj
+T*
+(- **Branding / copy / docs:**) Tj
+T*
+(  - CHANGELOG/doc updates; translation wording tweaks \(EN/FR and others\).) Tj
+T*
+(- **Auth / security:** No standout CANChat-only auth/permission commits in the sampled ) Tj
+T*
+(set.) Tj
+T*
+() Tj
+T*
+(Recommended Migration Approach) Tj
+T*
+(1. **Prep:** Branch from `main`; re-fetch `upstream/main`; align toolchains \(Node/Python\) ) Tj
+T*
+(with upstream; capture current env/secrets.) Tj
+T*
+(2. **Backend-first merge:** Reconcile in slices?config/env/constants ? routers/handlers ? ) Tj
+T*
+(models/migrations ? retrieval/vector ? utils/storage. Apply upstream migrations in a test ) Tj
+T*
+(DB, then reapply CANChat-specific migrations; plan data migration where schemas diverge.) Tj
+T*
+(3. **Frontend merge:** Align `src/lib/apis` with upstream API shape; then merge UI areas ) Tj
+T*
+(in batches \(chat/channel, admin, workspace, layout/shared components\). Reconcile i18n by ) Tj
+T*
+(starting from upstream locales and reapplying CANChat copy where needed.) Tj
+T*
+(4. **Infra/dep alignment:** Merge `Dockerfile`/compose and CI workflows; reintroduce ) Tj
+T*
+(CANChat env/logging specifics; regenerate lockfiles \(`package-lock`, `pyproject/uv`, ) Tj
+T*
+(`backend/requirements*`\).) Tj
+T*
+(5. **Branding/copy pass:** After code alignment, reapply CANChat branding, README/docs ) Tj
+T*
+(updates, and translation tweaks.) Tj
+T*
+(6. **Validation:** Backend tests/migrations, frontend build/tests, E2E smoke \(chat, ) Tj
+T*
+(retrieval, admin\), staging with prod-like data. Fix regressions, repeat as needed.) Tj
+T*
+(7. **Cutover:** Freeze changes, tag/release notes, deploy with rollback plan; monitor.) Tj
+T*
+() Tj
+T*
+(Effort Estimate \(dev-weeks\)) Tj
+T*
+(- **Lower:** 3?4 wks ? assumes clean reapplication of CANChat logic, minimal schema ) Tj
+T*
+(clashes, fast conflict resolution, quick validation.) Tj
+T*
+(- **Realistic:** 6?8 wks ? substantial manual merges in backend retrieval/routers/models ) Tj
+T*
+(and frontend Svelte, multiple test/fix cycles, some data migration work.) Tj
+T*
+(- **Upper:** 10?12+ wks ? if schema/data drift is large, E2E regressions pile up, or ) Tj
+T*
+(compliance/review loops add rework; heavy branding/i18n reconciliation.) Tj
+T*
+() Tj
+T*
+(Key Risks) Tj
+T*
+(- **Schema/data drift:** Migrating DB/vector stores could cause data loss or downtime if ) Tj
+T*
+(not rehearsed.) Tj
+T*
+(- **API/contract breaks:** Frontend API shape may differ; silent failures without thorough) Tj
+T*
+( E2E.) Tj
+T*
+(- **Dependency/infra drift:** Docker/runtime/lockfile mismatches could break builds or ) Tj
+T*
+(runtime stability.) Tj
+T*
+(- **Feature regressions:** High-touch areas \(chat lifecycle, retrieval/hybrid search, ) Tj
+T*
+(metrics\) are fragile.) Tj
+T*
+(- **i18n/branding churn:** Thousands of locale lines; risk of overwriting CANChat-specific) Tj
+T*
+( copy.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000247 00000 n 
+0000004581 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+4651
+%%EOF

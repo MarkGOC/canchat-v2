@@ -17,6 +17,7 @@
 	<button
 		class="group flex cursor-pointer p-2 rounded-xl transition hover:bg-gray-50 dark:hover:bg-gray-850"
 		on:click={toggleLanguage}
+		aria-label="Action"
 	>
 		<div
 			class="m-auto self-center text-sm font-medium text-gray-900 dark:text-white rounded transition"

@@ -3,7 +3,7 @@
 	import { fly } from 'svelte/transition';
 	import { isApp } from '$lib/stores';
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	export let show = false;
 	export let className = '';
@@ -66,7 +66,7 @@
 >
 	<div
 		class=" mt-auto w-full bg-gray-50 dark:bg-gray-900 dark:text-gray-100 {className} max-h-[100dvh] overflow-y-auto scrollbar-hidden"
-		on:mousedown={(e) => {
+		on:mousedown={(e: any) => {
 			e.stopPropagation();
 		}}
 	>

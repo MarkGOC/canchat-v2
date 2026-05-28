@@ -1047,7 +1047,7 @@ export const getTimeRange = (timestamp) => {
  * @returns {Object} - The extracted frontmatter as a dictionary.
  */
 export const extractFrontmatter = (content) => {
-	const frontmatter = {};
+	const frontmatter: Record<string, any> = {};
 	let frontmatterStarted = false;
 	let frontmatterEnded = false;
 	const frontmatterPattern = /^\s*([a-z_]+):\s*(.*)\s*$/i;

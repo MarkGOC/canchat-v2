@@ -10,13 +10,13 @@
 	import Modal from '$lib/components/common/Modal.svelte';
 
 	const i18n = getI18n();
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<any>();
 
 	export let show = false;
 
 	let loading = false;
 	let tab = '';
-	let inputFiles;
+	let inputFiles: any;
 
 	let _user = {
 		name: '',
@@ -64,14 +64,14 @@
 				const file = inputFiles[0];
 				const reader = new FileReader();
 
-				reader.onload = async (e) => {
+				reader.onload = async (e: any) => {
 					const csv = e.target.result;
 					const rows = csv.split('\n');
 
 					let userCount = 0;
 
 					for (const [idx, row] of rows.entries()) {
-						const columns = row.split(',').map((col) => col.trim());
+						const columns = row.split(',').map((col: any) => col.trim());
 						if (idx > 0) {
 							if (
 								columns.length === 4 &&
@@ -119,11 +119,12 @@
 	};
 </script>
 
-<Modal size="sm" bind:show returnfocusSelector="#add-user">
+<Modal size="sm" bind:show returnFocusSelector="#add-user">
 	<div>
 		<div class=" flex justify-between dark:text-gray-300 px-5 pt-4 pb-2">
 			<div class=" text-lg font-medium self-center">{$i18n.t('Add User')}</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;
@@ -272,6 +273,7 @@
 									<a
 										class="underline dark:text-gray-200"
 										href="{WEBUI_BASE_URL}/static/user-import.csv"
+										aria-label="Link"
 									>
 										{$i18n.t('Click here to download user import template file.')}
 									</a>
@@ -287,6 +289,7 @@
 								: ''}"
 							type="submit"
 							disabled={loading}
+							aria-label="Action"
 						>
 							{$i18n.t('Save')}
 

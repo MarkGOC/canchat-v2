@@ -20,6 +20,7 @@
 				{$i18n.t('Access Control')}
 			</div>
 			<button
+				aria-label="Action"
 				class="self-center"
 				on:click={() => {
 					show = false;

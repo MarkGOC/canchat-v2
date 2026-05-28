@@ -39,7 +39,7 @@
 	let shiftKey = false;
 
 	let functionsImportInputElement: HTMLInputElement;
-	let importFiles;
+	let importFiles: any;
 
 	let showConfirm = false;
 	let query = '';
@@ -50,7 +50,7 @@
 
 	let showDeleteConfirm = false;
 
-	let filteredItems = [];
+	let filteredItems: any[] = [];
 	$: filteredItems = $functions
 		.filter(
 			(f) =>
@@ -60,7 +60,7 @@
 		)
 		.sort((a, b) => a.type.localeCompare(b.type) || a.name.localeCompare(b.name));
 
-	const shareHandler = async (func) => {
+	const shareHandler = async (func: any) => {
 		const item = await getFunctionById(localStorage.token, func.id).catch((error) => {
 			toast.error(`${error}`);
 			return null;
@@ -73,7 +73,7 @@
 		const tab = await window.open(`${url}/functions/create`, '_blank');
 
 		// Define the event handler function
-		const messageHandler = (event) => {
+		const messageHandler = (event: any) => {
 			if (event.origin !== url) return;
 			if (event.data === 'loaded') {
 				tab.postMessage(JSON.stringify(item), '*');
@@ -86,7 +86,7 @@
 		window.addEventListener('message', messageHandler, false);
 	};
 
-	const cloneHandler = async (func) => {
+	const cloneHandler = async (func: any) => {
 		const _function = await getFunctionById(localStorage.token, func.id).catch((error) => {
 			toast.error(`${error}`);
 			return null;
@@ -102,7 +102,7 @@
 		}
 	};
 
-	const exportHandler = async (func) => {
+	const exportHandler = async (func: any) => {
 		const _function = await getFunctionById(localStorage.token, func.id).catch((error) => {
 			toast.error(`${error}`);
 			return null;
@@ -116,7 +116,7 @@
 		}
 	};
 
-	const deleteHandler = async (func) => {
+	const deleteHandler = async (func: any) => {
 		const res = await deleteFunctionById(localStorage.token, func.id).catch((error) => {
 			toast.error(`${error}`);
 			return null;
@@ -130,7 +130,7 @@
 		}
 	};
 
-	const toggleGlobalHandler = async (func) => {
+	const toggleGlobalHandler = async (func: any) => {
 		const res = await toggleGlobalById(localStorage.token, func.id).catch((error) => {
 			toast.error(`${error}`);
 		});
@@ -152,13 +152,13 @@
 	};
 
 	onMount(() => {
-		const onKeyDown = (event) => {
+		const onKeyDown = (event: any) => {
 			if (event.key === 'Shift') {
 				shiftKey = true;
 			}
 		};
 
-		const onKeyUp = (event) => {
+		const onKeyUp = (event: any) => {
 			if (event.key === 'Shift') {
 				shiftKey = false;
 			}
@@ -211,6 +211,7 @@
 			<a
 				class=" px-2 py-2 rounded-xl hover:bg-gray-700/10 dark:hover:bg-gray-100/10 dark:text-gray-300 dark:hover:text-white transition font-medium text-sm flex items-center space-x-1"
 				href="/admin/functions/create"
+				aria-label="Link"
 			>
 				<Plus className="size-3.5" />
 			</a>
@@ -226,6 +227,7 @@
 			<a
 				class=" flex flex-1 space-x-3.5 cursor-pointer w-full"
 				href={`/admin/functions/edit?id=${encodeURIComponent(func.id)}`}
+				aria-label="Link"
 			>
 				<div class="flex items-center text-left">
 					<div class=" flex-1 self-center pl-1">
@@ -290,6 +292,7 @@
 
 					<Tooltip content={$i18n.t('Valves')}>
 						<button
+							aria-label="Action"
 							class="self-center w-fit text-sm px-2 py-2 dark:text-gray-300 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-xl"
 							type="button"
 							on:click={() => {
@@ -347,6 +350,7 @@
 						<button
 							class="self-center w-fit text-sm p-1.5 dark:text-gray-300 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-xl"
 							type="button"
+							aria-label="Action"
 						>
 							<EllipsisHorizontal className="size-5" />
 						</button>
@@ -357,7 +361,7 @@
 					<Tooltip content={func.is_active ? $i18n.t('Enabled') : $i18n.t('Disabled')}>
 						<Switch
 							bind:state={func.is_active}
-							on:change={async (e) => {
+							on:change={async (e: any) => {
 								toggleFunctionById(localStorage.token, func.id);
 								models.set(await getModels(localStorage.token));
 							}}
@@ -459,6 +463,7 @@
 			class=" flex cursor-pointer items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-850 w-full mb-2 px-3.5 py-1.5 rounded-xl transition"
 			href="https://openwebui.com/#open-webui-community"
 			target="_blank"
+			aria-label="Link"
 		>
 			<div class=" self-center">
 				<div class=" font-semibold line-clamp-1">{$i18n.t('Discover a function')}</div>
@@ -503,7 +508,7 @@
 	bind:show={showConfirm}
 	on:confirm={() => {
 		const reader = new FileReader();
-		reader.onload = async (event) => {
+		reader.onload = async (event: any) => {
 			const _functions = JSON.parse(event.target.result);
 
 			for (const func of _functions) {

@@ -116,7 +116,7 @@
 				? 'mx-2'
 				: ''} shadow-3xl min-h-fit scrollbar-hidden {className}"
 			in:flyAndScale
-			on:mousedown={(e) => {
+			on:mousedown={(e: any) => {
 				e.stopPropagation();
 			}}
 		>

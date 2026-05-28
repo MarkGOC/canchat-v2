@@ -20,7 +20,7 @@
 
 	export let saveHandler: Function;
 
-	let adminConfig = null;
+	let adminConfig: any = null;
 	let webhookUrl = '';
 
 	// LDAP
@@ -149,6 +149,7 @@
 									href="https://docs.openwebui.com/getting-started/advanced-topics/api-endpoints"
 									target="_blank"
 									class=" text-gray-300 font-medium underline"
+									aria-label="Link"
 								>
 									{$i18n.t('To learn more about available endpoints, visit our documentation.')}
 								</a>
@@ -417,6 +418,7 @@
 								class=" text-gray-300 font-medium underline"
 								href="https://ldap.com/ldap-filters/"
 								target="_blank"
+								aria-label="Link"
 							>
 								{$i18n.t('Click here for filter guides.')}
 							</a>
@@ -470,6 +472,7 @@
 		<button
 			class="px-3.5 py-1.5 text-sm font-medium bg-black hover:bg-gray-900 text-white dark:bg-white dark:text-black dark:hover:bg-gray-100 transition rounded-full"
 			type="submit"
+			aria-label="Action"
 		>
 			{$i18n.t('Save')}
 		</button>
