@@ -20,7 +20,6 @@
 	onOpenChange={(state: any) => {
 		dispatch('change', state);
 	}}
-	typeahead={false}
 >
 	<DropdownMenu.Trigger>
 		<slot />

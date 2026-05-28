@@ -100,7 +100,6 @@
 			onClose();
 		}
 	}}
-	typeahead={false}
 >
 	<DropdownMenu.Trigger>
 		<slot />

@@ -453,7 +453,7 @@
 
 									<datalist id="voice-list">
 										{#each voices as voice}
-											<option value={voice.id}>{voice.name}</option>
+											<option value={voice.voiceURI}>{voice.name}</option>
 										{/each}
 									</datalist>
 								</div>
@@ -494,7 +494,7 @@
 
 									<datalist id="voice-list">
 										{#each voices as voice}
-											<option value={voice.id}>{voice.name}</option>
+											<option value={voice.voiceURI}>{voice.name}</option>
 										{/each}
 									</datalist>
 								</div>
@@ -535,7 +535,7 @@
 
 									<datalist id="voice-list">
 										{#each voices as voice}
-											<option value={voice.id}>{voice.name}</option>
+											<option value={voice.voiceURI}>{voice.name}</option>
 										{/each}
 									</datalist>
 								</div>

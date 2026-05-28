@@ -9,6 +9,7 @@
 	export let side: 'bottom' | 'top' | 'right' | 'left' = 'bottom';
 	export let align: 'start' | 'center' | 'end' = 'start';
 	export let ariaLabel: string | undefined = undefined;
+	export let buttonClass = '';
 
 	const dispatch = createEventDispatcher<any>();
 </script>
@@ -18,9 +19,8 @@
 	onOpenChange={(state: any) => {
 		dispatch('change', state);
 	}}
-	typeahead={false}
 >
-	<DropdownMenu.Trigger aria-label={ariaLabel} data-dropdown-trigger="true">
+	<DropdownMenu.Trigger aria-label={ariaLabel} data-dropdown-trigger="true" class={buttonClass}>
 		<slot />
 	</DropdownMenu.Trigger>
 

@@ -623,7 +623,7 @@
 									{#if shouldRenderRagFallbackWebSearchStatus || (status?.action === 'web_search' && status?.urls)}
 										{@const webSearchStatus = shouldRenderRagFallbackWebSearchStatus
 											? latestWebSearchStatus
-											: status as any}
+											: (status as any)}
 										<WebSearchResults status={webSearchStatus}>
 											<div class="flex flex-col justify-center -space-y-0.5">
 												<div
@@ -826,21 +826,17 @@
 										floatingButtons={message?.done}
 										save={!readOnly}
 										{model}
-										onSourceClick={
-											((e: any) => {
-												const sourceButton = document.getElementById(`source-${e}`);
+										onSourceClick={((e: any) => {
+											const sourceButton = document.getElementById(`source-${e}`);
 
-												if (sourceButton) {
-													sourceButton.click();
-												}
-											}) as any
-										}
-										onAddMessages={
-											((payload: any) => {
-												const { modelId, parentId, messages } = payload;
-												addMessages({ modelId, parentId, messages });
-											}) as any
-										}
+											if (sourceButton) {
+												sourceButton.click();
+											}
+										}) as any}
+										onAddMessages={((payload: any) => {
+											const { modelId, parentId, messages } = payload;
+											addMessages({ modelId, parentId, messages });
+										}) as any}
 										on:update={(e: any) => {
 											const { raw, oldContent, newContent } = e.detail;
 
@@ -867,11 +863,18 @@
 								{/if}
 
 								{#if message?.error}
-									<Error content={typeof message.error === 'object' ? message.error.content : message.content} />
+									<Error
+										content={typeof message.error === 'object'
+											? message.error.content
+											: message.content}
+									/>
 								{/if}
 
 								{#if (message?.sources || message?.citations) && (model?.info?.meta?.capabilities?.citations ?? true)}
-									<Citations sources={message?.sources ?? message?.citations} selectedToolIds={selectedToolIds?.length ? selectedToolIds : null} />
+									<Citations
+										sources={message?.sources ?? message?.citations}
+										selectedToolIds={selectedToolIds?.length ? selectedToolIds : null}
+									/>
 								{/if}
 
 								{#if message.code_executions}
@@ -1169,7 +1172,8 @@
 												? 'visible'
 												: 'invisible group-hover:visible'} p-1.5 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition whitespace-pre-wrap"
 											id="info-{message.id}"
-										 aria-label="Action">
+											aria-label="Action"
+										>
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												fill="none"

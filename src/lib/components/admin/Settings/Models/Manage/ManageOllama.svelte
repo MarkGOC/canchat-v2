@@ -387,9 +387,11 @@
 
 	const deleteModelHandler = async () => {
 		const urlIdxParam = urlIdx !== null ? String(urlIdx) : null;
-		const res = await deleteModel(localStorage.token, deleteModelTag, urlIdxParam).catch((error) => {
-			toast.error(`${error}`);
-		});
+		const res = await deleteModel(localStorage.token, deleteModelTag, urlIdxParam).catch(
+			(error) => {
+				toast.error(`${error}`);
+			}
+		);
 
 		if (res) {
 			toast.success($i18n.t(`Deleted {{deleteModelTag}}`, { deleteModelTag }));

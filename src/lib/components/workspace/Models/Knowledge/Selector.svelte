@@ -29,7 +29,7 @@
 	}
 
 	onMount(() => {
-		let legacy_documents = $knowledge.filter((item) => item?.meta?.document);
+		let legacy_documents = ($knowledge as any[]).filter((item: any) => item?.meta?.document);
 		let legacy_collections =
 			legacy_documents.length > 0
 				? [
@@ -44,7 +44,7 @@
 						},
 
 						...legacy_documents
-							.reduce((a, item) => {
+							.reduce((a: any[], item: any) => {
 								return [
 									...new Set([...a, ...(item?.meta?.tags ?? []).map((tag: any) => tag.name)])
 								];
@@ -64,7 +64,7 @@
 					]
 				: [];
 
-		items = [...$knowledge, ...legacy_collections].map((item) => {
+		items = [...($knowledge as any[]), ...legacy_collections].map((item: any) => {
 			return {
 				...item,
 				...(item?.legacy || item?.meta?.legacy || item?.meta?.document ? { legacy: true } : {}),

@@ -242,17 +242,17 @@
 		{#if top}
 			<p>
 				{#if textToken}
-					<MarkdownInlineTokens id={`${id}-${tokenIdx}-t`} tokens={textToken.tokens} {onSourceClick} />
+					<MarkdownInlineTokens
+						id={`${id}-${tokenIdx}-t`}
+						tokens={textToken.tokens}
+						{onSourceClick}
+					/>
 				{:else}
 					{unescapeHtml(token.text)}
 				{/if}
 			</p>
 		{:else if textToken}
-			<MarkdownInlineTokens
-				id={`${id}-${tokenIdx}-p`}
-				tokens={textToken.tokens}
-				{onSourceClick}
-			/>
+			<MarkdownInlineTokens id={`${id}-${tokenIdx}-p`} tokens={textToken.tokens} {onSourceClick} />
 		{:else}
 			{unescapeHtml(token.text)}
 		{/if}

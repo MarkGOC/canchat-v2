@@ -106,18 +106,18 @@
 				// Check if Ctrl + Shift + ; is pressed
 				if (isCtrlPressed && isShiftPressed && event.key === ';') {
 					event.preventDefault();
-					const button = [...document.getElementsByClassName('copy-code-button')]?.at(
-						-1
-					) as HTMLElement | undefined;
+					const button = [...document.getElementsByClassName('copy-code-button')]?.at(-1) as
+						| HTMLElement
+						| undefined;
 					button?.click();
 				}
 
 				// Check if Ctrl + Shift + C is pressed
 				if (isCtrlPressed && isShiftPressed && event.key.toLowerCase() === 'c') {
 					event.preventDefault();
-					const button = [...document.getElementsByClassName('copy-response-button')]?.at(
-						-1
-					) as HTMLElement | undefined;
+					const button = [...document.getElementsByClassName('copy-response-button')]?.at(-1) as
+						| HTMLElement
+						| undefined;
 					button?.click();
 				}
 
