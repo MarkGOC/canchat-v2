@@ -74,7 +74,7 @@
 			// Override onDeactivate if a custom return focus selector is provided:
 			onDeactivate: () => {
 				if (returnFocusSelector) {
-					const returnEl = document.querySelector(returnFocusSelector);
+					const returnEl = document.querySelector(returnFocusSelector) as HTMLElement | null;
 					if (returnEl) {
 						returnEl.focus();
 						return;

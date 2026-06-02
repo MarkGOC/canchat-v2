@@ -30,11 +30,11 @@
 
 	const i18n = getI18n();
 
-	export let cloneChatHandler: Function;
-	export let archiveChatHandler: Function;
-	export let renameHandler: Function;
-	export let deleteHandler: Function;
-	export let onClose: Function;
+	export let cloneChatHandler: ((...args: any[]) => any);
+	export let archiveChatHandler: ((...args: any[]) => any);
+	export let renameHandler: ((...args: any[]) => any);
+	export let deleteHandler: ((...args: any[]) => any);
+	export let onClose: ((...args: any[]) => any);
 	export let buttonClass = '';
 	export let ariaLabel = '';
 	export let chatId = '';

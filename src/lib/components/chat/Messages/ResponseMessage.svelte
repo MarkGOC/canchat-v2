@@ -685,25 +685,24 @@
 										</div>
 									{:else if status?.action === 'wiki_grounding'}
 										{#if status?.sources && status?.sources.length > 0}
-											<WikipediaGroundingSources sources={status.sources}>
-												<div class="flex flex-col justify-center -space-y-0.5">
-													<div
-														class="{status?.done === false
-															? 'shimmer'
-															: ''} text-gray-500 dark:text-gray-500 text-base line-clamp-1 text-wrap"
-													>
-														{#if status?.description === 'Gathering current factual information'}
-															{$i18n.t('Gathering current factual information')}
-														{:else if status?.description === 'Enhanced with current information'}
-															{$i18n.t('Enhanced with {{COUNT}} sources', {
-																COUNT: status?.count || status?.sources?.length || 0
-															})}
-														{:else}
-															{$i18n.t(status?.description)}
-														{/if}
-													</div>
+											<WikipediaGroundingSources sources={status.sources} />
+											<div class="flex flex-col justify-center -space-y-0.5">
+												<div
+													class="{status?.done === false
+														? 'shimmer'
+														: ''} text-gray-500 dark:text-gray-500 text-base line-clamp-1 text-wrap"
+												>
+													{#if status?.description === 'Gathering current factual information'}
+														{$i18n.t('Gathering current factual information')}
+													{:else if status?.description === 'Enhanced with current information'}
+														{$i18n.t('Enhanced with {{COUNT}} sources', {
+															COUNT: status?.count || status?.sources?.length || 0
+														})}
+													{:else}
+														{$i18n.t(status?.description)}
+													{/if}
 												</div>
-											</WikipediaGroundingSources>
+											</div>
 										{:else}
 											<div class="flex flex-col justify-center -space-y-0.5">
 												<div

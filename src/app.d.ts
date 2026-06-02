@@ -12,6 +12,10 @@ declare global {
 		// interface PageData {}
 		// interface Platform {}
 	}
+
+	interface Document {
+		pyodideMplTarget?: HTMLElement | null;
+	}
 }
 
 export {};

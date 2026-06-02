@@ -33,7 +33,7 @@
 		url = connection.url;
 		key = connection.key;
 		config = connection.config;
-		onSubmit(connection);
+		onSubmit();
 	}}
 />
 

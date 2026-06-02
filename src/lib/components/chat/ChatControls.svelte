@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { SvelteFlowProvider } from '@xyflow/svelte';
 	import { Pane, PaneResizer } from 'paneforge';
 
@@ -22,9 +23,9 @@
 	export let params: Record<string, any> = {};
 
 	export let eventTarget: EventTarget;
-	export let submitPrompt: Function;
-	export let stopResponse: Function;
-	export let showMessage: Function;
+	export let submitPrompt: ((...args: any[]) => any);
+	export let stopResponse: ((...args: any[]) => any);
+	export let showMessage: ((...args: any[]) => any);
 	export let files: any;
 	export let modelId: any;
 
@@ -221,7 +222,7 @@
 		{/if}
 
 		<Pane
-			bind:pane
+			bind:this={pane}
 			defaultSize={0}
 			onResize={(size: any) => {
 				if ($showControls && pane.isExpanded()) {

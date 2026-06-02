@@ -25,7 +25,7 @@
 			dbDomains = (await getDomains(localStorage.token)) || [];
 		} catch (error) {
 			console.error('Failed to load domains:', error);
-			toast.error(i18n.t('Failed to load available domains'));
+			toast.error($i18n.t('Failed to load available domains'));
 		}
 		loading = false;
 	};

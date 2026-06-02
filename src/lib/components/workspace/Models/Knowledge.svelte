@@ -24,11 +24,12 @@
 			<div class=" flex flex-wrap items-center gap-2 mt-2">
 				{#each selectedKnowledge as file, fileIdx}
 					<FileItem
-						{file}
+						item={file}
 						name={file.name}
 						type={file?.legacy
 							? `Legacy${file.type ? ` ${file.type}` : ''}`
 							: (file?.type ?? 'Collection')}
+						size={0}
 						dismissible
 						on:dismiss={(e: any) => {
 							selectedKnowledge = selectedKnowledge.filter((_, idx) => idx !== fileIdx);

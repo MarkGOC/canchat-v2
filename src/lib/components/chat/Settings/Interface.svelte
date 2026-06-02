@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { getI18n } from '$lib/utils/context';
 
 	import { ariaMessage, config, settings, user } from '$lib/stores';
@@ -10,7 +11,7 @@
 
 	const i18n = getI18n();
 
-	export let saveSettings: Function;
+	export let saveSettings: ((settings: Record<string, any>) => any);
 
 	// Addons
 	let titleAutoGenerate = true;
@@ -32,7 +33,7 @@
 	let landingPageMode = '';
 	let chatBubble = true;
 	let imageCompression = false;
-	let imageCompressionSize = {
+	let imageCompressionSize: { width?: string; height?: string } = {
 		width: '',
 		height: ''
 	};

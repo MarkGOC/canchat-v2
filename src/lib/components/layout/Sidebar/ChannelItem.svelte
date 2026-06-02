@@ -11,7 +11,7 @@
 	import Cog6 from '$lib/components/icons/Cog6.svelte';
 	import ChannelModal from './ChannelModal.svelte';
 
-	export let onUpdate: Function = () => {};
+	export let onUpdate: ((...args: any[]) => any) = () => {};
 
 	export let className = '';
 	export let channel: any;

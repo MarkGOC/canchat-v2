@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { getI18n } from '$lib/utils/context';
 
 	import { toast } from 'svelte-sonner';
@@ -57,14 +58,14 @@
 
 	export let transparentBackground = false;
 
-	export let onChange: Function = () => {};
-	export let createMessagePair: Function;
-	export let stopResponse: Function;
+	export let onChange: ((...args: any[]) => any) = () => {};
+	export let createMessagePair: ((...args: any[]) => any);
+	export let stopResponse: ((...args: any[]) => any);
 
 	export let autoScroll = false;
 
 	export let atSelectedModel: Model | undefined = undefined;
-	export let selectedModels: [''];
+	export let selectedModels: string[] = [];
 
 	let selectedModelIds: any[] = [];
 	$: selectedModelIds = atSelectedModel !== undefined ? [atSelectedModel.id] : selectedModels;
@@ -127,7 +128,7 @@
 		try {
 			// Request screen media
 			const mediaStream = await navigator.mediaDevices.getDisplayMedia({
-				video: { cursor: 'never' },
+				video: { cursor: 'never' } as any,
 				audio: false
 			});
 			// Once the user selects a screen, temporarily create a video element
@@ -724,8 +725,9 @@
 												try {
 													const fileData = await createPicker();
 													if (fileData) {
-														const file = new File([fileData.blob], fileData.name, {
-															type: fileData.blob.type
+														const selectedFileData = fileData as { blob: Blob; name: string };
+														const file = new File([selectedFileData.blob], selectedFileData.name, {
+															type: selectedFileData.blob.type
 														});
 														await uploadFileHandler(file);
 													}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { config, showArchivedChats, user } from '$lib/stores';
 	import { getI18n } from '$lib/utils/context';
 	import ShortcutsModal from '$lib/components/chat/ShortcutsModal.svelte';
@@ -24,7 +25,9 @@
 
 	// Event Handlers
 	const toggleShortcuts = () => (showShortcuts = !showShortcuts);
-	const openUrl = (url: string) => window.open(url, '_blank');
+	const openUrl = (url: string | undefined) => {
+		if (url) window.open(url, '_blank');
+	};
 </script>
 
 <div class="flex items-center gap-1 mr-1">

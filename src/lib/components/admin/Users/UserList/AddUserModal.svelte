@@ -104,7 +104,7 @@
 					const uploadInputElement = document.getElementById('upload-user-csv-input');
 
 					if (uploadInputElement) {
-						uploadInputElement.value = null;
+									(uploadInputElement as HTMLInputElement).value = '';
 					}
 
 					stopLoading();

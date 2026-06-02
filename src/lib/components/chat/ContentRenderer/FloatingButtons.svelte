@@ -16,7 +16,7 @@
 	export let id = '';
 	export let model: any = null;
 	export let messages: any[] = [];
-	export let onAdd = () => {};
+	export let onAdd: (payload: any) => void = () => {};
 
 	let floatingInput = false;
 

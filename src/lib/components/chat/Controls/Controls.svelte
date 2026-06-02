@@ -15,7 +15,7 @@
 	import { user } from '$lib/stores';
 	export let models: any[] = [];
 	export let chatFiles: any[] = [];
-	export let params: Record<string, any> = {};
+	export let params: any = {};
 
 	let showValves = false;
 </script>

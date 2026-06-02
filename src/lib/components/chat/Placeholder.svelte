@@ -18,6 +18,7 @@
 	} from '$lib/stores';
 	import { sanitizeResponseContent } from '$lib/utils';
 	import { WEBUI_BASE_URL } from '$lib/constants';
+	import type { Model } from '$lib/stores';
 
 	import Suggestions from './Suggestions.svelte';
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
@@ -28,14 +29,14 @@
 
 	export let transparentBackground = false;
 
-	export let onChange: Function = () => {};
-	export let createMessagePair: Function;
-	export let stopResponse: Function;
+	export let onChange: ((...args: any[]) => any) = () => {};
+	export let createMessagePair: ((...args: any[]) => any);
+	export let stopResponse: ((...args: any[]) => any);
 
 	export let autoScroll = false;
 
 	export let atSelectedModel: Model | undefined;
-	export let selectedModels: [''];
+	export let selectedModels: string[] = [];
 
 	export let history: any;
 

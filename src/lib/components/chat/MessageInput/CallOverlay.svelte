@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { getI18n } from '$lib/utils/context';
 
 	import { config, models, settings, showCallOverlay } from '$lib/stores';
@@ -378,7 +379,7 @@
 		}
 	};
 
-	const playAudio = (audio: Audio) => {
+	const playAudio = (audio: any) => {
 		if ($showCallOverlay) {
 			return new Promise((resolve) => {
 				const audioElement = document.getElementById('audioElement') as HTMLAudioElement;

@@ -14,14 +14,14 @@
 	import BookOpen from '$lib/components/icons/BookOpen.svelte';
 	const i18n = getI18n();
 
-	export let showShortcutsHandler: Function;
-	export let showSurveyHandler: Function;
-	export let showDocsHandler: Function;
-	export let showIssueHandler: Function;
-	export let showSuggestionHandler: Function;
-	export let showTrainingHandler: Function;
+	export let showShortcutsHandler: ((...args: any[]) => any);
+	export let showSurveyHandler: ((...args: any[]) => any);
+	export let showDocsHandler: ((...args: any[]) => any);
+	export let showIssueHandler: ((...args: any[]) => any);
+	export let showSuggestionHandler: ((...args: any[]) => any);
+	export let showTrainingHandler: ((...args: any[]) => any);
 
-	export let onClose: Function = () => {};
+	export let onClose: ((...args: any[]) => any) = () => {};
 
 	export let ariaLabel: string = 'Help';
 </script>

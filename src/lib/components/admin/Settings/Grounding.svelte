@@ -7,7 +7,7 @@
 
 	const i18n = getI18n();
 
-	export let saveHandler: Function;
+	export let saveHandler: ((...args: any[]) => any) | null = null;
 
 	let wikipediaConfig = { enabled: false };
 	let loading = false;

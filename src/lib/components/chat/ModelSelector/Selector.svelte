@@ -14,7 +14,14 @@
 
 	import { deleteModel, getOllamaVersion, pullModel } from '$lib/apis/ollama';
 
-	import { user, MODEL_DOWNLOAD_POOL, models, mobile, temporaryChatEnabled } from '$lib/stores';
+	import {
+		user,
+		MODEL_DOWNLOAD_POOL,
+		models,
+		mobile,
+		temporaryChatEnabled,
+		type Model
+	} from '$lib/stores';
 	import { toast } from 'svelte-sonner';
 	import { sanitizeResponseContent, splitStream } from '$lib/utils';
 	import { getModels } from '$lib/apis';
@@ -46,8 +53,8 @@
 
 	let show = false;
 
-	let selectedModel = '';
-	$: selectedModel = items.find((item) => item.value === value) ?? '';
+	let selectedModel: (typeof items)[number] | null = null;
+	$: selectedModel = items.find((item) => item.value === value) ?? null;
 
 	let searchValue = '';
 	let ollamaVersion = null;
@@ -94,7 +101,7 @@
 			return;
 		}
 
-		const [res, controller] = await pullModel(localStorage.token, sanitizedModelTag, '0').catch(
+		const [res, controller] = await pullModel(localStorage.token, sanitizedModelTag, 0).catch(
 			(error) => {
 				toast.error(`${error}`);
 				return null;

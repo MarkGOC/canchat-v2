@@ -374,8 +374,8 @@
 			edit
 			model={models.find((m: any) => m.id === selectedModelId)}
 			preset={false}
-			onSubmit={(model: any) => {
-				upsertModelHandler(model);
+			onSubmit={async (model: any) => {
+				await upsertModelHandler(model);
 				selectedModelId = null;
 			}}
 			onBack={() => {

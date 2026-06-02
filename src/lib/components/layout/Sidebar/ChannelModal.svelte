@@ -13,8 +13,8 @@
 	const i18n = getI18n();
 
 	export let show = false;
-	export let onSubmit: Function = () => {};
-	export let onUpdate: Function = () => {};
+	export let onSubmit: ((...args: any[]) => any) = () => {};
+	export let onUpdate: ((...args: any[]) => any) = () => {};
 
 	export let channel: any = null;
 	export let edit = false;

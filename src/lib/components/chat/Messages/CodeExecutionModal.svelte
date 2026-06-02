@@ -71,6 +71,7 @@
 				<div class="flex flex-col w-full">
 					<CodeBlock
 						id="code-exec-{codeExecution?.id}-code"
+						token={null}
 						lang={codeExecution?.language ?? ''}
 						code={codeExecution?.code ?? ''}
 						className=""

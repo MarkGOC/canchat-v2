@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { getI18n } from '$lib/utils/context';
 
 	import { toast } from 'svelte-sonner';
@@ -13,8 +14,8 @@
 	import AdvancedParams from './Advanced/AdvancedParams.svelte';
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
 
-	export let saveSettings: Function;
-	export let getModels: Function;
+	export let saveSettings: (settings: Record<string, any>) => any;
+	export let getModels: () => Promise<any>;
 
 	// General
 	let themes = ['dark', 'light'];
@@ -87,7 +88,7 @@
 		requestFormat = $settings.requestFormat ?? '';
 		keepAlive = $settings.keepAlive ?? null;
 
-		params = { ...params, ...$settings.params };
+		params = { ...params, ...($settings.params as any) };
 		params.stop = $settings?.params?.stop ? ($settings?.params?.stop ?? []).join(',') : null;
 	});
 

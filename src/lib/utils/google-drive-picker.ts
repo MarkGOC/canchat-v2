@@ -37,11 +37,12 @@ let initialized = false;
 
 export const loadGoogleDriveApi = () => {
 	return new Promise((resolve, reject) => {
-		if (typeof gapi === 'undefined') {
+		const gapiRef = (window as any).gapi;
+		if (typeof gapiRef === 'undefined') {
 			const script = document.createElement('script');
 			script.src = 'https://apis.google.com/js/api.js';
 			script.onload = () => {
-				gapi.load('picker', () => {
+				(window as any).gapi.load('picker', () => {
 					pickerApiLoaded = true;
 					resolve(true);
 				});
@@ -49,7 +50,7 @@ export const loadGoogleDriveApi = () => {
 			script.onerror = reject;
 			document.body.appendChild(script);
 		} else {
-			gapi.load('picker', () => {
+			gapiRef.load('picker', () => {
 				pickerApiLoaded = true;
 				resolve(true);
 			});

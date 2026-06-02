@@ -12,7 +12,7 @@
 
 	export let admin = false;
 
-	export let params = {
+	export let params: Record<string, any> = {
 		// Advanced
 		stream_response: null, // Set stream responses for this model individually
 		seed: null,

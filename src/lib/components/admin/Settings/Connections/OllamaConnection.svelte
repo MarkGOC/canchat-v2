@@ -34,7 +34,7 @@
 	onSubmit={(connection: any) => {
 		url = connection.url;
 		config = { ...connection.config, key: connection.key };
-		onSubmit(connection);
+		onSubmit();
 	}}
 />
 

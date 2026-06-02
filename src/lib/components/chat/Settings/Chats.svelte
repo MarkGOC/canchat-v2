@@ -10,7 +10,7 @@
 
 	const i18n = getI18n();
 
-	export let saveSettings: Function;
+	export let saveSettings: ((...args: any[]) => any);
 
 	// Chats
 	let showArchiveConfirm = false;

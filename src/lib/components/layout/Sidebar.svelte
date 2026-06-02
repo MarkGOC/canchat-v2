@@ -603,9 +603,9 @@
 			<Tooltip content={$i18n.t('Hide Sidebar')}>
 				<button
 					class=" cursor-pointer p-[7px] flex rounded-xl hover:bg-gray-100 dark:hover:bg-gray-900 transition"
-					on:click={async () => {
-						showSidebar.set(!$showSidebar);
-						toast.announce($i18n.t('Sidebar collapsed.'));
+						on:click={async () => {
+							showSidebar.set(!$showSidebar);
+							toast.success($i18n.t('Sidebar collapsed.'));
 						await changeFocus('sidebar-toggle-button');
 					}}
 					id="hide-sidebar-button"

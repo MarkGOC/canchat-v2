@@ -89,8 +89,9 @@
 
 								<div class=" pr-2">
 									<Switch
-										bind:state={valves[property]}
-										on:change={() => {
+										state={Boolean(valves[property])}
+										on:change={(e: any) => {
+											valves[property] = Boolean(e.detail);
 											dispatch('change');
 										}}
 									/>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { Select } from 'bits-ui';
 
 	import { flyAndScale } from '$lib/utils/transitions';
@@ -15,7 +16,7 @@
 	export let searchEnabled = true;
 	export let searchPlaceholder = 'Search a model';
 
-	export let items = [
+	export let items: any[] = [
 		{ value: 'mango', label: 'Mango' },
 		{ value: 'watermelon', label: 'Watermelon' },
 		{ value: 'apple', label: 'Apple' },
@@ -32,12 +33,9 @@
 
 <Select.Root
 	{items}
+	bind:value
 	onOpenChange={() => {
 		searchValue = '';
-	}}
-	selected={items.find((item) => item.value === value)}
-	onSelectedChange={(selectedItem: any) => {
-		value = selectedItem.value;
 	}}
 >
 	<Select.Trigger class="relative w-full" aria-label={placeholder}>

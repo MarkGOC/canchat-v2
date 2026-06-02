@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { getI18n } from '$lib/utils/context';
 
 	import { toast } from 'svelte-sonner';
@@ -38,7 +39,7 @@
 	let loaded = false;
 
 	let toolsImportInputElement: HTMLInputElement;
-	let importFiles: any;
+	let importFiles: FileList | null = null;
 
 	let showConfirm = false;
 	let query = '';

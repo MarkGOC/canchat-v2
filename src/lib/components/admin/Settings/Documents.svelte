@@ -125,7 +125,7 @@
 
 		if (res) {
 			if (res.status === true) {
-				toast.success($i18n.t('Embedding model set to "{{embedding_model}}"', res), {
+				toast.success(String($i18n.t('Embedding model set to "{{embedding_model}}"', res)), {
 					duration: 1000 * 10
 				});
 			}
@@ -146,13 +146,16 @@
 		if (res) {
 			if (res.status === true) {
 				if (rerankingModel === '') {
-					toast.success($i18n.t('Reranking model disabled', res), {
+					toast.success(String($i18n.t('Reranking model disabled', res)), {
 						duration: 1000 * 10
 					});
 				} else {
-					toast.success($i18n.t('Reranking model set to "{{reranking_model}}"', res), {
+					toast.success(
+						String($i18n.t('Reranking model set to "{{reranking_model}}"', res)),
+						{
 						duration: 1000 * 10
-					});
+						}
+					);
 				}
 			}
 		}

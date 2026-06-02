@@ -360,8 +360,21 @@ type WorkspacePermissions = {
 	[key: string]: unknown;
 };
 
+type FeaturePermissions = {
+	image_generation?: boolean;
+	web_search?: boolean;
+	[key: string]: unknown;
+};
+
+type ChatPermissions = {
+	file_upload?: boolean;
+	[key: string]: unknown;
+};
+
 type SessionUserPermissions = {
 	workspace?: WorkspacePermissions;
+	features?: FeaturePermissions;
+	chat?: ChatPermissions;
 	[key: string]: unknown;
 };
 

@@ -22,7 +22,7 @@
 	export let cloneHandler: Function;
 	export let exportHandler: Function;
 	export let deleteHandler: Function;
-	export let toggleGlobalHandler: Function;
+	export let toggleGlobalHandler: (e: CustomEvent<any>) => void;
 
 	export let onClose: Function;
 

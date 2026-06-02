@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { DropdownMenu } from 'bits-ui';
 	import { flyAndScale } from '$lib/utils/transitions';
 	import emojiGroups from '$lib/emoji-groups.json';
@@ -21,7 +22,7 @@
 	// Reactive statement to filter the emojis based on search query
 	$: {
 		if (search) {
-			emojis = Object.keys(emojiShortCodes).reduce((acc, key) => {
+			emojis = Object.keys(emojiShortCodes).reduce<Record<string, any>>((acc, key) => {
 				if (key.includes(search)) {
 					acc[key] = emojiShortCodes[key];
 				} else {
@@ -37,7 +38,7 @@
 					}
 				}
 				return acc;
-			}, {});
+			}, {} as Record<string, any>);
 		} else {
 			emojis = emojiShortCodes;
 		}

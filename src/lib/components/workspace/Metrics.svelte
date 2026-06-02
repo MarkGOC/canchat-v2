@@ -180,7 +180,7 @@
 				onHover: null
 			},
 			tooltip: {
-				mode: 'nearest',
+				mode: 'nearest' as const,
 				intersect: false
 			},
 			datalabels: {
@@ -211,7 +211,7 @@
 			}
 		},
 		hover: {
-			mode: 'nearest',
+			mode: 'nearest' as const,
 			intersect: true
 		}
 	};
@@ -238,7 +238,7 @@
 				onClick: null
 			},
 			tooltip: {
-				mode: 'nearest',
+				mode: 'nearest' as const,
 				intersect: true,
 				titleFont: { size: 14 },
 				bodyFont: { size: 14 }

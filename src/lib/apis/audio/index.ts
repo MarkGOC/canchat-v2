@@ -28,10 +28,11 @@ export const getAudioConfig = async (token: string) => {
 };
 
 type OpenAIConfigForm = {
-	url: string;
-	key: string;
-	model: string;
-	speaker: string;
+	url?: string;
+	key?: string;
+	model?: string;
+	speaker?: string;
+	[key: string]: any;
 };
 
 export const updateAudioConfig = async (token: string, payload: OpenAIConfigForm) => {

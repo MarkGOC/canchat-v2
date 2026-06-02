@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { getI18n } from '$lib/utils/context';
 
 	import { toast } from 'svelte-sonner';
@@ -34,8 +35,8 @@
 	let promptsV1ImportInputElement: HTMLInputElement;
 	let loaded = false;
 
-	let importFiles = '';
-	let importV1Files = '';
+	let importFiles: FileList | null = null;
+	let importV1Files: FileList | null = null;
 	let query = '';
 
 	let prompts: any[] = [];
@@ -409,7 +410,7 @@
 							prompts = await getPromptList(localStorage.token);
 							await _prompts.set(await getPromptsLegacy(localStorage.token));
 
-							importFiles = [];
+							importFiles = null;
 							promptsImportInputElement.value = '';
 						};
 

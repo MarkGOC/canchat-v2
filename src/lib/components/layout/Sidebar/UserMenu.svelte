@@ -125,8 +125,8 @@
 			{#if role === 'admin'}
 				<DropdownMenu.Item
 					class="flex rounded-md py-2 px-3 w-full hover:bg-gray-50 dark:hover:bg-gray-800 transition"
-					href="/playground"
 					onclick={() => {
+						location.href = '/playground';
 						show = false;
 
 						if ($mobile) {
@@ -154,8 +154,8 @@
 				</DropdownMenu.Item>
 				<DropdownMenu.Item
 					class="flex rounded-md py-2 px-3 w-full hover:bg-gray-50 dark:hover:bg-gray-800 transition"
-					href="/admin"
 					onclick={() => {
+						location.href = '/admin';
 						show = false;
 
 						if ($mobile) {

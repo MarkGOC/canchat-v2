@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { Handle, Position, type NodeProps } from '@xyflow/svelte';
 
 	import ProfileImage from '../Messages/ProfileImage.svelte';

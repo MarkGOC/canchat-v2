@@ -16,8 +16,8 @@
 	export let tippyOptions: Record<string, any> = {};
 	export let tooltipID = '';
 
-	let tooltipElement;
-	let tooltipInstance;
+	let tooltipElement: Element;
+	let tooltipInstance: any;
 
 	const hideOnEsc = {
 		name: 'hideOnEsc',
@@ -49,7 +49,7 @@
 				content: DOMPurify.sanitize(content),
 				trigger: 'mouseenter focus focusin',
 				interactive: true,
-				placement: placement,
+				placement: placement as any,
 				aria: {
 					content: 'auto',
 					expanded: false
@@ -58,7 +58,7 @@
 				touch: touch,
 				...(theme !== '' ? { theme } : { theme: 'dark' }),
 				arrow: false,
-				offset: offset,
+				offset: offset as any,
 				...tippyOptions,
 				plugins: [hideOnEsc],
 				popperOptions: popperOptions

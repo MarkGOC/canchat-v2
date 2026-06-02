@@ -9,7 +9,7 @@
 	dayjs.extend(isYesterday);
 
 	import { getContext } from 'svelte';
-	const i18n = getContext<Writable<i18nType>>('i18n');
+	const i18n: any = getContext('i18n');
 
 	import { settings, user, shortCodesToEmojis } from '$lib/stores';
 

@@ -51,7 +51,7 @@
 	let pullProgress = null;
 
 	let modelUploadMode = 'file';
-	let modelInputFile: File[] | null = null;
+	let modelInputFile: FileList | null = null;
 	let modelFileUrl = '';
 	let modelFileContent = `TEMPLATE """{{ .System }}\nUSER: {{ .Prompt }}\nASSISTANT: """\nPARAMETER stop "</s>"\nPARAMETER stop "USER:"\nPARAMETER stop "ASSISTANT:"`;
 	let modelFileDigest = '';
@@ -316,8 +316,10 @@
 		if (uploaded) {
 			const res = await createModel(
 				localStorage.token,
-				`${name}:latest`,
-				`FROM @${modelFileDigest}\n${modelFileContent}`
+				{
+					model: `${name}:latest`,
+					modelfile: `FROM @${modelFileDigest}\n${modelFileContent}`
+				}
 			);
 
 			if (res && res.ok) {

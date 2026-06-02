@@ -5,10 +5,11 @@
 	export let placeholder = '';
 	export let className =
 		'w-full rounded-lg px-3 py-2 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-none resize-none h-full';
+	export let rows = 3;
 
-	export let onKeydown: Function = () => {};
+	export let onKeydown: (event: KeyboardEvent) => void = () => {};
 
-	let textareaElement;
+	let textareaElement: HTMLDivElement;
 
 	$: if (textareaElement) {
 		if (textareaElement.innerText !== value && value !== '') {

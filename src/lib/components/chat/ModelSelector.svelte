@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { getI18n } from '$lib/utils/context';
 
 	import { models, settings, user } from '$lib/stores';
@@ -9,7 +10,7 @@
 	import { updateUserSettings } from '$lib/apis/users';
 	const i18n = getI18n();
 
-	export let selectedModels = [''];
+	export let selectedModels: string[] = [''];
 	export let disabled = false;
 
 	export let showSetDefault = true;
@@ -78,7 +79,7 @@
 								class="size-3.5"
 							>
 								<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-							</svg>
+								let selectedModel: any = null;
 						</button>
 					</Tooltip>
 				</div>

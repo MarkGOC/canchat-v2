@@ -23,7 +23,7 @@
 
 	const i18n = getI18n();
 
-	export let initNewChat: Function;
+	export let initNewChat: ((...args: any[]) => any);
 	export let title: string = $WEBUI_NAME;
 	export let shareEnabled: boolean = false;
 

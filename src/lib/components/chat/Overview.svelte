@@ -19,10 +19,10 @@
 	import XMark from '../icons/XMark.svelte';
 	import ArrowLeft from '../icons/ArrowLeft.svelte';
 
-	const { width, height } = useStore();
+	const { width, height } = useStore() as any;
 
 	const { fitView, getViewport } = useSvelteFlow();
-	const nodesInitialized = useNodesInitialized();
+	const nodesInitialized: any = useNodesInitialized();
 
 	export let history: any;
 
@@ -41,6 +41,11 @@
 
 	$: if (history && history.currentId) {
 		focusNode();
+	}
+
+	$: if (history?.currentId && nodesInitialized.current && width > 0 && height > 0) {
+		// Re-fit when the flow is initialized or viewport changes.
+		tick().then(() => fitView({ nodes: [{ id: selectedMessageId ?? history.currentId }] }));
 	}
 
 	const focusNode = async () => {
@@ -130,27 +135,6 @@
 
 	onMount(() => {
 		drawFlow();
-
-		nodesInitialized.subscribe(async (initialized: any) => {
-			if (initialized) {
-				await tick();
-				const res = await fitView({ nodes: [{ id: history.currentId }] });
-			}
-		});
-
-		width.subscribe((value: any) => {
-			if (value) {
-				// fitView();
-				fitView({ nodes: [{ id: history.currentId }] });
-			}
-		});
-
-		height.subscribe((value: any) => {
-			if (value) {
-				// fitView();
-				fitView({ nodes: [{ id: history.currentId }] });
-			}
-		});
 	});
 
 	onDestroy(() => {

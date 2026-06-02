@@ -41,7 +41,8 @@
 		// Always set as read-only access for now
 		accessControl = {
 			read: {
-				group_ids: [...new Set([...(accessControl?.read?.group_ids || []), selectedGroupId])]
+				group_ids: [...new Set([...(accessControl?.read?.group_ids || []), selectedGroupId])],
+				user_ids: accessControl?.read?.user_ids || []
 			},
 			write: {
 				group_ids: [],
@@ -106,7 +107,10 @@
 							accessControl =
 								e.target.value === 'public'
 									? null
-									: { read: { group_ids: [] }, write: { group_ids: [] } };
+									: {
+											read: { group_ids: [], user_ids: [] },
+											write: { group_ids: [], user_ids: [] }
+									  };
 						}}
 					>
 						<option class=" text-gray-700" value="private" selected>{$i18n.t('Private')}</option>

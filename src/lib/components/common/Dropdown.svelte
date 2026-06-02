@@ -10,6 +10,7 @@
 	export let align: 'start' | 'center' | 'end' = 'start';
 	export let ariaLabel: string | undefined = undefined;
 	export let buttonClass = '';
+	export let buttonID = '';
 
 	const dispatch = createEventDispatcher<any>();
 </script>
@@ -20,7 +21,12 @@
 		dispatch('change', state);
 	}}
 >
-	<DropdownMenu.Trigger aria-label={ariaLabel} data-dropdown-trigger="true" class={buttonClass}>
+	<DropdownMenu.Trigger
+		aria-label={ariaLabel}
+		data-dropdown-trigger="true"
+		class={buttonClass}
+		id={buttonID}
+	>
 		<slot />
 	</DropdownMenu.Trigger>
 

@@ -33,7 +33,7 @@
 	export let top = true;
 
 	export let save = false;
-	export let onSourceClick: Function = () => {};
+	export let onSourceClick: ((...args: any[]) => any) = () => {};
 
 	const headerComponent = (depth: number) => {
 		return 'h' + depth;
