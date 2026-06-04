@@ -28,6 +28,8 @@
 	export let selectedModels: any;
 	export let showModelSelector = true;
 
+	const _chatNavbarProps = { title, shareEnabled, chat, selectedModels, showModelSelector };
+
 	const changeFocus = async (elementId: any) => {
 		setTimeout(() => {
 			document.getElementById(elementId)?.focus();

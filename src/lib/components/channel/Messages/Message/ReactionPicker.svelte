@@ -12,6 +12,7 @@
 	export let side = 'top';
 	export let align = 'start';
 	export let user = null;
+	const _user = user;
 
 	let show = false;
 	let emojis = emojiShortCodes;

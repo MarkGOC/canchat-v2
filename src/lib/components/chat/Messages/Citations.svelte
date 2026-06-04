@@ -10,6 +10,7 @@
 
 	export let sources: any[] = [];
 	export let selectedToolIds: string[] = [];
+	const _selectedToolIds = selectedToolIds;
 
 	let citations: any[] = [];
 	let showPercentage = false;

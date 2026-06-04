@@ -77,6 +77,6 @@
 	});
 </script>
 
-<div bind:this={tooltipElement} class={className}>
+<div bind:this={tooltipElement} class={className} id={tooltipID || undefined} data-touch={touch}>
 	<slot />
 </div>

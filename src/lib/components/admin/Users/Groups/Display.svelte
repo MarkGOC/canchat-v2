@@ -8,6 +8,7 @@
 	export let name = '';
 	export let color = '';
 	export let description = '';
+	const _color = color;
 </script>
 
 <div class="flex gap-2">

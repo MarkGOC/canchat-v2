@@ -49,6 +49,8 @@
 	export let wikiGroundingEnabled = false;
 	export let wikiGroundingMode = 'off'; // 'off', 'on'
 
+	const _placeholderProps = { transparentBackground, selectedToolIds, imageGenerationEnabled, webSearchEnabled, wikiGroundingEnabled, wikiGroundingMode };
+
 	let models: any[] = [];
 	let modelDescription = '';
 

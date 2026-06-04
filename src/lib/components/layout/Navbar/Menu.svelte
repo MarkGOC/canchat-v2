@@ -30,7 +30,7 @@
 	const i18n = getI18n();
 
 	export let shareEnabled: boolean = false;
-	export let shareHandler: Function;
+	export let shareHandler: ((...args: any[]) => any) = () => {};
 	export let downloadHandler: Function;
 
 	// export let tagHandler: Function;
@@ -41,6 +41,8 @@
 	export let buttonClass = '';
 	export let ariaLabel = '';
 	export let buttonID = '';
+
+	const _menuProps = { shareEnabled, shareHandler, downloadHandler, chat, onClose };
 
 	const getChatAsText = async () => {
 		const history = chat.chat.history;

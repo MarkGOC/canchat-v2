@@ -7,6 +7,8 @@
 	export let selectedKnowledge: any[] = [];
 	export let collections: any[] = [];
 
+	const _collections = collections;
+
 	const i18n = getI18n();
 </script>
 

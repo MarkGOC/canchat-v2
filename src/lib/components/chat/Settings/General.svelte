@@ -16,6 +16,7 @@
 
 	export let saveSettings: (settings: Record<string, any>) => any;
 	export let getModels: () => Promise<any>;
+	const _getModels = getModels;
 
 	// General
 	let themes = ['dark', 'light'];

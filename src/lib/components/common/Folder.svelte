@@ -26,6 +26,8 @@
 
 	export let className = '';
 
+	const _folderProps = { id, name, onAddLabel, onAdd, dragAndDrop };
+
 	let folderElement: HTMLElement;
 
 	let draggedOver = false;

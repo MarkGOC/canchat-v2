@@ -34,7 +34,10 @@
 
 <div
 	contenteditable="true"
+	role="textbox"
+	tabindex="0"
 	bind:this={textareaElement}
+	data-rows={rows}
 	class="{className} whitespace-pre-wrap relative {value
 		? !value.trim()
 			? 'placeholder'
@@ -65,6 +68,7 @@
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 1;
+		line-clamp: 1;
 		pointer-events: none;
 		touch-action: none;
 	}

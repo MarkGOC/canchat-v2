@@ -16,6 +16,7 @@
 	export let models: any[] = [];
 	export let chatFiles: any[] = [];
 	export let params: any = {};
+	const _models = models;
 
 	let showValves = false;
 </script>

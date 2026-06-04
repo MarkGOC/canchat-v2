@@ -24,8 +24,10 @@
 
 	export let placeholder = $i18n.t('Send a Message');
 	export let transparentBackground = false;
+	const _transparentBackground = transparentBackground;
 
 	export let id = null;
+	const _id = id;
 
 	let draggedOver = false;
 

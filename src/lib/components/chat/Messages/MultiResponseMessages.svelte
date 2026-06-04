@@ -190,6 +190,8 @@
 							: `border-gray-50 dark:border-gray-850 border-dashed ${
 									$mobile ? 'min-w-full' : 'min-w-80'
 								}`} transition-all p-5 rounded-2xl"
+						role="button"
+						tabindex="0"
 						on:click={async () => {
 							if (messageId != _messageId) {
 								let currentMessageId = _messageId;
@@ -203,6 +205,24 @@
 								await tick();
 								await updateChat();
 								triggerScroll();
+							}
+						}}
+						on:keydown={async (e: KeyboardEvent) => {
+							if (e.key === 'Enter' || e.key === ' ') {
+								e.preventDefault();
+								if (messageId != _messageId) {
+									let currentMessageId = _messageId;
+									let messageChildrenIds = history.messages[currentMessageId].childrenIds;
+									while (messageChildrenIds.length !== 0) {
+										currentMessageId = messageChildrenIds.at(-1);
+										messageChildrenIds = history.messages[currentMessageId].childrenIds;
+									}
+									history.currentId = currentMessageId;
+
+									await tick();
+									await updateChat();
+									triggerScroll();
+								}
 							}
 						}}
 					>

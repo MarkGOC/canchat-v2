@@ -152,6 +152,7 @@
 	export let saveMessage: Function;
 	export let rateMessage: Function;
 	export let actionMessage: Function;
+	const _rateMessage = rateMessage;
 
 	export let submitMessage: Function;
 	export let continueResponse: Function;

@@ -28,6 +28,8 @@
 	export let feedbacks: any[] = [];
 	export let totalFeedbackCount: number = 0;
 	export let feedbacksPage: number = 1;
+
+	const _feedbacksPage = feedbacksPage;
 	export let feedbacksPerPage: number = 10;
 	export let loadFeedbacks: (page: number, search: string) => Promise<void>;
 	export let loadFeedbacksCount: (search: string) => Promise<void>;

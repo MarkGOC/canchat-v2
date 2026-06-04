@@ -31,6 +31,8 @@
 	export let selectedModels: any;
 	export let showModelSelector = true;
 
+	const _navbarProps = { title, shareEnabled, chat, selectedModels, showModelSelector };
+
 	let showShareChatModal = false;
 	let showDownloadChatModal = false;
 </script>

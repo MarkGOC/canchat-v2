@@ -22,6 +22,8 @@
 	export let deleteHandler: Function;
 	export let onClose: Function;
 
+	const _modelMenuProps = { user, model, cloneHandler, exportHandler, hideHandler, deleteHandler, onClose };
+
 	let show = false;
 </script>
 
